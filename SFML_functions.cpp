@@ -193,5 +193,3 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
     if (bleed_time != 0) bleed_time--;
     else target.setFillColor(sf::Color::Green);
 }
-
-//--------------AIR HOCKEY-------------------------------
