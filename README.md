@@ -19,4 +19,4 @@ Back arrows- slows character down
 Bomb- blows up and takes heart if in blast radius.
 Andy- Totally random (says "Good morning!") 
 
-Seperate Andy Idea: at some point during game text flashes "Andy's coming" then Andy's face flies in and rapes anyone who is moving (Toy story reference, Andy's coming: all toys play dead) 
+Seperate Andy Idea: at some point during game text flashes "Andy's coming" then Andy's face flies in and kills anyone who is moving (Toy story reference, Andy's coming: all toys play dead) 
