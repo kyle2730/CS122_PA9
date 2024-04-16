@@ -38,5 +38,4 @@ void track(sf::Shape& hunter, const sf::Shape& prey, const float speed);
 
 void center_origin(sf::Shape& shape);
 
-void puck_slide(sf::CircleShape& puck, const sf::CircleShape& mallet1, const sf::CircleShape& mallet2);
 void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets);
