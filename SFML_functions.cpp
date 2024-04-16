@@ -166,7 +166,7 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
         //sets bullet position slightly in front of gunman position
         bullets[bullets.size() - 1].casing.setPosition(gunman.getPosition() + 15.0f * bullets[bullets.size() - 1].direction);
         //starts reload timer (how long it takes for another bullet to be fired)
-        reload_time = 1000;
+        reload_time = 1800;
     }
 
     //loops through each current bullet, moves each tiny amount
