@@ -1,5 +1,5 @@
 # CS122_PA9
-PA9, Jon, Kile, Eli, Omar
+PA9, Jon, Kyle, Eli, Omar
 
 
 ~Shooter game:
