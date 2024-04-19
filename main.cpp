@@ -15,6 +15,83 @@ int shooter(void) {
     sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "SFML works!"); //creates window called window and opens it
     //window is opened in video mode ??? //400, 400 specifies height and width, string specifies window title
 
+     ///////////////////////MOVE TO CLASS FUNCTIONS/////////////
+     sf::Texture andyTexture; //andy
+     sf::Texture evilAndyTexture; //evil andy
+     sf::Texture bombTexture; //bomb
+     sf::Texture gunTexture; //gun upgrade
+     sf::Texture shieldTexture; //shield
+     sf::Texture sunTexture; //bullet spray
+     sf::Texture forwardArrowsTexture; //speed boost
+     sf::Texture backwardsArrowsTexture; //speed drop
+
+
+     if (!andyTexture.loadFromFile("regularAndy.png"))
+     {
+         //error checking
+     }
+
+     if (!evilAndyTexture.loadFromFile("evilAndy.png"))
+     {
+         //error checking
+     }
+    
+     if (!bombTexture.loadFromFile("bomb.png"))
+     {
+         //error checking
+     }
+    
+     if (!gunTexture.loadFromFile("gun.png"))
+     {
+         //error checking
+     }
+    
+     if (!shieldTexture.loadFromFile("shield.png"))
+     {
+         //error checking
+     }
+    
+     if (!sunTexture.loadFromFile("sun.png"))
+     {
+         //error
+     }
+    
+     if (!forwardArrowsTexture.loadFromFile("forwardArrows.png"))
+     {
+         //error checking
+     }
+
+     if (!backwardsArrowsTexture.loadFromFile("backwardsArrows.png"));
+     {
+         //error checking
+     }
+     sf::Sprite andySprite;
+     sf::Sprite evilAndySprite;
+     sf::Sprite bombSprite;
+     sf::Sprite gunSprite;
+     sf::Sprite shieldSprite;
+     sf::Sprite sunSprite;
+     sf::Sprite forwardArrowsSprite;
+     sf::Sprite backwardsArrowsSprite;
+    
+     andySprite.setTexture(andyTexture);
+     evilAndySprite.setTexture(evilAndyTexture);
+     bombSprite.setTexture(bombTexture);
+     gunSprite.setTexture(gunTexture);
+     shieldSprite.setTexture(shieldTexture);
+     sunSprite.setTexture(sunTexture);
+     forwardArrowsSprite.setTexture(forwardArrowsTexture);
+     backwardsArrowsSprite.setTexture(backwardsArrowsTexture);
+    
+     window.draw(andySprite);
+     window.draw(evilAndySprite);
+     window.draw(bombSprite);
+     window.draw(gunSprite);
+     window.draw(shieldSprite);
+     window.draw(sunSprite);
+     window.draw(forwardArrowsSprite);
+     window.draw(backwardsArrowsSprite);
+    
     sf::CircleShape wheel(circ_radius); //creates circle
     wheel.setPosition(sf::Vector2f(200, 200));
     wheel.setFillColor(sf::Color::Green); //sets circle color to green
