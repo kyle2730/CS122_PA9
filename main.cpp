@@ -24,6 +24,8 @@ int shooter(void) {
      sf::Texture sunTexture; //bullet spray
      sf::Texture forwardArrowsTexture; //speed boost
      sf::Texture backwardsArrowsTexture; //speed drop
+    sf::Texture ak47Texture; //gun upgrade
+    sf::Texture beerTexture; //confusion
 
 
      if (!andyTexture.loadFromFile("regularAndy.png"))
@@ -65,6 +67,17 @@ int shooter(void) {
      {
          //error checking
      }
+    
+    if (!beerTexture.loadFromFile("beer.png"))
+      {
+      //error checking
+      }
+
+      if (!ak47Texture.loadFromFile("ak47.png"))
+      {
+      //error checking
+      }
+    
      sf::Sprite andySprite;
      sf::Sprite evilAndySprite;
      sf::Sprite bombSprite;
@@ -73,6 +86,8 @@ int shooter(void) {
      sf::Sprite sunSprite;
      sf::Sprite forwardArrowsSprite;
      sf::Sprite backwardsArrowsSprite;
+     sf::Sprite beerSprite;
+     sf::Sprite ak47Sprite;
     
      andySprite.setTexture(andyTexture);
      evilAndySprite.setTexture(evilAndyTexture);
@@ -82,6 +97,8 @@ int shooter(void) {
      sunSprite.setTexture(sunTexture);
      forwardArrowsSprite.setTexture(forwardArrowsTexture);
      backwardsArrowsSprite.setTexture(backwardsArrowsTexture);
+     beerSprite.setTexture(beerTexture);
+     ak47Sprite.setTexture(ak47Texture);
     
      window.draw(andySprite);
      window.draw(evilAndySprite);
@@ -91,6 +108,8 @@ int shooter(void) {
      window.draw(sunSprite);
      window.draw(forwardArrowsSprite);
      window.draw(backwardsArrowsSprite);
+     window.draw(beerSprite);
+     window.draw(ak47Sprite);
     
     sf::CircleShape wheel(circ_radius); //creates circle
     wheel.setPosition(sf::Vector2f(200, 200));
