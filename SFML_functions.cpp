@@ -108,29 +108,6 @@ void key_move(sf::Shape& shape, const float user_speed, std::string input, const
 
 }
 
-void mouse_move(sf::Shape& shape, const sf::RenderWindow& window, const sf::FloatRect& boundary) {
-
-    sf::Vector2f shape_size = shape.getLocalBounds().getSize();
-
-    //creates temporary mouse shape to use hit_window function
-    sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-    sf::RectangleShape temp_mouse(shape_size);
-    temp_mouse.setPosition(sf::Vector2f(mouse_pos.x, mouse_pos.y));
-
-    int out = hit_window(temp_mouse, 1, boundary);
-
-    if ((out >> 1) % 2) 
-        mouse_pos.x = boundary.left + shape_size.x / 2;
-    else if (out % 2) 
-        mouse_pos.x = boundary.left + boundary.width - shape_size.x / 2;
-    if ((out >> 2) % 2) 
-        mouse_pos.y = boundary.top + shape_size.y / 2;
-    else if ((out >> 3) % 2) 
-        mouse_pos.y = boundary.top + boundary.height - shape_size.y / 2;
-
-    shape.setPosition(sf::Vector2f(mouse_pos.x, mouse_pos.y));
-}
-
 void track(sf::Shape& hunter, const sf::Shape& prey, const float speed) {
 
 
