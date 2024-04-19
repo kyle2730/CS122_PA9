@@ -7,6 +7,15 @@ public:
 	item();
 	item(const std::string& file_name);
 
+	void set_speed(const float new_speed);
+
+	int get_float_time();
+
+	void flip_direction(const char wall);
+	void float_timer();
+	void random_direction();
+
+	void move();
 	void hit(); //function when player hits item, different for each item
 	void draw_sprite(sf::RenderWindow& window); //draws the graphics for the item
 
@@ -17,50 +26,51 @@ private:
 	sf::Sprite sprite;
 	sf::Vector2f direction;
 	sf::Texture* image;
-	float speed; 
+	float speed;
+	int float_time;
 };
 
 class heart : public item {
 public:
-	//void hit();
+	heart(const std::string& file_name) : item(file_name){}
 };
 class speed_boost : public item {
 public:
-	//void hit();
+	speed_boost(const std::string& file_name) : item(file_name) {}
 };
 class gun_upgrade : public item {
 public:
-	//void hit();
+	gun_upgrade(const std::string& file_name) : item(file_name) {}
 };
 class shield : public item {
 public:
-	//void hit();
+	shield(const std::string& file_name) : item(file_name) {}
 };
 class bullet_spray : public item {
 public:
-	//void hit();
+	bullet_spray(const std::string& file_name) : item(file_name) {}
 };
 class speed_drop : public item {
 public:
-	//void hit();
+	speed_drop(const std::string& file_name) : item(file_name) {}
 };
 class gun_downgrade : public item {
 public:
-	//void hit();
+	gun_downgrade(const std::string& file_name) : item(file_name) {}
 };
 class confusion : public item {
 public:
-	//void hit();
+	confusion(const std::string& file_name) : item(file_name) {}
 };
 class bomb : public item {
 public:
-	//void hit();
+	bomb(const std::string& file_name) : item(file_name) {}
 };
 class mystery : public item {
 public:
-	//void hit();
+	mystery(const std::string& file_name) : item(file_name) {}
 };
 
 void trigger_item(std::vector<item>& items);
-
 item* random_item();
+void item_float(std::vector<item>& items, sf::Sprite& user, sf::RenderWindow& window);

@@ -25,7 +25,7 @@ sf::Sprite& bullet::get_sprite() {
     return sprite;
 }
 
-void bullet::chase(const float speed) {
+void bullet::move(const float speed) {
     sprite.move(direction * speed);
 }
 
@@ -51,10 +51,13 @@ sf::Vector2f normal_direction(const sf::Sprite& origin, const sf::Sprite& target
 }
 
 float vector_to_degrees(const sf::Vector2f& vec) {
-
     if (vec.y == 0) return 90;
-    return 90 - atan(vec.x / vec.y) * 190 / PI;
+    return 90 - atan(vec.x / vec.y) * 180 / PI;
+}
 
+sf::Vector2f degrees_to_vector(float degrees) {
+    int x_over_y = tan((90 - degrees) * PI / 180);
+    return sf::Vector2f(x_over_y, 1);
 }
 
 float magnitude(const sf::Vector2f& vec) {
@@ -199,7 +202,7 @@ void fire_bullet(const sf::Sprite& gunman, sf::Sprite& target, std::vector<bulle
     for (size_t index = 0; index < bullets.size(); index++) {
 
         //moves bullet 0.3 pixel lengths
-        bullets[index].chase(0.3f);
+        bullets[index].move(0.3f);
 
         //if bullet touches window or target
         if (touching_hitbox(bullets[index].get_sprite(), target) || hit_window(bullets[index].get_sprite())) {

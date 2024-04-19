@@ -31,16 +31,24 @@ public:
     //getter
     sf::Sprite& get_sprite();
 
-    void chase(const float speed);
+    void move(const float speed);
 
     //destructor
     ~bullet();
 };
 
 class player {
-
+private:
+    sf::Sprite sprite;
+    sf::Texture* image;
 public:
-    
+    //constructor
+    player();
+
+    sf::Sprite& get_sprite();
+
+    //destructor
+    ~player();
 
 };
 
@@ -49,6 +57,7 @@ void normalize_vector(sf::Vector2f& unnormalized_vec);
 sf::Vector2f full_direction(const sf::Sprite& origin, const sf::Sprite& target);
 sf::Vector2f normal_direction(const sf::Sprite& origin, const sf::Sprite& target);
 float vector_to_degrees(const sf::Vector2f& vec);
+sf::Vector2f degrees_to_vector(float degrees);
 float magnitude(const sf::Vector2f& vec);
 
 //POSITION FUNCTIONS

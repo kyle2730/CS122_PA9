@@ -66,6 +66,7 @@ int shooter(void) {
 
         //movement
         //key_move(stop_sign, speed, "aswd");
+        item_float(items, player, window);
         key_move(player, speed);
         trigger_item(items);
         fire_bullet(player, stop_sign, bullets, window);
