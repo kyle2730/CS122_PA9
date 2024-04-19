@@ -10,6 +10,10 @@
 #define WINDOW_H 900
 #define PI 3.14159265359
 
+using std::cout;
+using std::cin;
+using std::endl;
+
 class bullet {
 
 public:
