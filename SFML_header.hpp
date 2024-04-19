@@ -37,9 +37,8 @@ bool touching_hitdisc(const sf::CircleShape& sprite1, const sf::CircleShape& spr
 
 //MOVE FUNCTIONS
 void key_move(sf::Shape& shape, const float user_speed, std::string input = "arrow", const sf::FloatRect& boundary = sf::FloatRect(0, 0, WINDOW_W, WINDOW_H));
-void mouse_move(sf::Shape& shape, const sf::RenderWindow& window, const sf::FloatRect& boundary = sf::FloatRect(0, 0, WINDOW_W, WINDOW_H));
 void track(sf::Shape& hunter, const sf::Shape& prey, const float speed);
 
 void center_origin(sf::Shape& shape);
 
-void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets);
+void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets, sf::RenderWindow& window);
