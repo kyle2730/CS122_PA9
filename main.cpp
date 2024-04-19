@@ -3,8 +3,18 @@
 
 int shooter(void);
 
-int main(void) {
-    shooter();
+int main(void) 
+{
+   bool selection = menu();
+
+   if (selection == true)
+   {
+       shooter();
+   }
+   else
+   {
+       return 0;
+   }
 }
 
 int shooter(void) {
