@@ -6,7 +6,22 @@
 bullet::bullet() {
     casing = sf::RectangleShape(sf::Vector2f(20, 10));
     direction = sf::Vector2f(0, 0);
+    center_origin(casing);
 }
+void bullet::lock_on(const sf::Shape& origin, const sf::Shape& target) {
+    direction = normal_direction(origin, target);
+    casing.setRotation(vector_to_degrees(direction));
+}
+void bullet::set_position(const sf::Vector2f& position) {
+    casing.setPosition(position + 15.0f * direction);
+}
+sf::RectangleShape& bullet::get_casing() {
+    return casing;
+}
+void bullet::chase(const float speed) {
+    casing.move(direction * speed);
+}
+bullet::~bullet() {}
 
 void normalize_vector(sf::Vector2f& unnormalized_vec) {
     unnormalized_vec = unnormalized_vec / sqrt(powf(unnormalized_vec.x, 2) + powf(unnormalized_vec.y, 2));
@@ -77,7 +92,7 @@ bool touching_hitdisc(const sf::CircleShape& sprite1, const sf::CircleShape& spr
 
 }
 
-void key_move(sf::Shape& shape, const float user_speed, std::string input, const sf::FloatRect& boundary) {
+void key_move(sf::Shape& shape, const float user_speed, const std::string input, const sf::FloatRect& boundary) {
 
     float speed = user_speed * 0.01;
     int direction = 0; //equal to 1
@@ -126,7 +141,7 @@ void center_origin(sf::Shape& shape) {
     shape.setOrigin(shape.getLocalBounds().getSize() / 2.0f);
 }
 
-void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets, sf::RenderWindow& window) {
+void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets, const sf::RenderWindow& window) {
 
     //shape set position to mouse
     static int reload_time = 0, bleed_time = -1;
@@ -138,14 +153,10 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
 
         //creates new bullet
         bullets.push_back(bullet());
-        //sets origin to center of bullet
-        center_origin(bullets[bullets.size() - 1].casing);
-        //sets normal vector as a direction
-        bullets[bullets.size() - 1].direction = (normal_direction(gunman, mouse_pos));
-        //sets rotation of bullet to point towards gunman
-        bullets[bullets.size() - 1].casing.setRotation(vector_to_degrees(bullets[bullets.size() - 1].direction));
-        //sets bullet position slightly in front of gunman position
-        bullets[bullets.size() - 1].casing.setPosition(gunman.getPosition() + 15.0f * bullets[bullets.size() - 1].direction);
+        //points bullet towards mouse position
+        bullets[bullets.size() - 1].lock_on(gunman, mouse_pos);
+        //sets bullet slightly in front of gunman
+        bullets[bullets.size() - 1].set_position(gunman.getPosition());
         //starts reload timer (how long it takes for another bullet to be fired)
         reload_time = 1000;
     }
@@ -154,12 +165,12 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
     for (size_t index = 0; index < bullets.size(); index++) {
 
         //moves bullet 0.3 pixel lengths
-        bullets[index].casing.move(bullets[index].direction * 0.3f);
+        bullets[index].chase(0.3f);
 
         //if bullet touches window or target
-        if (touching_hitbox(bullets[index].casing, target) || hit_window(bullets[index].casing)) {
+        if (touching_hitbox(bullets[index].get_casing(), target) || hit_window(bullets[index].get_casing())) {
             //if bullet hits target, target "bleeds"
-            if (touching_hitbox(bullets[index].casing, target)) {
+            if (touching_hitbox(bullets[index].get_casing(), target)) {
                 if (target.getFillColor() != sf::Color::Red) {
                     og_color = target.getFillColor();
                 }
