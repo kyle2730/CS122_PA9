@@ -177,3 +177,63 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
     if (bleed_time != 0) bleed_time--;
     else target.setFillColor(og_color);
 }
+
+int menu()
+{
+    bool option;
+    int selection = 0;
+    while (selection != 1 && selection != 5)
+    {
+        system("cls");
+        cout << "WELCOME TO [INSERT NAME OF GAME]!!" << endl;
+        cout << "Please choose from the following options:\n" << endl;
+        cout << "1. Play game" << endl;
+        cout << "2. How to play" << endl;
+        cout << "3. Items" << endl;
+        cout << "4. Credits" << endl;
+        cout << "5. Exit" << endl;
+        cin >> selection;
+
+        switch (selection)
+        {
+        case 1:
+            system("cls");
+            return true;
+            break;
+        case 2:
+            system("cls");
+            cout << "How to play:\n" << endl;
+            cout << "Movement: Use WASD to move!" << endl;
+            cout << "Shooting: Use your mouse or trackpad to aim and press the spacebar to shoot!" << endl;
+            cout << "Items: there are items in the game that will affect your gameplay, see the items section for a description of all the items! \n" << endl;
+            system("PAUSE");
+            break;
+        case 3:
+            system("cls");
+            cout << "Items:\n" << endl;
+            cout << "Items are icon sprites that float across the screen and are collected by a player. Each item has a different effect on the player and/or the game.\n\n" << endl;
+            cout << "Power-Ups:\n" << endl;
+            cout << "Speed Boost - Increases player's speed\nGun Upgrade - Increasees player's fire rate\nShield - Protects player\nBullet Spray - Launches bullets in every direction\n\n" << endl;
+            cout << "Power-Downs:\n" << endl;
+            cout << "Speed Drop - Decreases player's speed\nGun Downgrade - Decreases player's fire rate\nConfusion - Decreases player's fire accuracy\n\n" << endl;
+            cout << "Miscellaneous:\n\n" << endl;
+            cout << "Bomb - Bomb appears randomly on map and explodes\nMystery - Random item" << endl;
+            system("PAUSE");
+            break;
+
+        case 4:
+            system("cls");
+            cout << "Credits:\n" << endl;
+            cout << "Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl;
+            system("PAUSE");
+            break;
+
+        case 5:
+            system("cls");
+            cout << "Thanks for playing!" << endl;
+            return false;
+            break;
+        }
+
+    }
+}
