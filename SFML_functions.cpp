@@ -1,38 +1,50 @@
 #include "SFML_header.hpp"
+#include "item.hpp";
 
 //-----------------SHOOTER--------------------------
 
 //constructor
 bullet::bullet() {
-    casing = sf::RectangleShape(sf::Vector2f(20, 10));
+    image = new sf::Texture;
+    image->loadFromFile("CS122_PA9/bullet.png");
+    sprite.setTexture(*image);
     direction = sf::Vector2f(0, 0);
-    center_origin(casing);
+    center_origin(sprite);
 }
-void bullet::lock_on(const sf::Shape& origin, const sf::Shape& target) {
+
+void bullet::lock_on(const sf::Sprite& origin, const sf::Sprite& target) {
     direction = normal_direction(origin, target);
-    casing.setRotation(vector_to_degrees(direction));
+    sprite.setRotation(vector_to_degrees(direction) + 180);
 }
+
 void bullet::set_position(const sf::Vector2f& position) {
-    casing.setPosition(position + 15.0f * direction);
+    sprite.setPosition(position + 15.0f * direction);
 }
-sf::RectangleShape& bullet::get_casing() {
-    return casing;
+
+sf::Sprite& bullet::get_sprite() {
+    return sprite;
 }
+
 void bullet::chase(const float speed) {
-    casing.move(direction * speed);
+    sprite.move(direction * speed);
 }
-bullet::~bullet() {}
+
+bullet::~bullet() {
+
+}
+
+
 
 void normalize_vector(sf::Vector2f& unnormalized_vec) {
     unnormalized_vec = unnormalized_vec / sqrt(powf(unnormalized_vec.x, 2) + powf(unnormalized_vec.y, 2));
 }
 
-sf::Vector2f full_direction(const sf::Shape& origin, const sf::Shape& target) {
+sf::Vector2f full_direction(const sf::Sprite& origin, const sf::Sprite& target) {
     sf::Vector2f unit_direction(target.getPosition() - origin.getPosition());
     return unit_direction;
 }
 
-sf::Vector2f normal_direction(const sf::Shape& origin, const sf::Shape& target) {
+sf::Vector2f normal_direction(const sf::Sprite& origin, const sf::Sprite& target) {
     sf::Vector2f unit_direction(target.getPosition() - origin.getPosition());
     normalize_vector(unit_direction);
     return unit_direction;
@@ -49,8 +61,7 @@ float magnitude(const sf::Vector2f& vec) {
     return sqrtf(vec.x * vec.x + vec.y * vec.y);
 }
 
-//returns 0 if window was not hit, return 1-4 based on side that was hit
-int hit_window(const sf::Shape& shape, const float buffer, const sf::FloatRect& boundary) {
+int hit_window(const sf::Sprite& shape, const float buffer, const sf::FloatRect& boundary) {
     int hit = 0;
     //buffer of 0 means half of shape can be seen
     //buffer of 1 means entire shape can be seen
@@ -67,7 +78,7 @@ int hit_window(const sf::Shape& shape, const float buffer, const sf::FloatRect& 
     return hit;
 }
 
-bool touching_hitbox(const sf::Shape& sprite1, const sf::Shape& sprite2) {
+bool touching_hitbox(const sf::Sprite& sprite1, const sf::Sprite& sprite2) {
 
     float x_pos_dif = sprite1.getPosition().x - sprite2.getPosition().x;
     float y_pos_dif = sprite1.getPosition().y - sprite2.getPosition().y;
@@ -92,38 +103,61 @@ bool touching_hitdisc(const sf::CircleShape& sprite1, const sf::CircleShape& spr
 
 }
 
-void key_move(sf::Shape& shape, const float user_speed, const std::string input, const sf::FloatRect& boundary) {
+void key_move(sf::Sprite& shape, const float user_speed, const sf::FloatRect& boundary) {
 
     float speed = user_speed * 0.01;
-    int direction = 0; //equal to 1
+    int direction = 0;
+    bool curr_move[4];
+    static int last_move[4];
 
-    sf::Keyboard::Key keys[] = { sf::Keyboard::Key::Right, sf::Keyboard::Key::Left , sf::Keyboard::Key::Up , sf::Keyboard::Key::Down };
-
-    if (input == "aswd") {
-        keys[0] = sf::Keyboard::Key::D;
-        keys[1] = sf::Keyboard::Key::A;
-        keys[2] = sf::Keyboard::Key::W;
-        keys[3] = sf::Keyboard::Key::S;
-    }
+    sf::Keyboard::Key keys[] = { sf::Keyboard::Key::D, sf::Keyboard::Key::A , sf::Keyboard::Key::W , sf::Keyboard::Key::S };
 
     direction = hit_window(shape, 1, boundary);
+    for (int i = 0; i < 4; i++) {
+        curr_move[i] = 1 - direction % 2;
+        direction >>= 1;
+    }
 
-    if (sf::Keyboard::isKeyPressed(keys[0]))
-        shape.move(speed * (1 - direction % 2), 0);
+    if (sf::Keyboard::isKeyPressed(keys[0])) shape.move(speed * curr_move[0], 0);
+    else curr_move[0] = 0;
 
-    if (sf::Keyboard::isKeyPressed(keys[1]))
-        shape.move(-speed * (1 - (direction >> 1) % 2), 0);
+    if (sf::Keyboard::isKeyPressed(keys[1])) shape.move(-speed * curr_move[1], 0);
+    else curr_move[1] = 0;
 
-    if (sf::Keyboard::isKeyPressed(keys[2]))
-        shape.move(0, -speed * (1 - (direction >> 2) % 2));
+    if (sf::Keyboard::isKeyPressed(keys[2])) shape.move(0, -speed * curr_move[2]);
+    else curr_move[2] = 0;
 
-    if (sf::Keyboard::isKeyPressed(keys[3]))
-        shape.move(0, speed * (1 - (direction >> 3) % 2));
+    if (sf::Keyboard::isKeyPressed(keys[3])) shape.move(0, speed * curr_move[3]);
+    else curr_move[3] = 0;
 
+    if (curr_move[0] && curr_move[1]) {
+        if (last_move[0]) {
+            shape.move(speed, 0);
+            curr_move[1] = 0;
+        }
+        else {
+            shape.move(-speed, 0);
+            curr_move[0] = 0;
+        }
+    }
 
+    if (curr_move[2] && curr_move[3]) {
+        if (last_move[2]) {
+            shape.move(0, -speed);
+            curr_move[3] = 0;
+        }
+        else {
+            shape.move(0, speed);
+            curr_move[2] = 0;
+        }
+    }
+
+    for (int i = 0; i < 4; i++) {
+        last_move[i] = curr_move[i];
+    }
 }
 
-void track(sf::Shape& hunter, const sf::Shape& prey, const float speed) {
+void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed) {
 
 
     if (prey.getPosition() != hunter.getPosition()) {
@@ -137,16 +171,16 @@ void track(sf::Shape& hunter, const sf::Shape& prey, const float speed) {
     }
 }
 
-void center_origin(sf::Shape& shape) {
+void center_origin(sf::Sprite& shape) {
     shape.setOrigin(shape.getLocalBounds().getSize() / 2.0f);
 }
 
-void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets, const sf::RenderWindow& window) {
+void fire_bullet(const sf::Sprite& gunman, sf::Sprite& target, std::vector<bullet>& bullets, const sf::RenderWindow& window) {
 
     //shape set position to mouse
     static int reload_time = 0, bleed_time = -1;
     static sf::Color og_color;
-    sf::RectangleShape mouse_pos(sf::Vector2f(0,0));
+    sf::Sprite mouse_pos;
     mouse_pos.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && reload_time == 0) {
@@ -168,15 +202,7 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
         bullets[index].chase(0.3f);
 
         //if bullet touches window or target
-        if (touching_hitbox(bullets[index].get_casing(), target) || hit_window(bullets[index].get_casing())) {
-            //if bullet hits target, target "bleeds"
-            if (touching_hitbox(bullets[index].get_casing(), target)) {
-                if (target.getFillColor() != sf::Color::Red) {
-                    og_color = target.getFillColor();
-                }
-                target.setFillColor(sf::Color::Red);
-                bleed_time = 1000;
-            }
+        if (touching_hitbox(bullets[index].get_sprite(), target) || hit_window(bullets[index].get_sprite())) {
 
             //erases bullet
             bullets.erase(bullets.begin() + index);
@@ -186,7 +212,6 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
 
     if (reload_time != 0) reload_time--;
     if (bleed_time != 0) bleed_time--;
-    else target.setFillColor(og_color);
 }
 
 int menu()

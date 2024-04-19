@@ -1,4 +1,5 @@
 #include "SFML_header.hpp"
+#include "item.hpp";
 
 int shooter(void);
 
@@ -9,110 +10,43 @@ int main(void) {
 int shooter(void) {
 
     //--------------------------INITIALIZATION-----------------------------------
-    int circ_radius = 10;
-    float speed = 8;
+    float circ_radius = 10, speed = 8;
 
-    sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "SFML works!"); //creates window called window and opens it
+    srand(time(NULL));
+
+    if (!menu()) return 0;
+
+    sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Game Name"); //creates window called window and opens it
     //window is opened in video mode ??? //400, 400 specifies height and width, string specifies window title
 
      ///////////////////////MOVE TO CLASS FUNCTIONS/////////////
-    sf::Texture andyTexture; //andy
-    sf::Texture evilAndyTexture; //evil andy
-    sf::Texture bombTexture; //bomb
-    sf::Texture gunTexture; //gun upgrade
-    sf::Texture shieldTexture; //shield
-    sf::Texture sunTexture; //bullet spray
-    sf::Texture forwardArrowsTexture; //speed boost
-    sf::Texture backwardsArrowsTexture; //speed drop
-    sf::Texture ak47Texture; //gun upgrade
-    sf::Texture beerTexture; //confusion
 
+    item andySprite("regularAndy.png");
+    item evilAndySprite("evilAndy.png");
+    item bombSprite("bomb.png");
+    item gunSprite("gun.png");
+    item shieldSprite("shield.png");
+    item sunSprite("sun.png");
+    item forwardArrowsSprite("forwardArrows.png");
+    item backwardsArrowsSprite("backwardsArrows.png");
+    item beerSprite("beer.png");
+    item ak47Sprite("ak47.png");
 
-     if (!andyTexture.loadFromFile("regularAndy.png"))
-     {
-         //error checking
-     }
-
-     if (!evilAndyTexture.loadFromFile("evilAndy.png"))
-     {
-         //error checking
-     }
     
-     if (!bombTexture.loadFromFile("bomb.png"))
-     {
-         //error checking
-     }
+    sf::Sprite player; //creates player
+    sf::Texture p_t;
+    p_t.loadFromFile("CS122_PA9/player.png");
+    player.setTexture(p_t);
+    player.setPosition(sf::Vector2f(200, 200));
+    center_origin(player);
     
-     if (!gunTexture.loadFromFile("gun.png"))
-     {
-         //error checking
-     }
-    
-     if (!shieldTexture.loadFromFile("shield.png"))
-     {
-         //error checking
-     }
-    
-     if (!sunTexture.loadFromFile("sun.png"))
-     {
-         //error
-     }
-    
-     if (!forwardArrowsTexture.loadFromFile("forwardArrows.png"))
-     {
-         //error checking
-     }
-
-     if (!backwardsArrowsTexture.loadFromFile("backwardsArrows.png"));
-     {
-         //error checking
-     }
-    
-    if (!beerTexture.loadFromFile("beer.png"))
-      {
-      //error checking
-      }
-
-      if (!ak47Texture.loadFromFile("ak47.png"))
-      {
-      //error checking
-      }
-    
-     sf::Sprite andySprite;
-     sf::Sprite evilAndySprite;
-     sf::Sprite bombSprite;
-     sf::Sprite gunSprite;
-     sf::Sprite shieldSprite;
-     sf::Sprite sunSprite;
-     sf::Sprite forwardArrowsSprite;
-     sf::Sprite backwardsArrowsSprite;
-     sf::Sprite beerSprite;
-     sf::Sprite ak47Sprite;
-    
-     andySprite.setTexture(andyTexture);
-     evilAndySprite.setTexture(evilAndyTexture);
-     bombSprite.setTexture(bombTexture);
-     gunSprite.setTexture(gunTexture);
-     shieldSprite.setTexture(shieldTexture);
-     sunSprite.setTexture(sunTexture);
-     forwardArrowsSprite.setTexture(forwardArrowsTexture);
-     backwardsArrowsSprite.setTexture(backwardsArrowsTexture);
-     beerSprite.setTexture(beerTexture);
-     ak47Sprite.setTexture(ak47Texture);
-    
-    sf::CircleShape wheel(circ_radius); //creates circle
-    wheel.setPosition(sf::Vector2f(200, 200));
-    wheel.setFillColor(sf::Color::Green); //sets circle color to green
-    center_origin(wheel);
-    
-    sf::CircleShape stop_sign(circ_radius, 8);
-    stop_sign.setFillColor(sf::Color::Red);
+    sf::Sprite stop_sign;
     center_origin(stop_sign);
 
     std::vector<bullet> bullets;
+    std::vector<item> items;
 
     //sf::RectangleShape bullet(sf::Vector2f(rect_width / 10, rect_height / 20)); //creates rectangle_shaped bullet
-
 
     //program loop
     while (window.isOpen()) {
@@ -131,32 +65,36 @@ int shooter(void) {
         }
 
         //movement
-        key_move(stop_sign, speed, "aswd");
-        key_move(wheel, speed);
-        fire_bullet(stop_sign, wheel, bullets, window);
+        //key_move(stop_sign, speed, "aswd");
+        key_move(player, speed);
+        trigger_item(items);
+        fire_bullet(player, stop_sign, bullets, window);
         
-        //------------------------------------------DRAW------------------------
+        //------------------------------------------DRAW---------------------------------------------
 
         //clears screen with black pixels
         window.clear();
 
-        //draws each bullet
+        for (size_t index = 0; index < items.size(); index++) {
+            window.draw(items[index].get_sprite());
+        }
         for (size_t index = 0; index < bullets.size(); index++) {
-            window.draw(bullets[index].get_casing());
+            window.draw(bullets[index].get_sprite());
         }
 
+
+        window.draw(player);
         window.draw(stop_sign);
-        window.draw(wheel);
-        window.draw(andySprite);
-        window.draw(evilAndySprite);
-        window.draw(bombSprite);
-        window.draw(gunSprite);
-        window.draw(shieldSprite);
-        window.draw(sunSprite);
-        window.draw(forwardArrowsSprite);
-        window.draw(backwardsArrowsSprite);
-        window.draw(beerSprite);
-        window.draw(ak47Sprite);
+        andySprite.draw_sprite(window);
+        evilAndySprite.draw_sprite(window);
+        bombSprite.draw_sprite(window);
+        gunSprite.draw_sprite(window);
+        shieldSprite.draw_sprite(window);
+        sunSprite.draw_sprite(window);
+        forwardArrowsSprite.draw_sprite(window);
+        backwardsArrowsSprite.draw_sprite(window);
+        beerSprite.draw_sprite(window);
+        ak47Sprite.draw_sprite(window);
         window.display();
 
       }
