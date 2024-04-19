@@ -149,9 +149,13 @@ void center_origin(sf::Shape& shape) {
     shape.setOrigin(shape.getLocalBounds().getSize() / 2.0f);
 }
 
-void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets) {
+void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets, sf::RenderWindow& window) {
 
-    static int reload_time = 0, bleed_time = 0;
+    //shape set position to mouse
+    static int reload_time = 0, bleed_time = -1;
+    static sf::Color og_color;
+    sf::RectangleShape mouse_pos(sf::Vector2f(0,0));
+    mouse_pos.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && reload_time == 0) {
 
@@ -160,13 +164,13 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
         //sets origin to center of bullet
         center_origin(bullets[bullets.size() - 1].casing);
         //sets normal vector as a direction
-        bullets[bullets.size() - 1].direction = (normal_direction(gunman, target));
+        bullets[bullets.size() - 1].direction = (normal_direction(gunman, mouse_pos));
         //sets rotation of bullet to point towards gunman
         bullets[bullets.size() - 1].casing.setRotation(vector_to_degrees(bullets[bullets.size() - 1].direction));
         //sets bullet position slightly in front of gunman position
         bullets[bullets.size() - 1].casing.setPosition(gunman.getPosition() + 15.0f * bullets[bullets.size() - 1].direction);
         //starts reload timer (how long it takes for another bullet to be fired)
-        reload_time = 1800;
+        reload_time = 1000;
     }
 
     //loops through each current bullet, moves each tiny amount
@@ -179,10 +183,13 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
         if (touching_hitbox(bullets[index].casing, target) || hit_window(bullets[index].casing)) {
             //if bullet hits target, target "bleeds"
             if (touching_hitbox(bullets[index].casing, target)) {
-                //starts bleed timer (how long it takes for target to return to original color)
-                bleed_time = 500;
+                if (target.getFillColor() != sf::Color::Red) {
+                    og_color = target.getFillColor();
+                }
                 target.setFillColor(sf::Color::Red);
+                bleed_time = 1000;
             }
+
             //erases bullet
             bullets.erase(bullets.begin() + index);
         }
@@ -191,5 +198,5 @@ void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>
 
     if (reload_time != 0) reload_time--;
     if (bleed_time != 0) bleed_time--;
-    else target.setFillColor(sf::Color::Green);
+    else target.setFillColor(og_color);
 }
