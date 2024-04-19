@@ -6,8 +6,8 @@
 #include <thread>
 #include <math.h>
 
-#define WINDOW_W 700
-#define WINDOW_H 900
+#define WINDOW_W 1000
+#define WINDOW_H 800
 #define PI 3.14159265359
 
 using std::cout;
@@ -16,11 +16,31 @@ using std::endl;
 
 class bullet {
 
-public:
+private:
     sf::RectangleShape casing;
     sf::Vector2f direction;
+public:
     //constructor
     bullet();
+
+    //setters
+    void lock_on(const sf::Shape& origin, const sf::Shape& target);
+    void set_position(const sf::Vector2f& position);
+
+    //getter
+    sf::RectangleShape& get_casing();
+
+    void chase(const float speed);
+
+    //destructor
+    ~bullet();
+};
+
+class player {
+
+public:
+    
+
 };
 
 //VECTOR FUNCTIONS
@@ -41,4 +61,4 @@ void track(sf::Shape& hunter, const sf::Shape& prey, const float speed);
 
 void center_origin(sf::Shape& shape);
 
-void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets, sf::RenderWindow& window);
+void fire_bullet(const sf::Shape& gunman, sf::Shape& target, std::vector<bullet>& bullets, const sf::RenderWindow& window);
