@@ -16,14 +16,14 @@ int shooter(void) {
     //window is opened in video mode ??? //400, 400 specifies height and width, string specifies window title
 
      ///////////////////////MOVE TO CLASS FUNCTIONS/////////////
-     sf::Texture andyTexture; //andy
-     sf::Texture evilAndyTexture; //evil andy
-     sf::Texture bombTexture; //bomb
-     sf::Texture gunTexture; //gun upgrade
-     sf::Texture shieldTexture; //shield
-     sf::Texture sunTexture; //bullet spray
-     sf::Texture forwardArrowsTexture; //speed boost
-     sf::Texture backwardsArrowsTexture; //speed drop
+    sf::Texture andyTexture; //andy
+    sf::Texture evilAndyTexture; //evil andy
+    sf::Texture bombTexture; //bomb
+    sf::Texture gunTexture; //gun upgrade
+    sf::Texture shieldTexture; //shield
+    sf::Texture sunTexture; //bullet spray
+    sf::Texture forwardArrowsTexture; //speed boost
+    sf::Texture backwardsArrowsTexture; //speed drop
     sf::Texture ak47Texture; //gun upgrade
     sf::Texture beerTexture; //confusion
 
@@ -100,17 +100,6 @@ int shooter(void) {
      beerSprite.setTexture(beerTexture);
      ak47Sprite.setTexture(ak47Texture);
     
-     window.draw(andySprite);
-     window.draw(evilAndySprite);
-     window.draw(bombSprite);
-     window.draw(gunSprite);
-     window.draw(shieldSprite);
-     window.draw(sunSprite);
-     window.draw(forwardArrowsSprite);
-     window.draw(backwardsArrowsSprite);
-     window.draw(beerSprite);
-     window.draw(ak47Sprite);
-    
     sf::CircleShape wheel(circ_radius); //creates circle
     wheel.setPosition(sf::Vector2f(200, 200));
     wheel.setFillColor(sf::Color::Green); //sets circle color to green
@@ -144,7 +133,7 @@ int shooter(void) {
         //movement
         key_move(stop_sign, speed, "aswd");
         key_move(wheel, speed);
-        fire_bullet(stop_sign, wheel, bullets);
+        fire_bullet(stop_sign, wheel, bullets, window);
         
         //------------------------------------------DRAW------------------------
 
@@ -153,11 +142,21 @@ int shooter(void) {
 
         //draws each bullet
         for (size_t index = 0; index < bullets.size(); index++) {
-            window.draw(bullets[index].casing);
+            window.draw(bullets[index].get_casing());
         }
 
         window.draw(stop_sign);
         window.draw(wheel);
+        window.draw(andySprite);
+        window.draw(evilAndySprite);
+        window.draw(bombSprite);
+        window.draw(gunSprite);
+        window.draw(shieldSprite);
+        window.draw(sunSprite);
+        window.draw(forwardArrowsSprite);
+        window.draw(backwardsArrowsSprite);
+        window.draw(beerSprite);
+        window.draw(ak47Sprite);
         window.display();
 
       }
@@ -193,5 +192,5 @@ int shooter(void) {
     - Alternative features
         - obstacles on map
 
-5. 
+CS122_PA9/ - use to load images
 */
