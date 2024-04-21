@@ -15,12 +15,16 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+
 class bullet {
 
 private:
     sf::Sprite sprite;
     sf::Texture* image;
     sf::Vector2f direction;
+    sf::SoundBuffer* soundFile;
+    sf::Sound* sound;
+
 public:
     //constructor
     bullet();

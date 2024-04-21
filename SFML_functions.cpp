@@ -179,7 +179,9 @@ void center_origin(sf::Sprite& shape) {
 }
 
 void fire_bullet(const sf::Sprite& gunman, sf::Sprite& target, std::vector<bullet>& bullets, const sf::RenderWindow& window) {
-
+    
+  
+  
     //shape set position to mouse
     static int reload_time = 0, bleed_time = -1;
     static sf::Color og_color;
@@ -187,7 +189,14 @@ void fire_bullet(const sf::Sprite& gunman, sf::Sprite& target, std::vector<bulle
     mouse_pos.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && reload_time == 0) {
-
+        
+        sf::SoundBuffer *bulletBuffer = new sf::SoundBuffer; 
+        sf::Sound* bulletSound = new sf::Sound;
+        if (bulletBuffer->loadFromFile("CS122_PA9/bulletSound.wav"))
+        {
+            bulletSound->setBuffer(*bulletBuffer);
+            bulletSound->play();
+        }
         //creates new bullet
         bullets.push_back(bullet());
         //points bullet towards mouse position
@@ -196,6 +205,7 @@ void fire_bullet(const sf::Sprite& gunman, sf::Sprite& target, std::vector<bulle
         bullets[bullets.size() - 1].set_position(gunman.getPosition());
         //starts reload timer (how long it takes for another bullet to be fired)
         reload_time = 1000;
+       
     }
 
     //loops through each current bullet, moves each tiny amount
