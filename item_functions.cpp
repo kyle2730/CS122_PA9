@@ -72,7 +72,7 @@ item* random_item() {
     int rand_int = rand() % 10;
     switch (rand_int) {
 
-    case 0: return new heart("heart.png");
+    case 0: return new heart("CS122_PA9/heart.png");
     case 1: return new speed_boost("CS122_PA9/forwardArrows.png");
     case 2: return new gun_upgrade("CS122_PA9/ak47.png");
     case 3: return new shield("CS122_PA9/shield.png");
@@ -81,7 +81,7 @@ item* random_item() {
     case 6: return new gun_downgrade("CS122_PA9/gun.png");
     case 7: return new confusion("CS122_PA9/beer.png");
     case 8: return new bomb("CS122_PA9/bomb.png");
-    case 9: return new mystery("mystery.png");
+    case 9: return new mystery("CS122_PA9/mystery.png");
     }
 
     return NULL;

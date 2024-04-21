@@ -15,16 +15,8 @@ int main(void)
 
      ///////////////////////MOVE TO CLASS FUNCTIONS/////////////
 
-    item andySprite("regularAndy.png");
-    item evilAndySprite("evilAndy.png");
-    item bombSprite("bomb.png");
-    item gunSprite("gun.png");
-    item shieldSprite("shield.png");
-    item sunSprite("sun.png");
-    item forwardArrowsSprite("forwardArrows.png");
-    item backwardsArrowsSprite("backwardsArrows.png");
-    item beerSprite("beer.png");
-    item ak47Sprite("ak47.png");
+    item andySprite("CS122_PA9/regularAndy.png");
+    item evilAndySprite("CS122_PA9/evilAndy.png");
 
     
     sf::Sprite player; //creates player
@@ -80,16 +72,6 @@ int main(void)
 
         window.draw(player);
         window.draw(stop_sign);
-        andySprite.draw_sprite(window);
-        evilAndySprite.draw_sprite(window);
-        bombSprite.draw_sprite(window);
-        gunSprite.draw_sprite(window);
-        shieldSprite.draw_sprite(window);
-        sunSprite.draw_sprite(window);
-        forwardArrowsSprite.draw_sprite(window);
-        backwardsArrowsSprite.draw_sprite(window);
-        beerSprite.draw_sprite(window);
-        ak47Sprite.draw_sprite(window);
         window.display();
 
       }
