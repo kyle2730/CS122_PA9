@@ -3,6 +3,10 @@
 
 //ITEM FUNCTIONS
 
+item::item() {
+
+}
+
 item::item(const std::string& file_name) {
     image = new sf::Texture;
 
@@ -53,8 +57,6 @@ void item::draw_sprite(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
 
-
-
 void trigger_item(std::vector<item>& items) {
     static int random_timer = 5000;
     item* new_item;
@@ -82,10 +84,27 @@ item* random_item() {
     case 6: return new gun_downgrade("CS122_PA9/gun.png");
     case 7: return new confusion("CS122_PA9/beer.png");
     case 8: return new bomb("CS122_PA9/bomb.png");
-    case 9: return new mystery("CS122_PA9/mystery.png");
+    case 9:
+        std::string mystery = "CS122_PA9/mystery.png";
+        switch (rand() % 9) {
+
+        case 0: return new heart(mystery);
+        case 1: return new speed_boost(mystery);
+        case 2: return new gun_upgrade(mystery);
+        case 3: return new shield(mystery);
+        case 4: return new bullet_spray(mystery);
+        case 5: return new speed_drop(mystery);
+        case 6: return new gun_downgrade(mystery);
+        case 7: return new confusion(mystery);
+        case 8: return new bomb(mystery);
+        }
     }
 
     return NULL;
+}
+
+void item::hit(player user) {
+
 }
 
 void item_float(std::vector<item>& items, sf::Sprite& user, sf::RenderWindow& window) {
@@ -119,5 +138,43 @@ void item_float(std::vector<item>& items, sf::Sprite& user, sf::RenderWindow& wi
     }
 
     if (reload_time != 0) reload_time--;
+
+}
+
+
+
+void heart::hit(player user) {
+    user.add_heart();
+}
+
+void speed_boost::hit(player user) {
+    user.speed_up();
+}
+
+void gun_upgrade::hit(player user) {
+    user.gun_up();
+}
+
+void shield::hit(player user) {
+    user.gun_down();
+}
+
+void bullet_spray::hit(player user) {
+
+}
+
+void speed_drop::hit(player user) {
+    user.speed_down();
+}
+
+void gun_downgrade::hit(player user) {
+    user.gun_down();
+}
+
+void confusion::hit(player user) {
+
+}
+
+void bomb::hit(player user) {
 
 }

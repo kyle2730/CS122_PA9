@@ -50,6 +50,14 @@ public:
     //constructor
     player();
 
+    //setters
+    void add_heart();
+    void lose_heart();
+    void speed_up();
+    void speed_down();
+    void gun_up();
+    void gun_down();
+
     sf::Sprite& get_sprite();
 
     //destructor

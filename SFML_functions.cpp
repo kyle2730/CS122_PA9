@@ -10,6 +10,9 @@ bullet::bullet() {
     sprite.setTexture(*image);
     direction = sf::Vector2f(0, 0);
     center_origin(sprite);
+
+    sound = NULL;
+    soundFile = NULL;
 }
 
 void bullet::lock_on(const sf::Sprite& origin, const sf::Sprite& target) {
@@ -288,4 +291,34 @@ int menu()
         }
 
     }
+}
+
+/////////////////////////PLAYER
+
+player::player() {
+    image = NULL;
+}
+
+void player::add_heart() {
+
+}
+void player::lose_heart() {
+
+}
+void player::speed_up() {
+
+}
+void player::speed_down() {
+
+}
+void player::gun_up() {
+
+}
+void player::gun_down() {
+
+}
+
+
+player::~player() {
+
 }
