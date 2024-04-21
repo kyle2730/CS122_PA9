@@ -39,7 +39,8 @@ void item::float_timer() {
 }
 
 void item::random_direction() {
-    sf::Vector2f temp = degrees_to_vector(rand() % 360);
+    int angle = rand() % 360;
+    sf::Vector2f temp = degrees_to_vector(angle);
     normalize_vector(temp);
     direction = temp;
 }
