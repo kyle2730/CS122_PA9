@@ -14,7 +14,7 @@ item::item(const std::string& file_name) {
     center_origin(sprite);
 
 	speed = 0;
-    float_time = 4000;
+    float_time = 15000;
 }
 
 void item::set_speed(const float new_speed) {

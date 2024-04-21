@@ -56,8 +56,8 @@ float vector_to_degrees(const sf::Vector2f& vec) {
 }
 
 sf::Vector2f degrees_to_vector(float degrees) {
-    int x_over_y = tan((90 - degrees) * PI / 180);
-    return sf::Vector2f(x_over_y, 1);
+    int common = (90 - degrees) * PI / 180;
+    return sf::Vector2f(cosf(common), sinf(common));
 }
 
 float magnitude(const sf::Vector2f& vec) {

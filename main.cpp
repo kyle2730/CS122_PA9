@@ -68,7 +68,7 @@ int main(void)
         //------------------------------------------DRAW---------------------------------------------
 
         //clears screen with black pixels
-        window.clear();
+        window.clear(sf::Color::White);
 
         for (size_t index = 0; index < items.size(); index++) {
             window.draw(items[index].get_sprite());
