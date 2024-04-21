@@ -14,7 +14,7 @@ int main(void)
     //window is opened in video mode ??? //400, 400 specifies height and width, string specifies window title
 
     sf::Music music;
-    if (!music.openFromFile("themeSong.ogg"))
+    if (!music.openFromFile("CS122_PA9/themeSong.wav"))
     {
         return -1;
     }
