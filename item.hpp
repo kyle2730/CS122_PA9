@@ -34,26 +34,32 @@ class heart : public item {
 public:
 	heart(const std::string& file_name) : item(file_name){}
 };
+
 class speed_boost : public item {
 public:
 	speed_boost(const std::string& file_name) : item(file_name) {}
 };
+
 class gun_upgrade : public item {
 public:
 	gun_upgrade(const std::string& file_name) : item(file_name) {}
 };
+
 class shield : public item {
 public:
 	shield(const std::string& file_name) : item(file_name) {}
 };
+
 class bullet_spray : public item {
 public:
 	bullet_spray(const std::string& file_name) : item(file_name) {}
 };
+
 class speed_drop : public item {
 public:
 	speed_drop(const std::string& file_name) : item(file_name) {}
 };
+
 class gun_downgrade : public item {
 public:
 	gun_downgrade(const std::string& file_name) : item(file_name) {}
@@ -62,10 +68,12 @@ class confusion : public item {
 public:
 	confusion(const std::string& file_name) : item(file_name) {}
 };
+
 class bomb : public item {
 public:
 	bomb(const std::string& file_name) : item(file_name) {}
 };
+
 class mystery : public item {
 public:
 	mystery(const std::string& file_name) : item(file_name) {}

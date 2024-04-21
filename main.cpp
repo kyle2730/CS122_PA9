@@ -13,7 +13,13 @@ int main(void)
     sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Game Name"); //creates window called window and opens it
     //window is opened in video mode ??? //400, 400 specifies height and width, string specifies window title
 
-     ///////////////////////MOVE TO CLASS FUNCTIONS/////////////
+    sf::Music music;
+    if (!music.openFromFile("themeSong.ogg"))
+    {
+        return -1;
+    }
+
+    music.play();
 
     item andySprite("CS122_PA9/regularAndy.png");
     item evilAndySprite("CS122_PA9/evilAndy.png");
