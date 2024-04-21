@@ -21,9 +21,6 @@ int main(void)
 
     music.play();
 
-    item andySprite("CS122_PA9/regularAndy.png");
-    item evilAndySprite("CS122_PA9/evilAndy.png");
-
     
     sf::Sprite player; //creates player
     sf::Texture p_t;
