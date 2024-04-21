@@ -93,7 +93,10 @@ bool touching_hitbox(const sf::Sprite& sprite1, const sf::Sprite& sprite2) {
     x_len /= 2.0f;
     y_len /= 2.0f;
 
-    if (x_pos_dif < x_len && y_pos_dif < y_len) return true;
+    if (x_pos_dif < x_len && y_pos_dif < y_len)
+    {
+        return true;
+    }
     return false;
 
 }
