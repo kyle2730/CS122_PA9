@@ -20,7 +20,8 @@ public:
 	void float_timer();
 	void random_direction();
 
-	void set_sound(const std::string file);
+	void sound_base(const std::string file);
+	virtual void set_sound() = 0;
 	virtual void move();
 	virtual void hit(player& user) = 0; //function when player hits item, different for each item
 	virtual void reset_player(player& user) = 0;
@@ -48,7 +49,7 @@ public:
 
 	void hit(player& user);
 	void reset_player(player& user);
-	void set_sound(const std::string file);
+	void set_sound();
 };
 class speed_boost : public item {
 public:
