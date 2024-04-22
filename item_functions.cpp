@@ -121,12 +121,9 @@ void confusion::hit(player& user) {
 void bomb::hit(player& user) {}
 
 //reset functions
-void heart::reset_player(player& user) 
-{
-    
-}
+void heart::reset_player(player& user) { }
 
-void heart::set_sound()
+void heart::set_sound(const std::string file)
 {
     set_sound("CS122_PA9/upgradeSound.wav");
 }
