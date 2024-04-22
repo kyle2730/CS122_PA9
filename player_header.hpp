@@ -82,6 +82,7 @@ public:
     int get_accuracy();
     int get_fire_rate();
     int get_speed();
+    int get_lives();
     sf::Sprite& get_sprite();
 
     void draw_player(sf::RenderWindow& window);

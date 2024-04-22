@@ -2,36 +2,32 @@
 #include "extra_header.hpp"
 #include "item_header.hpp";
 
-
+//vector math functions
 void normalize_vector(sf::Vector2f& unnormalized_vec) {
     unnormalized_vec = unnormalized_vec / sqrt(powf(unnormalized_vec.x, 2) + powf(unnormalized_vec.y, 2));
 }
-
 sf::Vector2f full_direction(const sf::Sprite& origin, const sf::Sprite& target) {
     sf::Vector2f unit_direction(target.getPosition() - origin.getPosition());
     return unit_direction;
 }
-
 sf::Vector2f normal_direction(const sf::Sprite& origin, const sf::Sprite& target) {
     sf::Vector2f unit_direction(target.getPosition() - origin.getPosition());
     normalize_vector(unit_direction);
     return unit_direction;
 }
-
 float vector_to_degrees(const sf::Vector2f& vec) {
     if (vec.y == 0) return 90;
     return 90 - atan(vec.x / vec.y) * 180 / PI;
 }
-
 sf::Vector2f degrees_to_vector(float degrees) {
     float common = (90 - degrees) * PI / 180;
     return sf::Vector2f(cosf(common), sinf(common));
 }
-
 float magnitude(const sf::Vector2f& vec) {
     return sqrtf(vec.x * vec.x + vec.y * vec.y);
 }
 
+//sprite and player helper functions
 int hit_window(const sf::Sprite& shape, const float buffer, const sf::FloatRect& boundary) {
     int hit = 0;
     //buffer of 0 means half of shape can be seen
@@ -48,7 +44,6 @@ int hit_window(const sf::Sprite& shape, const float buffer, const sf::FloatRect&
 
     return hit;
 }
-
 bool touching_hitbox(const sf::Sprite& sprite1, const sf::Sprite& sprite2) {
 
     float x_pos_dif = sprite1.getPosition().x - sprite2.getPosition().x;
@@ -68,7 +63,6 @@ bool touching_hitbox(const sf::Sprite& sprite1, const sf::Sprite& sprite2) {
     return false;
 
 }
-
 void key_move(player& user, const sf::FloatRect& boundary) {
 
     float speed = 0.05 * user.get_speed();
@@ -123,7 +117,6 @@ void key_move(player& user, const sf::FloatRect& boundary) {
         last_move[i] = curr_move[i];
     }
 }
-
 void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed) {
 
 
@@ -137,11 +130,9 @@ void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed) {
 
     }
 }
-
 void center_origin(sf::Sprite& shape) {
     shape.setOrigin(shape.getLocalBounds().getSize() / 2.0f);
 }
-
 void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, const sf::RenderWindow& window) {
     
     //shape set position to mouse
@@ -186,6 +177,7 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
     if (reload_time != 0) reload_time--;
 }
 
+//user interface functions
 int menu()
 {
     bool option;
@@ -245,7 +237,11 @@ int menu()
 
     }
 }
+bool player_death(player& user) {
+    return (!user.get_lives());
+}
 
+//converts integer to string
 std::string int_to_str(int num) {
 
     std::string alpha = "";
@@ -263,6 +259,7 @@ std::string int_to_str(int num) {
 
 }
 
+//item helper functions
 void new_item(std::vector<item*>& items) {
     static int random_timer = 5000;
     item* new_item;

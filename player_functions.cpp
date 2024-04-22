@@ -134,6 +134,9 @@ int player::get_fire_rate() {
 int player::get_speed() {
     return speed;
 }
+int player::get_lives() {
+    return lives;
+}
 sf::Sprite& player::get_sprite() {
     return sprite;
 }
