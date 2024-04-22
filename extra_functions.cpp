@@ -27,7 +27,7 @@ float magnitude(const sf::Vector2f& vec) {
     return sqrtf(vec.x * vec.x + vec.y * vec.y);
 }
 
-//sprite and player helper functions
+//sprite and player functions
 int hit_window(const sf::Sprite& shape, const float buffer, const sf::FloatRect& boundary) {
     int hit = 0;
     //buffer of 0 means half of shape can be seen
@@ -176,13 +176,75 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
 
     if (reload_time != 0) reload_time--;
 }
+bool andys_coming(struct andy_man& andy, player & user, std::vector<bullet>&bullets) {
+
+    static float x_pos = 0, y_pos = 0;
+    static int timer = -50000;
+    timer++;
+
+    //andy sequence doesn't start until after 50,000 iterations
+    if (timer < 0) return false;
+
+    sf::Vector2f position = user.get_sprite().getPosition();
+
+    if (timer == 0) {
+        andy.text_box.setPosition(sf::Vector2f(WINDOW_W / 2.0f - 125, WINDOW_H / 2.0f - 35));
+        andy.warning.setPosition(sf::Vector2f(WINDOW_W / 2.0f - 115, WINDOW_H / 2.0f - 25));
+    }
+
+    //warning about andy
+    else if (timer < 5000) {
+        x_pos = position.x;
+        y_pos = position.y;
+    }
+
+    else if (timer == 5000) {
+        andy.text_box.setPosition(sf::Vector2f(-200, -200));
+        andy.warning.setPosition(sf::Vector2f(-200, -200));
+    }
+
+    //andy comes out, items stop moving
+    else if (timer < 6000) {
+        andy.body.move(sf::Vector2f(WINDOW_W / -2000.0f, 0));
+    }
+
+    //andy checks for movement
+    else if (timer < 15000) {
+
+        //if player moved or fired a bullet
+        if ((position.x != x_pos) || (position.y != y_pos) || !bullets.empty()) {
+            //moves to andy destroys if statement
+            timer = 20001;
+        }
+    }
+
+    //andy retreats
+    else if (timer < 20000) {
+        andy.body.move(sf::Vector2f(WINDOW_W / -1000.0f, 0));
+    }
+
+    else if (timer == 20000) {
+        timer == -50000;
+    }
+
+    //andy DESTROYS
+    else if (timer < 25000) {
+        andy.body.setTexture(andy.evil_face, true);
+        user.add_lives(-10000);
+    }
+
+    //resets andy
+    else timer = -50000;
+
+    return true;
+}
 
 //user interface functions
 int menu()
 {
     bool option;
-    int selection = 0;
-    while (selection != 1 && selection != 5)
+    char selection = ' ';
+    while (selection != '1' && selection != '5')
     {
         system("cls");
         cout << "WELCOME TO [INSERT NAME OF GAME]!!" << endl;
@@ -192,15 +254,15 @@ int menu()
         cout << "3. Items" << endl;
         cout << "4. Credits" << endl;
         cout << "5. Exit" << endl;
-        cin >> selection;
+        selection = _getch();
 
         switch (selection)
         {
-        case 1:
+        case '1':
             system("cls");
             return true;
             break;
-        case 2:
+        case '2':
             system("cls");
             cout << "How to play:\n" << endl;
             cout << "Movement: Use WASD to move!" << endl;
@@ -208,7 +270,7 @@ int menu()
             cout << "Items: there are items in the game that will affect your gameplay, see the items section for a description of all the items! \n" << endl;
             system("PAUSE");
             break;
-        case 3:
+        case '3':
             system("cls");
             cout << "Items:\n" << endl;
             cout << "Items are icon sprites that float across the screen and are collected by a player. Each item has a different effect on the player and/or the game.\n\n" << endl;
@@ -221,14 +283,14 @@ int menu()
             system("PAUSE");
             break;
 
-        case 4:
+        case '4':
             system("cls");
             cout << "Credits:\n" << endl;
             cout << "Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl;
             system("PAUSE");
             break;
 
-        case 5:
+        case '5':
             system("cls");
             cout << "Thanks for playing!" << endl;
             return false;
@@ -238,7 +300,7 @@ int menu()
     }
 }
 bool player_death(player& user) {
-    return (!user.get_lives());
+    return (user.get_lives() <= 0);
 }
 
 //converts integer to string
@@ -260,7 +322,8 @@ std::string int_to_str(int num) {
 }
 
 //item helper functions
-void new_item(std::vector<item*>& items) {
+void new_item(std::vector<item*>& items, bool andy) {
+    if (andy) return;
     static int random_timer = 5000;
     item* new_item;
 
@@ -304,8 +367,8 @@ item* random_item() {
 
     return NULL;
 }
-void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window) {
-
+void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window, bool andy) {
+    if (andy) return;
     //shape set position to mouse
     static int reload_time = 0;
     int wall = 0;
@@ -330,7 +393,8 @@ void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& windo
     if (reload_time != 0) reload_time--;
 
 }
-void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets) {
+void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets, bool andy) {
+    if (andy) return;
 
     for (size_t index = 0; index < items.size(); index++) {
 

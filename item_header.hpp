@@ -116,3 +116,12 @@ public:
 	void move();
 	void set_sound();
 };
+
+struct andy_man {
+	sf::Sprite body;
+	sf::Texture normal_face;
+	sf::Texture evil_face;
+	sf::RectangleShape text_box;
+	sf::Text warning;
+	sf::Font text_font;
+};

@@ -16,18 +16,18 @@ int hit_window(const sf::Sprite& shape, const float buffer = 0, const sf::FloatR
 bool touching_hitbox(const sf::Sprite& sprite1, const sf::Sprite& sprite2);
 void center_origin(sf::Sprite& shape);
 
-//MOVE FUNCTIONS
+//MOTION FUNCTIONS
 void key_move(player& user, const sf::FloatRect& boundary = sf::FloatRect(0, 0, WINDOW_W, WINDOW_H));
 void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed);
-
 void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, const sf::RenderWindow& window);
+bool andys_coming(struct andy_man& andy, player& user, std::vector<bullet>& bullets);
 
 int menu();
 bool player_death(player& user);
 
 std::string int_to_str(int num);
 
-void new_item(std::vector<item*>& items);
+void new_item(std::vector<item*>& items, bool andy);
 item* random_item();
-void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window);
-void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets);
+void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window, bool andy);
+void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets, bool andy);

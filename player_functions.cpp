@@ -68,8 +68,8 @@ void stat_bar::draw_bar(sf::RenderWindow& window) {
 }
 void stat_bar::update_stats(int lives, int speed, int fire_rate) {
     std::string update = "Hearts: ";
-    if (lives > 1000) {
-        update.append(int_to_str(lives - 1000));
+    if (lives / 1000) {
+        update.append(int_to_str(lives % 1000));
         update.append("\n  SHIELD");
     }
     else update.append(int_to_str(lives));
@@ -97,7 +97,7 @@ player::player() {
     image->loadFromFile("CS122_PA9/player.png");
     sprite.setTexture(*image);
     center_origin(sprite);
-    sprite.setPosition(sf::Vector2f(WINDOW_W / 2, WINDOW_H / 2));
+    sprite.setPosition(sf::Vector2f(WINDOW_W / 2.0f, WINDOW_H / 2.0f));
 }
 
 //setters
