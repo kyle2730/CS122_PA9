@@ -100,10 +100,25 @@ player::player() {
     sprite.setPosition(sf::Vector2f(WINDOW_W / 2, WINDOW_H / 2));
 }
 
+void player::sound_base(const std::string file)
+{
+
+    if (buffer.loadFromFile(file))
+    {
+        soundEffect.setBuffer(buffer);
+        soundEffect.play();
+    }
+}
+
 //setters
 void player::add_lives(int extra) {
     if (lives < 1000 || extra == -1000 || extra > 0)
         lives += extra;
+
+    if (extra < 0)
+    {
+        sound_base("CS122_PA9/owSound.wav");
+    }
 }
 void player::speed_up() {
     speed++;

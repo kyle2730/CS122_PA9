@@ -65,6 +65,9 @@ private:
     int fire_rate;
     int accuracy;
 
+    sf::SoundBuffer buffer;
+    sf::Sound soundEffect;
+
 public:
     //constructor
     player();
@@ -77,6 +80,9 @@ public:
     void gun_down();
     void drop_accuracy();
     void raise_accuracy();
+
+    void sound_base(const std::string file);
+    void set_sound();
 
     //getters
     int get_accuracy();
