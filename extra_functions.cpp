@@ -179,7 +179,7 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
 bool andys_coming(struct andy_man& andy, player & user, std::vector<bullet>&bullets) {
 
     static float x_pos = 0, y_pos = 0;
-    static int timer = -50000;
+    static int timer = -25000;
     timer++;
 
     //andy sequence doesn't start until after 50,000 iterations
@@ -187,54 +187,49 @@ bool andys_coming(struct andy_man& andy, player & user, std::vector<bullet>&bull
 
     sf::Vector2f position = user.get_sprite().getPosition();
 
+    //displays warning about andy, items stop moving at t-0
     if (timer == 0) {
         andy.text_box.setPosition(sf::Vector2f(WINDOW_W / 2.0f - 125, WINDOW_H / 2.0f - 35));
         andy.warning.setPosition(sf::Vector2f(WINDOW_W / 2.0f - 115, WINDOW_H / 2.0f - 25));
     }
 
-    //warning about andy
-    else if (timer < 5000) {
+    else if (timer < 5000);
+
+    //removes warning display at t-5000
+    else if (timer == 5000) {
+        andy.text_box.setPosition(sf::Vector2f(-200, -200));
+        andy.warning.setPosition(sf::Vector2f(-200, -200));
         x_pos = position.x;
         y_pos = position.y;
     }
 
-    else if (timer == 5000) {
-        andy.text_box.setPosition(sf::Vector2f(-200, -200));
-        andy.warning.setPosition(sf::Vector2f(-200, -200));
-    }
+    //andy is moving from t-5000 to t-6000 towards the center
+    else if (timer < 6000) andy.body.move(sf::Vector2f(WINDOW_W / -2000.0f, 0));
 
-    //andy comes out, items stop moving
-    else if (timer < 6000) {
-        andy.body.move(sf::Vector2f(WINDOW_W / -2000.0f, 0));
-    }
-
-    //andy checks for movement
+    //andy checks for movement from t-6000 to t-15000
     else if (timer < 15000) {
 
         //if player moved or fired a bullet
         if ((position.x != x_pos) || (position.y != y_pos) || !bullets.empty()) {
             //moves to andy destroys if statement
-            timer = 20001;
+            timer = 16000;
         }
     }
 
-    //andy retreats
-    else if (timer < 20000) {
-        andy.body.move(sf::Vector2f(WINDOW_W / -1000.0f, 0));
-    }
+    //andy retreats from t-15000 to t-16000
+    else if (timer < 16000) andy.body.move(sf::Vector2f(WINDOW_W / -1000.0f, 0));
 
-    else if (timer == 20000) {
-        timer == -50000;
-    }
+    //resets andy at t-16000
+    else if (timer == 16000) timer = -25000;
 
-    //andy DESTROYS
-    else if (timer < 25000) {
-        andy.body.setTexture(andy.evil_face, true);
-        user.add_lives(-10000);
-    }
+    //andy turns evil if t is set to 17000
+    else if (timer == 16500) andy.body.setTexture(andy.evil_face, true);
+    
+    //andy moves to player from t-17000 to t-18000
+    else if (timer < 18000) {}
 
-    //resets andy
-    else timer = -50000;
+    //andy DESTROYS at t-18000
+    else if (timer == 18000) user.add_lives(-10000);
 
     return true;
 }
