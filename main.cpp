@@ -1,5 +1,6 @@
-#include "SFML_header.hpp"
-#include "item.hpp";
+#include "player_header.hpp"
+#include "extra_header.hpp"
+#include "item_header.hpp";
 
 int main(void) 
 {

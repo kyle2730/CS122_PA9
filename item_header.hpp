@@ -1,5 +1,6 @@
 #pragma once
-#include "SFML_header.hpp"
+
+#include "player_header.hpp"
 
 class item
 {
@@ -96,8 +97,3 @@ public:
 	void reset_player(player& user);
 	void move();
 };
-
-void new_item(std::vector<item*>& items);
-item* random_item();
-void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window);
-void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets);
