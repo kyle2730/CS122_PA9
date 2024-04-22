@@ -112,51 +112,52 @@ bool touching_hitdisc(const sf::CircleShape& sprite1, const sf::CircleShape& spr
 
 }
 
-void key_move(sf::Sprite& shape, const float user_speed, const sf::FloatRect& boundary) {
+void key_move(player& user, const sf::FloatRect& boundary) {
 
-    float speed = user_speed * 0.01;
+    float speed = 0.1 * user.get_speed();
+
     int direction = 0;
     bool curr_move[4];
     static int last_move[4];
 
     sf::Keyboard::Key keys[] = { sf::Keyboard::Key::D, sf::Keyboard::Key::A , sf::Keyboard::Key::W , sf::Keyboard::Key::S };
 
-    direction = hit_window(shape, 1, boundary);
+    direction = hit_window(user.get_sprite(), 1, boundary);
     for (int i = 0; i < 4; i++) {
         curr_move[i] = 1 - direction % 2;
         direction >>= 1;
     }
 
-    if (sf::Keyboard::isKeyPressed(keys[0])) shape.move(speed * curr_move[0], 0);
+    if (sf::Keyboard::isKeyPressed(keys[0])) user.get_sprite().move(speed * curr_move[0], 0);
     else curr_move[0] = 0;
 
-    if (sf::Keyboard::isKeyPressed(keys[1])) shape.move(-speed * curr_move[1], 0);
+    if (sf::Keyboard::isKeyPressed(keys[1])) user.get_sprite().move(-speed * curr_move[1], 0);
     else curr_move[1] = 0;
 
-    if (sf::Keyboard::isKeyPressed(keys[2])) shape.move(0, -speed * curr_move[2]);
+    if (sf::Keyboard::isKeyPressed(keys[2])) user.get_sprite().move(0, -speed * curr_move[2]);
     else curr_move[2] = 0;
 
-    if (sf::Keyboard::isKeyPressed(keys[3])) shape.move(0, speed * curr_move[3]);
+    if (sf::Keyboard::isKeyPressed(keys[3])) user.get_sprite().move(0, speed * curr_move[3]);
     else curr_move[3] = 0;
 
     if (curr_move[0] && curr_move[1]) {
         if (last_move[0]) {
-            shape.move(speed, 0);
+            user.get_sprite().move(speed, 0);
             curr_move[1] = 0;
         }
         else {
-            shape.move(-speed, 0);
+            user.get_sprite().move(-speed, 0);
             curr_move[0] = 0;
         }
     }
 
     if (curr_move[2] && curr_move[3]) {
         if (last_move[2]) {
-            shape.move(0, -speed);
+            user.get_sprite().move(0, -speed);
             curr_move[3] = 0;
         }
         else {
-            shape.move(0, speed);
+            user.get_sprite().move(0, speed);
             curr_move[2] = 0;
         }
     }
@@ -184,7 +185,7 @@ void center_origin(sf::Sprite& shape) {
     shape.setOrigin(shape.getLocalBounds().getSize() / 2.0f);
 }
 
-void fire_bullet(const sf::Sprite& gunman, sf::Sprite& target, std::vector<bullet>& bullets, const sf::RenderWindow& window) {
+void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, const sf::RenderWindow& window) {
     
   
   
@@ -206,9 +207,9 @@ void fire_bullet(const sf::Sprite& gunman, sf::Sprite& target, std::vector<bulle
         //creates new bullet
         bullets.push_back(bullet());
         //points bullet towards mouse position
-        bullets[bullets.size() - 1].lock_on(gunman, mouse_pos);
+        bullets[bullets.size() - 1].lock_on(gunman.get_sprite(), mouse_pos);
         //sets bullet slightly in front of gunman
-        bullets[bullets.size() - 1].set_position(gunman.getPosition());
+        bullets[bullets.size() - 1].set_position(gunman.get_sprite().getPosition());
         //starts reload timer (how long it takes for another bullet to be fired)
         reload_time = 1000;
        
@@ -218,10 +219,10 @@ void fire_bullet(const sf::Sprite& gunman, sf::Sprite& target, std::vector<bulle
     for (size_t index = 0; index < bullets.size(); index++) {
 
         //moves bullet 0.3 pixel lengths
-        bullets[index].move(0.3f);
+        bullets[index].move(0.3f * gunman.get_fire_rate());
 
         //if bullet touches window or target
-        if (touching_hitbox(bullets[index].get_sprite(), target) || hit_window(bullets[index].get_sprite())) {
+        if (touching_hitbox(bullets[index].get_sprite(), target.get_sprite()) || hit_window(bullets[index].get_sprite())) {
 
             //erases bullet
             bullets.erase(bullets.begin() + index);
@@ -296,28 +297,44 @@ int menu()
 /////////////////////////PLAYER
 
 player::player() {
-    image = NULL;
+    lives = 3;
+    speed = 1;
+    fire_rate = 1;
+
+    image = new sf::Texture;
+    image->loadFromFile("CS122_PA9/player.png");
+    sprite.setTexture(*image);
+    center_origin(sprite);
 }
 
 void player::add_heart() {
-
+    lives++;
 }
 void player::lose_heart() {
-
+    lives--;
 }
 void player::speed_up() {
-
+    speed++;
 }
 void player::speed_down() {
-
+    speed--;
 }
 void player::gun_up() {
-
+    fire_rate++;
 }
 void player::gun_down() {
-
+    fire_rate--;
 }
 
+int player::get_fire_rate() {
+    return fire_rate;
+}
+int player::get_speed() {
+    return speed;
+}
+sf::Sprite& player::get_sprite() {
+    return sprite;
+}
 
 player::~player() {
 

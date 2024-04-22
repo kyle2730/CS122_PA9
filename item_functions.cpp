@@ -19,6 +19,14 @@ item::item(const std::string& file_name) {
 
 	speed = 0;
     float_time = 15000;
+    collected = false;
+}
+
+void item::got_collected(player user) {
+    delete image;
+    collected = true;
+    float_time = 15000;
+    hit(user);
 }
 
 void item::set_speed(const float new_speed) {
@@ -27,6 +35,10 @@ void item::set_speed(const float new_speed) {
 
 int item::get_float_time() {
     return float_time;
+}
+
+bool item::is_collected() {
+    return collected;
 }
 
 sf::Sprite& item::get_sprite() {
@@ -57,7 +69,7 @@ void item::draw_sprite(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
 
-void trigger_item(std::vector<item>& items) {
+void new_item(std::vector<item>& items) {
     static int random_timer = 5000;
     item* new_item;
 
@@ -103,11 +115,11 @@ item* random_item() {
     return NULL;
 }
 
-void item::hit(player user) {
+void item::hit(player& user) {}
 
-}
+void item::reset_player(player& user) {}
 
-void item_float(std::vector<item>& items, sf::Sprite& user, sf::RenderWindow& window) {
+void item_float(std::vector<item>& items, player& user, sf::RenderWindow& window) {
 
     //shape set position to mouse
     static int reload_time = 0;
@@ -128,53 +140,108 @@ void item_float(std::vector<item>& items, sf::Sprite& user, sf::RenderWindow& wi
         else if (((wall >> 2) % 2) || ((wall >> 3) % 2))
             items[index].flip_direction('V');
 
-        //if item touches hitbox OR item's timer runs out, item disappears
-        if (touching_hitbox(items[index].get_sprite(), user) || items[index].get_float_time() == 0) {
-            //erases bullet
-            items.erase(items.begin() + index);
-            //items[index].hit(player);
-        }
-
     }
 
     if (reload_time != 0) reload_time--;
 
 }
 
+void item_triggered(std::vector<item>& items, player& user) {
+
+    for (size_t index = 0; index < items.size(); index++) {
+
+        //if item touches hitbox OR item's timer runs out, item disappears
+        if (items[index].is_collected() == false) {
+            if (touching_hitbox(items[index].get_sprite(), user.get_sprite())) {
+                items[index].got_collected(user);
+            }
+
+            if (items[index].get_float_time() == 0) {
+
+                //erases bullet
+                items.erase(items.begin() + index);
+                //items[index].hit(player);
+            }
+        }
+        else {
+            if (items[index].get_float_time() == 0) {
+                items[index].reset_player(user);
+                items.erase(items.begin() + index);
+            }
+        }
+    }
+
+}
 
 
-void heart::hit(player user) {
+void heart::hit(player& user) {
     user.add_heart();
 }
 
-void speed_boost::hit(player user) {
+void speed_boost::hit(player& user) {
     user.speed_up();
 }
 
-void gun_upgrade::hit(player user) {
+void gun_upgrade::hit(player& user) {
     user.gun_up();
 }
 
-void shield::hit(player user) {
-    user.gun_down();
+void shield::hit(player& user) {
+    for (int i = 0; i < 1000; i++) {
+        user.add_heart();
+    }
 }
 
-void bullet_spray::hit(player user) {
-
+void bullet_spray::hit(player& user) {
+    //fires bullets in all directions
 }
 
-void speed_drop::hit(player user) {
+void speed_drop::hit(player& user) {
     user.speed_down();
 }
 
-void gun_downgrade::hit(player user) {
+void gun_downgrade::hit(player& user) {
     user.gun_down();
 }
 
-void confusion::hit(player user) {
-
+void confusion::hit(player& user) {
+    //accuracy drops
 }
 
-void bomb::hit(player user) {
+void bomb::hit(player& user) {
+    //start timer for bomb
+}
 
+void heart::reset_player(player& user) {}
+
+void speed_boost::reset_player(player& user) {
+    user.speed_down();
+}
+
+void gun_upgrade::reset_player(player& user) {
+    user.gun_down();
+}
+
+void shield::reset_player(player& user) {
+    for (int i = 0; i < 1000; i++) {
+        user.lose_heart();
+    }
+}
+
+void bullet_spray::reset_player(player& user) {}
+
+void speed_drop::reset_player(player& user) {
+    user.speed_up();
+}
+
+void gun_downgrade::reset_player(player& user) {
+    user.gun_up();
+}
+
+void confusion::reset_player(player& user) {
+    //accuracy returns
+}
+
+void bomb::reset_player(player& user) {
+    //explode
 }

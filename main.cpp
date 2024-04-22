@@ -6,7 +6,7 @@ int main(void)
     if (!menu()) return 0;
    
     //--------------------------INITIALIZATION-----------------------------------
-    float circ_radius = 10, speed = 8;
+    float circ_radius = 10;
 
     srand(time(NULL));
 
@@ -22,15 +22,9 @@ int main(void)
     music.play();
 
     
-    sf::Sprite player; //creates player
-    sf::Texture p_t;
-    p_t.loadFromFile("CS122_PA9/player.png");
-    player.setTexture(p_t);
-    player.setPosition(sf::Vector2f(200, 200));
-    center_origin(player);
+    player user; //creates player
     
-    sf::Sprite stop_sign;
-    center_origin(stop_sign);
+    player bad_guy;
 
     std::vector<bullet> bullets;
     std::vector<item> items;
@@ -55,10 +49,12 @@ int main(void)
 
         //movement
         //key_move(stop_sign, speed, "aswd");
-        item_float(items, player, window);
-        key_move(player, speed);
-        trigger_item(items);
-        fire_bullet(player, stop_sign, bullets, window);
+        item_float(items, user, window);
+        key_move(user);
+        new_item(items);
+        fire_bullet(user, bad_guy, bullets, window);
+        item_triggered(items, user);
+
         
         //------------------------------------------DRAW---------------------------------------------
 
@@ -73,8 +69,8 @@ int main(void)
         }
 
 
-        window.draw(player);
-        window.draw(stop_sign);
+        window.draw(user.get_sprite());
+        window.draw(bad_guy.get_sprite());
         window.display();
 
       }
