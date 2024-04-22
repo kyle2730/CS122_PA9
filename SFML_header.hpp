@@ -42,10 +42,23 @@ public:
     ~bullet();
 };
 
+class stat_bar {
+private:
+    sf::RectangleShape text_box;
+    sf::Text stats;
+    sf::Font* text_font;
+
+public:
+    stat_bar();
+    void draw_bar(sf::RenderWindow& window);
+    void update_stats(int lives, int speed, int fire_rate);
+};
+
 class player {
 private:
     sf::Sprite sprite;
     sf::Texture* image;
+    stat_bar data;
 
     int lives;
     int speed;
@@ -68,8 +81,12 @@ public:
     int get_speed();
     sf::Sprite& get_sprite();
 
+    void draw_player(sf::RenderWindow& window);
+
     //destructor
     ~player();
+
+    friend class stat_bar;
 
 };
 
@@ -85,13 +102,14 @@ float magnitude(const sf::Vector2f& vec);
 int hit_window(const sf::Sprite& shape, const float buffer = 0, const sf::FloatRect& boundary = sf::FloatRect(0, 0, WINDOW_W, WINDOW_H));
 bool touching_hitbox(const sf::Sprite& sprite1, const sf::Sprite& sprite2);
 bool touching_hitdisc(const sf::CircleShape& sprite1, const sf::CircleShape& sprite2);
+void center_origin(sf::Sprite& shape);
 
 //MOVE FUNCTIONS
 void key_move(player& user, const sf::FloatRect& boundary = sf::FloatRect(0, 0, WINDOW_W, WINDOW_H));
 void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed);
 
-void center_origin(sf::Sprite& shape);
-
 void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, const sf::RenderWindow& window);
 
 int menu();
+
+std::string int_to_str(int num);

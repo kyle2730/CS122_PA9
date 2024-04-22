@@ -14,28 +14,27 @@ bullet::bullet() {
     sound = NULL;
     soundFile = NULL;
 }
-
+//points bullet at target
 void bullet::lock_on(const sf::Sprite& origin, const sf::Sprite& target) {
     direction = normal_direction(origin, target);
     sprite.setRotation(vector_to_degrees(direction) + 180);
 }
-
+//sets position of bullet
 void bullet::set_position(const sf::Vector2f& position) {
     sprite.setPosition(position + 15.0f * direction);
 }
-
+//return bullet sprite
 sf::Sprite& bullet::get_sprite() {
     return sprite;
 }
-
+//moves bullet in direction of target
 void bullet::move(const float speed) {
     sprite.move(direction * speed);
 }
-
+//destructor
 bullet::~bullet() {
 
 }
-
 
 
 void normalize_vector(sf::Vector2f& unnormalized_vec) {
@@ -294,6 +293,38 @@ int menu()
     }
 }
 
+/////////////////////////Stat bar
+
+stat_bar::stat_bar() {
+
+    text_font = new sf::Font();
+    if (!text_font->loadFromFile("CS122_PA9/Super Sunshine.ttf")) {
+        //error
+    }
+
+    text_box.setPosition(sf::Vector2f(5, 5));
+    text_box.setSize(sf::Vector2f(150, 100));
+    text_box.setFillColor(sf::Color::White);
+    text_box.setOutlineColor(sf::Color::Red);
+    text_box.setOutlineThickness(2);
+
+    stats.setString("Hearts: 3\nSpeed: 1\nFire Rate: 1");
+    stats.setFillColor(sf::Color::Black);
+    stats.setPosition(sf::Vector2f(10, 10));
+    stats.setCharacterSize(15);
+    stats.setFont(*text_font);
+}
+void stat_bar::draw_bar(sf::RenderWindow& window) {
+    window.draw(text_box);
+    window.draw(stats);
+}
+void stat_bar::update_stats(int lives, int speed, int fire_rate) {
+    std::string update = "Hearts: \nSpeed: \nFire Rate: ";
+    update.insert(8, int_to_str(lives));
+    update.insert(16, int_to_str(speed));
+    update.insert(28, int_to_str(fire_rate));
+}
+
 /////////////////////////PLAYER
 
 player::player() {
@@ -336,6 +367,27 @@ sf::Sprite& player::get_sprite() {
     return sprite;
 }
 
+void player::draw_player(sf::RenderWindow& window) {
+    window.draw(sprite);
+    data.update_stats(lives, speed, fire_rate);
+    data.draw_bar(window); //stats = speed, hearts, fire_rate
+}
+
 player::~player() {
+
+}
+
+std::string int_to_str(int num) {
+
+    std::string alpha = "";
+    int index = 0, temp = num, length = log10(num) + 1;
+
+    while (num > 0) {
+        alpha[length - 1 - index] = (num % 10) + 48;
+        num /= 10;
+        index++;
+    }
+
+    return alpha;
 
 }

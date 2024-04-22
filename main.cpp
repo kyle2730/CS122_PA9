@@ -68,9 +68,8 @@ int main(void)
             window.draw(bullets[index].get_sprite());
         }
 
-
-        window.draw(user.get_sprite());
         window.draw(bad_guy.get_sprite());
+        user.draw_player(window);
         window.display();
 
       }

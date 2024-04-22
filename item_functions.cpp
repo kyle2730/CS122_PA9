@@ -6,7 +6,6 @@
 item::item() {
 
 }
-
 item::item(const std::string& file_name) {
     image = new sf::Texture;
 
@@ -28,46 +27,44 @@ void item::got_collected(player user) {
     float_time = 15000;
     hit(user);
 }
-
 void item::set_speed(const float new_speed) {
     speed = new_speed;
 }
-
 int item::get_float_time() {
     return float_time;
 }
-
 bool item::is_collected() {
     return collected;
 }
-
 sf::Sprite& item::get_sprite() {
 	return sprite;
 }
-
 void item::flip_direction(const char wall) {
     if (wall == 'V') direction.y *= -1;
     else if (wall == 'H') direction.x *= -1;
 }
-
 void item::float_timer() {
     float_time--;
 }
-
 void item::random_direction() {
     int angle = rand() % 360;
     sf::Vector2f temp = degrees_to_vector(angle);
     normalize_vector(temp);
     direction = temp;
 }
-
 void item::move() {
     sprite.move(direction * speed);
 }
-
-void item::draw_sprite(sf::RenderWindow& window) {
+void item::draw_item(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
+
+void item::hit(player& user) {
+    int check = 0;
+    check++;
+
+}
+void item::reset_player(player& user) {}
 
 void new_item(std::vector<item>& items) {
     static int random_timer = 5000;
@@ -82,7 +79,6 @@ void new_item(std::vector<item>& items) {
     }
     else random_timer--;
 }
-
 item* random_item() {
     int rand_int = rand() % 10;
     switch (rand_int) {
@@ -114,11 +110,6 @@ item* random_item() {
 
     return NULL;
 }
-
-void item::hit(player& user) {}
-
-void item::reset_player(player& user) {}
-
 void item_float(std::vector<item>& items, player& user, sf::RenderWindow& window) {
 
     //shape set position to mouse
@@ -145,7 +136,6 @@ void item_float(std::vector<item>& items, player& user, sf::RenderWindow& window
     if (reload_time != 0) reload_time--;
 
 }
-
 void item_triggered(std::vector<item>& items, player& user) {
 
     for (size_t index = 0; index < items.size(); index++) {
@@ -173,75 +163,60 @@ void item_triggered(std::vector<item>& items, player& user) {
 
 }
 
-
+//hit functions
 void heart::hit(player& user) {
     user.add_heart();
 }
-
 void speed_boost::hit(player& user) {
     user.speed_up();
 }
-
 void gun_upgrade::hit(player& user) {
     user.gun_up();
 }
-
 void shield::hit(player& user) {
     for (int i = 0; i < 1000; i++) {
         user.add_heart();
     }
 }
-
 void bullet_spray::hit(player& user) {
     //fires bullets in all directions
 }
-
 void speed_drop::hit(player& user) {
     user.speed_down();
 }
-
 void gun_downgrade::hit(player& user) {
     user.gun_down();
 }
-
 void confusion::hit(player& user) {
     //accuracy drops
 }
-
 void bomb::hit(player& user) {
     //start timer for bomb
 }
 
+//reset functions
 void heart::reset_player(player& user) {}
-
 void speed_boost::reset_player(player& user) {
     user.speed_down();
 }
-
 void gun_upgrade::reset_player(player& user) {
     user.gun_down();
 }
-
 void shield::reset_player(player& user) {
     for (int i = 0; i < 1000; i++) {
         user.lose_heart();
     }
 }
-
 void bullet_spray::reset_player(player& user) {}
-
 void speed_drop::reset_player(player& user) {
     user.speed_up();
 }
-
 void gun_downgrade::reset_player(player& user) {
     user.gun_up();
 }
-
 void confusion::reset_player(player& user) {
     //accuracy returns
 }
-
 void bomb::reset_player(player& user) {
     //explode
 }

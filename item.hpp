@@ -22,7 +22,7 @@ public:
 	void move();
 	virtual void hit(player& user); //function when player hits item, different for each item
 	virtual void reset_player(player& user);
-	void draw_sprite(sf::RenderWindow& window); //draws the graphics for the item
+	void draw_item(sf::RenderWindow& window); //draws the graphics for the item
 
 	sf::Sprite& get_sprite();
 
