@@ -79,6 +79,16 @@ void item::got_collected(player& user, std::vector<bullet>& bullets) {
     hit(user);
 }
 
+void item::set_sound(const std::string file)
+{
+
+    if (buffer.loadFromFile(file))
+    {
+        soundEffect.setBuffer(buffer);
+        soundEffect.play();
+    }
+}
+
 //destructor
 item::~item() {}
 
@@ -106,12 +116,21 @@ void gun_downgrade::hit(player& user) {
     user.gun_down();
 }
 void confusion::hit(player& user) {
-    user.drop_accuracy();
+    user.drop_accuracy();   
 }
 void bomb::hit(player& user) {}
 
 //reset functions
-void heart::reset_player(player& user) {}
+void heart::reset_player(player& user) 
+{
+    
+}
+
+void heart::set_sound()
+{
+    set_sound("CS122_PA9/upgradeSound.wav");
+}
+
 void speed_boost::reset_player(player& user) {
     user.speed_down();
 }
@@ -137,6 +156,7 @@ void bomb::reset_player(player& user) {
         user.add_lives((int)distance / 100 - 3);
     }
 }
+
 
 //overridden functions for special items
 void bullet_spray::got_collected(player& user, std::vector<bullet>& bullets) {

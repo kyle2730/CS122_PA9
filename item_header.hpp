@@ -20,7 +20,7 @@ public:
 	void float_timer();
 	void random_direction();
 
-	virtual void set_sound() = 0;
+	void set_sound(const std::string file);
 	virtual void move();
 	virtual void hit(player& user) = 0; //function when player hits item, different for each item
 	virtual void reset_player(player& user) = 0;
@@ -38,6 +38,8 @@ protected:
 	float speed;
 	int float_time;
 	bool collected;
+	sf::SoundBuffer buffer;
+	sf::Sound soundEffect;
 };
 
 class heart : public item {
@@ -46,7 +48,7 @@ public:
 
 	void hit(player& user);
 	void reset_player(player& user);
-	void set_sound();
+	void set_sound(const std::string file);
 };
 class speed_boost : public item {
 public:
@@ -68,6 +70,8 @@ public:
 	void hit(player& user);
 	void reset_player(player& user);
 	void set_sound();
+
+
 };
 class bullet_spray : public item {
 public:
@@ -77,6 +81,7 @@ public:
 	void reset_player(player& user);
 	void got_collected(player& user, std::vector<bullet>& bullets);
 	void set_sound();
+
 };
 class speed_drop : public item {
 public:
@@ -84,6 +89,7 @@ public:
 	void hit(player& user);
 	void reset_player(player& user);
 	void set_sound();
+
 };
 class gun_downgrade : public item {
 public:
@@ -91,6 +97,7 @@ public:
 	void hit(player& user);
 	void reset_player(player& user);
 	void set_sound();
+
 };
 class confusion : public item {
 public:
@@ -98,6 +105,7 @@ public:
 	void hit(player& user);
 	void reset_player(player& user);
 	void set_sound();
+
 };
 class bomb : public item {
 public:
