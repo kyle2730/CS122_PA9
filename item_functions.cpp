@@ -4,7 +4,10 @@
 //ITEM FUNCTIONS
 
 item::item() {
-
+    collected = 0;
+    float_time = 0;
+    speed = 0;
+    image = NULL;
 }
 item::item(const std::string& file_name) {
     image = new sf::Texture;
@@ -21,7 +24,7 @@ item::item(const std::string& file_name) {
     collected = false;
 }
 
-void item::got_collected(player user) {
+void item::got_collected(player& user) {
     delete image;
     collected = true;
     float_time = 15000;
@@ -59,14 +62,9 @@ void item::draw_item(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
 
-void item::hit(player& user) {
-    int check = 0;
-    check++;
+item::~item() {}
 
-}
-void item::reset_player(player& user) {}
-
-void new_item(std::vector<item>& items) {
+void new_item(std::vector<item*>& items) {
     static int random_timer = 5000;
     item* new_item;
 
@@ -74,7 +72,7 @@ void new_item(std::vector<item>& items) {
         new_item = random_item();
         new_item->set_speed(0.2f);
         new_item->random_direction();
-        items.push_back(*new_item);
+        items.push_back(new_item);
         random_timer = (rand() % 1000) + 4000;
     }
     else random_timer--;
@@ -110,7 +108,7 @@ item* random_item() {
 
     return NULL;
 }
-void item_float(std::vector<item>& items, player& user, sf::RenderWindow& window) {
+void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window) {
 
     //shape set position to mouse
     static int reload_time = 0;
@@ -119,43 +117,46 @@ void item_float(std::vector<item>& items, player& user, sf::RenderWindow& window
     //loops through each current bullet, moves each tiny amount
     for (size_t index = 0; index < items.size(); index++) {
 
-        items[index].float_timer();
+        items[index]->float_timer();
 
         //moves bullet 0.3 pixel lengths
-        items[index].move();
+        items[index]->move();
 
         //if item touches window border, direction flips
-        wall = hit_window(items[index].get_sprite());
+        wall = hit_window(items[index]->get_sprite());
         if ((wall % 2) || ((wall >> 1) % 2))
-            items[index].flip_direction('H');
+            items[index]->flip_direction('H');
         else if (((wall >> 2) % 2) || ((wall >> 3) % 2))
-            items[index].flip_direction('V');
+            items[index]->flip_direction('V');
 
     }
 
     if (reload_time != 0) reload_time--;
 
 }
-void item_triggered(std::vector<item>& items, player& user) {
+void item_triggered(std::vector<item*>& items, player& user) {
 
     for (size_t index = 0; index < items.size(); index++) {
 
         //if item touches hitbox OR item's timer runs out, item disappears
-        if (items[index].is_collected() == false) {
-            if (touching_hitbox(items[index].get_sprite(), user.get_sprite())) {
-                items[index].got_collected(user);
+        if (items[index]->is_collected() == false) {
+            if (touching_hitbox(items[index]->get_sprite(), user.get_sprite())) {
+                items[index]->got_collected(user);
+                
             }
 
-            if (items[index].get_float_time() == 0) {
+            if (items[index]->get_float_time() == 0) {
 
+                delete items[index];
                 //erases bullet
                 items.erase(items.begin() + index);
                 //items[index].hit(player);
             }
         }
         else {
-            if (items[index].get_float_time() == 0) {
-                items[index].reset_player(user);
+            if (items[index]->get_float_time() == 0) {
+                items[index]->reset_player(user);
+                delete items[index];
                 items.erase(items.begin() + index);
             }
         }
@@ -165,7 +166,7 @@ void item_triggered(std::vector<item>& items, player& user) {
 
 //hit functions
 void heart::hit(player& user) {
-    user.add_heart();
+    user.add_lives(1);
 }
 void speed_boost::hit(player& user) {
     user.speed_up();
@@ -174,9 +175,7 @@ void gun_upgrade::hit(player& user) {
     user.gun_up();
 }
 void shield::hit(player& user) {
-    for (int i = 0; i < 1000; i++) {
-        user.add_heart();
-    }
+    user.add_lives(1000);
 }
 void bullet_spray::hit(player& user) {
     //fires bullets in all directions
@@ -203,9 +202,7 @@ void gun_upgrade::reset_player(player& user) {
     user.gun_down();
 }
 void shield::reset_player(player& user) {
-    for (int i = 0; i < 1000; i++) {
-        user.lose_heart();
-    }
+    user.add_lives(-1000);
 }
 void bullet_spray::reset_player(player& user) {}
 void speed_drop::reset_player(player& user) {

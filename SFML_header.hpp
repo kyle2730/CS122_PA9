@@ -52,6 +52,7 @@ public:
     stat_bar();
     void draw_bar(sf::RenderWindow& window);
     void update_stats(int lives, int speed, int fire_rate);
+    ~stat_bar();
 };
 
 class player {
@@ -69,8 +70,7 @@ public:
     player();
 
     //setters
-    void add_heart();
-    void lose_heart();
+    void add_lives(int extra);
     void speed_up();
     void speed_down();
     void gun_up();

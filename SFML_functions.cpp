@@ -113,7 +113,7 @@ bool touching_hitdisc(const sf::CircleShape& sprite1, const sf::CircleShape& spr
 
 void key_move(player& user, const sf::FloatRect& boundary) {
 
-    float speed = 0.1 * user.get_speed();
+    float speed = 0.05 * user.get_speed();
 
     int direction = 0;
     bool curr_move[4];
@@ -210,7 +210,7 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
         //sets bullet slightly in front of gunman
         bullets[bullets.size() - 1].set_position(gunman.get_sprite().getPosition());
         //starts reload timer (how long it takes for another bullet to be fired)
-        reload_time = 1000;
+        reload_time = 3000 / (float)gunman.get_fire_rate();
        
     }
 
@@ -218,7 +218,7 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
     for (size_t index = 0; index < bullets.size(); index++) {
 
         //moves bullet 0.3 pixel lengths
-        bullets[index].move(0.3f * gunman.get_fire_rate());
+        bullets[index].move(0.3f);
 
         //if bullet touches window or target
         if (touching_hitbox(bullets[index].get_sprite(), target.get_sprite()) || hit_window(bullets[index].get_sprite())) {
@@ -319,18 +319,26 @@ void stat_bar::draw_bar(sf::RenderWindow& window) {
     window.draw(stats);
 }
 void stat_bar::update_stats(int lives, int speed, int fire_rate) {
-    std::string update = "Hearts: \nSpeed: \nFire Rate: ";
-    update.insert(8, int_to_str(lives));
-    update.insert(16, int_to_str(speed));
-    update.insert(28, int_to_str(fire_rate));
+    std::string update = "Hearts: ";
+    if (lives > 1000) update.append("SHIELDED");
+    else update.append(int_to_str(lives));
+    update.append("\nSpeed: ");
+
+    update.append(int_to_str(speed));
+    update.append("\nFire Rate: ");
+    update.append(int_to_str(fire_rate));
+    stats.setString(update);
+}
+stat_bar::~stat_bar() {
+    delete text_font;
 }
 
 /////////////////////////PLAYER
 
 player::player() {
     lives = 3;
-    speed = 1;
-    fire_rate = 1;
+    speed = 3;
+    fire_rate = 3;
 
     image = new sf::Texture;
     image->loadFromFile("CS122_PA9/player.png");
@@ -338,11 +346,8 @@ player::player() {
     center_origin(sprite);
 }
 
-void player::add_heart() {
-    lives++;
-}
-void player::lose_heart() {
-    lives--;
+void player::add_lives(int extra) {
+    lives += extra;
 }
 void player::speed_up() {
     speed++;
@@ -374,7 +379,7 @@ void player::draw_player(sf::RenderWindow& window) {
 }
 
 player::~player() {
-
+    delete image;
 }
 
 std::string int_to_str(int num) {
@@ -382,9 +387,11 @@ std::string int_to_str(int num) {
     std::string alpha = "";
     int index = 0, temp = num, length = log10(num) + 1;
 
-    while (num > 0) {
-        alpha[length - 1 - index] = (num % 10) + 48;
-        num /= 10;
+    if (num == 0) return "0";
+
+    while (index < length) {
+        temp = num / (int)pow(10, length - 1 - index);
+        alpha += (temp % 10 + 48);
         index++;
     }
 

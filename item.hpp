@@ -9,7 +9,7 @@ public:
 
 	//setters
 	void set_speed(const float new_speed);
-	void got_collected(player user);
+	void got_collected(player& user);
 
 	//getters
 	int get_float_time();
@@ -20,11 +20,13 @@ public:
 	void random_direction();
 
 	void move();
-	virtual void hit(player& user); //function when player hits item, different for each item
-	virtual void reset_player(player& user);
+	virtual void hit(player& user) = 0; //function when player hits item, different for each item
+	virtual void reset_player(player& user) = 0;
 	void draw_item(sf::RenderWindow& window); //draws the graphics for the item
 
 	sf::Sprite& get_sprite();
+
+	~item();
 
 private:
 
@@ -100,7 +102,7 @@ public:
 	void reset_player(player& user);
 };
 
-void new_item(std::vector<item>& items);
+void new_item(std::vector<item*>& items);
 item* random_item();
-void item_float(std::vector<item>& items, player& user, sf::RenderWindow& window);
-void item_triggered(std::vector<item>& items, player& user);
+void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window);
+void item_triggered(std::vector<item*>& items, player& user);
