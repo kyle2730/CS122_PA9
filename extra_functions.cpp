@@ -311,19 +311,19 @@ void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& windo
     int wall = 0;
 
     //loops through each current bullet, moves each tiny amount
-    for (size_t index = 0; index < items.size(); index++) {
+    for (auto i : items) {
 
-        items[index]->float_timer();
+        i->float_timer();
 
         //moves bullet 0.3 pixel lengths
-        items[index]->move();
+        i->move();
 
         //if item touches window border, direction flips
-        wall = hit_window(items[index]->get_sprite());
+        wall = hit_window(i->get_sprite());
         if ((wall % 2) || ((wall >> 1) % 2))
-            items[index]->flip_direction('H');
+            i->flip_direction('H');
         else if (((wall >> 2) % 2) || ((wall >> 3) % 2))
-            items[index]->flip_direction('V');
+            i->flip_direction('V');
 
     }
 
@@ -336,20 +336,19 @@ void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>
 
         //if item touches hitbox OR item's timer runs out, item disappears
         if (items[index]->is_collected() == false) {
+
             if (touching_hitbox(items[index]->get_sprite(), user.get_sprite())) {
                 items[index]->got_collected(user, bullets);
-
             }
 
             if (items[index]->get_float_time() == 0) {
-
                 delete items[index];
                 //erases bullet
                 items.erase(items.begin() + index);
-                //items[index].hit(player);
             }
         }
         else {
+
             if (items[index]->get_float_time() == 0) {
                 items[index]->reset_player(user);
                 delete items[index];
