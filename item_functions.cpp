@@ -79,7 +79,7 @@ void item::got_collected(player& user, std::vector<bullet>& bullets) {
     hit(user);
 }
 
-void item::set_sound(const std::string file)
+void item::sound_base(const std::string file)
 {
 
     if (buffer.loadFromFile(file))
@@ -94,6 +94,7 @@ item::~item() {}
 
 //hit functions
 void heart::hit(player& user) {
+    set_sound();
     user.add_lives(1);
 }
 void speed_boost::hit(player& user) {
@@ -125,7 +126,40 @@ void heart::reset_player(player& user) { }
 
 void heart::set_sound(const std::string file)
 {
-    set_sound("CS122_PA9/upgradeSound.wav");
+    sound_base("CS122_PA9/upgradeSound.wav");
+}
+void speed_boost::set_sound()
+{
+    sound_base("CS122_PA9/upgradeSound.wav");
+}
+void gun_upgrade::set_sound()
+{
+    sound_base("CS122_PA9/upgradeSound.wav");
+}
+void shield::set_sound()
+{
+    sound_base("CS122_PA9/upgradeSound.wav");
+}
+void bullet_spray::set_sound()
+{
+    sound_base("CS122_PA9/upgradeSound.wav");
+}
+void speed_drop::set_sound()
+{
+    sound_base("CS122_PA9/upgradeSound.wav");
+}
+void gun_downgrade::set_sound()
+{
+    sound_base("CS122_PA9/upgradeSound.wav");
+}
+void confusion::set_sound()
+{
+    sound_base("CS122_PA9/upgradeSound.wav");
+}
+void bomb::set_sound()
+{
+    sound_base("CS122_PA9/upgradeSound.wav");
+
 }
 
 void speed_boost::reset_player(player& user) {
