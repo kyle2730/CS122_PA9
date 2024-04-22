@@ -98,34 +98,38 @@ void heart::hit(player& user) {
     user.add_lives(1);
 }
 void speed_boost::hit(player& user) {
+    set_sound();
     user.speed_up();
 }
 void gun_upgrade::hit(player& user) {
+    set_sound();
     user.gun_up();
 }
 void shield::hit(player& user) {
+    set_sound();
     user.add_lives(1000);
 }
 void bullet_spray::hit(player& user, std::vector<bullet>& bullets) {
+    set_sound();
     user.spray(bullets);
 }
 void bullet_spray::hit(player& user){}
 void speed_drop::hit(player& user) {
+    set_sound();
     user.speed_down();
 }
 void gun_downgrade::hit(player& user) {
+    set_sound();
     user.gun_down();
 }
 void confusion::hit(player& user) {
+    set_sound();
     user.drop_accuracy();   
 }
 void bomb::hit(player& user) {}
 
 //reset functions
-void heart::reset_player(player& user) 
-{
-    
-}
+void heart::reset_player(player& user) { }
 
 void heart::set_sound()
 {
@@ -145,23 +149,23 @@ void shield::set_sound()
 }
 void bullet_spray::set_sound()
 {
-    sound_base("CS122_PA9/upgradeSound.wav");
+    sound_base("CS122_PA9/bulletSpraySound.wav");
 }
 void speed_drop::set_sound()
 {
-    sound_base("CS122_PA9/upgradeSound.wav");
+    sound_base("CS122_PA9/downgradeSound.wav");
 }
 void gun_downgrade::set_sound()
 {
-    sound_base("CS122_PA9/upgradeSound.wav");
+    sound_base("CS122_PA9/downgradeSound.wav");
 }
 void confusion::set_sound()
 {
-    sound_base("CS122_PA9/upgradeSound.wav");
+    sound_base("CS122_PA9/confusionSound.wav");
 }
 void bomb::set_sound()
 {
-    sound_base("CS122_PA9/upgradeSound.wav");
+    sound_base("CS122_PA9/bombSound.wav");
 
 }
 
@@ -215,6 +219,7 @@ void bomb::move() {
             }
             sprite.setTexture(*image, true);
             center_origin(sprite);
+            set_sound();
         }
     }
 }
