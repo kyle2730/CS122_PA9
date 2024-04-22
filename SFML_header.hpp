@@ -101,7 +101,6 @@ float magnitude(const sf::Vector2f& vec);
 //POSITION FUNCTIONS
 int hit_window(const sf::Sprite& shape, const float buffer = 0, const sf::FloatRect& boundary = sf::FloatRect(0, 0, WINDOW_W, WINDOW_H));
 bool touching_hitbox(const sf::Sprite& sprite1, const sf::Sprite& sprite2);
-bool touching_hitdisc(const sf::CircleShape& sprite1, const sf::CircleShape& sprite2);
 void center_origin(sf::Sprite& shape);
 
 //MOVE FUNCTIONS

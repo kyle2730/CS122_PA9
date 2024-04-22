@@ -103,14 +103,6 @@ bool touching_hitbox(const sf::Sprite& sprite1, const sf::Sprite& sprite2) {
 
 }
 
-bool touching_hitdisc(const sf::CircleShape& sprite1, const sf::CircleShape& sprite2) {
-    float distance = magnitude(sprite1.getPosition() - sprite2.getPosition());
-    float double_size = sprite1.getRadius() + sprite2.getRadius();
-    if (distance <= double_size) return true;
-    else return false;
-
-}
-
 void key_move(player& user, const sf::FloatRect& boundary) {
 
     float speed = 0.05 * user.get_speed();
@@ -189,8 +181,7 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
   
   
     //shape set position to mouse
-    static int reload_time = 0, bleed_time = -1;
-    static sf::Color og_color;
+    static int reload_time = 0;
     sf::Sprite mouse_pos;
     mouse_pos.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 
@@ -230,7 +221,6 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
     }
 
     if (reload_time != 0) reload_time--;
-    if (bleed_time != 0) bleed_time--;
 }
 
 int menu()

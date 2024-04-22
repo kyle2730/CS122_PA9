@@ -15,8 +15,13 @@ item::item(const std::string& file_name) {
 	if (!image->loadFromFile(file_name)) {
 		//error checking
 	}
-	sprite.setTexture(*image);
-    sprite.setPosition(sf::Vector2f(WINDOW_W / 2, WINDOW_H / 2));
+	sprite.setTexture(*image, true);
+    if (rand() % 2) {
+        sprite.setPosition(sf::Vector2f(rand() % WINDOW_W, (rand() % 2) * WINDOW_H));
+    }
+    else {
+        sprite.setPosition(sf::Vector2f((rand() % 2) * WINDOW_W, rand() % WINDOW_H));
+    }
     center_origin(sprite);
 
 	speed = 0;
@@ -25,7 +30,8 @@ item::item(const std::string& file_name) {
 }
 
 void item::got_collected(player& user) {
-    delete image;
+    /*delete image;
+    image = NULL;*/
     collected = true;
     float_time = 15000;
     hit(user);
@@ -56,7 +62,11 @@ void item::random_direction() {
     direction = temp;
 }
 void item::move() {
+    if (!is_collected())
     sprite.move(direction * speed);
+    else {
+        sprite.scale(sf::Vector2f(0.99, 0.99));
+    }
 }
 void item::draw_item(sf::RenderWindow& window) {
 	window.draw(sprite);
@@ -190,7 +200,7 @@ void confusion::hit(player& user) {
     //accuracy drops
 }
 void bomb::hit(player& user) {
-    //start timer for bomb
+
 }
 
 //reset functions
@@ -215,5 +225,34 @@ void confusion::reset_player(player& user) {
     //accuracy returns
 }
 void bomb::reset_player(player& user) {
-    //explode
+    float distance = magnitude(user.get_sprite().getPosition() - sprite.getPosition());
+    if (distance < 300) {
+        user.add_lives(-1);
+    }
+}
+
+void bomb::got_collected(player& user) {
+    collected = true;
+    float_time = 15000;
+    hit(user);
+}
+void bomb::move() {
+
+    float multiplier = -0.001;
+    if ((float_time % 2000) < 1000) multiplier = 0.001;
+
+    if (!is_collected())
+        sprite.move(direction * speed);
+    else {
+        sprite.scale(sf::Vector2f(1.0f + multiplier, 1.0f + multiplier));
+
+        if (float_time == 1500) {
+
+            if (!image->loadFromFile("CS122_PA9/explosion.png")) {
+                //error checking
+            }
+            sprite.setTexture(*image, true);
+            center_origin(sprite);
+        }
+    }
 }
