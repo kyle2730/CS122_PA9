@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SFML_header-2.hpp"
+#include "player_header.hpp"
 #include <SFML/Network.hpp>
 #include <iostream>
 #include <string>

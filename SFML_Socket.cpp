@@ -38,20 +38,20 @@ bool connection()
 
 // code to test:
 
-TcpSocket csocket;
-if (socket.connect("10.109.142.239", 50000) != socket.Done)
-{
-	cout << "Error connecting to IP" << endl;
-	return false;
-}
-
-char buffer[500];
-size_t recieved;
-if (socket.receive(buffer, sizeof(buffer), recieved) != socket.Done)
-{
-	cout << "Error recieving message" << endl;
-	return false;
-}
-
-cout << "Message from server: " << buffer << endl;
-cout << "inside the Connection() function" << endl;
+//TcpSocket csocket;
+//if (socket.connect("10.109.142.239", 50000) != socket.Done)
+//{
+//	cout << "Error connecting to IP" << endl;
+//	return false;
+//}
+//
+//char buffer[500];
+//size_t recieved;
+//if (socket.receive(buffer, sizeof(buffer), recieved) != socket.Done)
+//{
+//	cout << "Error recieving message" << endl;
+//	return false;
+//}
+//
+//cout << "Message from server: " << buffer << endl;
+//cout << "inside the Connection() function" << endl;
