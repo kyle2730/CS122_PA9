@@ -15,6 +15,18 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+class stat_bar {
+private:
+    sf::RectangleShape text_box;
+    sf::Text stats;
+    sf::Font* text_font;
+
+public:
+    stat_bar();
+    void draw_bar(sf::RenderWindow& window);
+    void update_stats(int lives, int speed, int fire_rate);
+    ~stat_bar();
+};
 
 class bullet {
 
@@ -30,7 +42,7 @@ public:
     bullet();
 
     //setters
-    void lock_on(const sf::Sprite& origin, const sf::Sprite& target);
+    void lock_on(const sf::Sprite& origin, const sf::Sprite& target, int accuracy);
     void set_position(const sf::Vector2f& position);
 
     //getter
@@ -42,19 +54,6 @@ public:
     ~bullet();
 };
 
-class stat_bar {
-private:
-    sf::RectangleShape text_box;
-    sf::Text stats;
-    sf::Font* text_font;
-
-public:
-    stat_bar();
-    void draw_bar(sf::RenderWindow& window);
-    void update_stats(int lives, int speed, int fire_rate);
-    ~stat_bar();
-};
-
 class player {
 private:
     sf::Sprite sprite;
@@ -64,6 +63,7 @@ private:
     int lives;
     int speed;
     int fire_rate;
+    int accuracy;
 
 public:
     //constructor
@@ -75,13 +75,17 @@ public:
     void speed_down();
     void gun_up();
     void gun_down();
+    void drop_accuracy();
+    void raise_accuracy();
 
     //getters
+    int get_accuracy();
     int get_fire_rate();
     int get_speed();
     sf::Sprite& get_sprite();
 
     void draw_player(sf::RenderWindow& window);
+    void spray(std::vector<bullet>& bullets);
 
     //destructor
     ~player();

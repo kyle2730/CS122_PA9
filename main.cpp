@@ -17,7 +17,8 @@ int main(void)
 
     
     player user; //creates player
-    player bad_guy; //creates opponenet
+    player bad_guy; //creates opponent
+    bad_guy.get_sprite().setPosition(sf::Vector2f(-200, -200));
 
     std::vector<bullet> bullets; //creates ammo
     std::vector<item*> items; //creates items
@@ -42,7 +43,7 @@ int main(void)
         key_move(user);
         new_item(items);
         fire_bullet(user, bad_guy, bullets, window);
-        item_triggered(items, user);
+        item_triggered(items, user, bullets);
 
 
         //------------------------------------------DRAW---------------------------------------------

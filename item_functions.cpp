@@ -29,9 +29,7 @@ item::item(const std::string& file_name) {
     collected = false;
 }
 
-void item::got_collected(player& user) {
-    /*delete image;
-    image = NULL;*/
+void item::got_collected(player& user, std::vector<bullet>& bullets) {
     collected = true;
     float_time = 15000;
     hit(user);
@@ -144,14 +142,14 @@ void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& windo
     if (reload_time != 0) reload_time--;
 
 }
-void item_triggered(std::vector<item*>& items, player& user) {
+void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets) {
 
     for (size_t index = 0; index < items.size(); index++) {
 
         //if item touches hitbox OR item's timer runs out, item disappears
         if (items[index]->is_collected() == false) {
             if (touching_hitbox(items[index]->get_sprite(), user.get_sprite())) {
-                items[index]->got_collected(user);
+                items[index]->got_collected(user, bullets);
                 
             }
 
@@ -187,9 +185,10 @@ void gun_upgrade::hit(player& user) {
 void shield::hit(player& user) {
     user.add_lives(1000);
 }
-void bullet_spray::hit(player& user) {
-    //fires bullets in all directions
+void bullet_spray::hit(player& user, std::vector<bullet>& bullets) {
+    user.spray(bullets);
 }
+void bullet_spray::hit(player& user){}
 void speed_drop::hit(player& user) {
     user.speed_down();
 }
@@ -197,11 +196,9 @@ void gun_downgrade::hit(player& user) {
     user.gun_down();
 }
 void confusion::hit(player& user) {
-    //accuracy drops
+    user.drop_accuracy();
 }
-void bomb::hit(player& user) {
-
-}
+void bomb::hit(player& user) {}
 
 //reset functions
 void heart::reset_player(player& user) {}
@@ -222,19 +219,19 @@ void gun_downgrade::reset_player(player& user) {
     user.gun_up();
 }
 void confusion::reset_player(player& user) {
-    //accuracy returns
+    user.raise_accuracy();
 }
 void bomb::reset_player(player& user) {
     float distance = magnitude(user.get_sprite().getPosition() - sprite.getPosition());
     if (distance < 300) {
-        user.add_lives(-1);
+        user.add_lives((int)distance / 100 - 3);
     }
 }
 
-void bomb::got_collected(player& user) {
+void bullet_spray::got_collected(player& user, std::vector<bullet>& bullets) {
     collected = true;
     float_time = 15000;
-    hit(user);
+    hit(user, bullets);
 }
 void bomb::move() {
 

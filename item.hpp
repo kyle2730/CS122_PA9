@@ -9,7 +9,7 @@ public:
 
 	//setters
 	void set_speed(const float new_speed);
-	virtual void got_collected(player& user);
+	virtual void got_collected(player& user, std::vector<bullet>& bullets);
 
 	//getters
 	int get_float_time();
@@ -66,8 +66,10 @@ public:
 class bullet_spray : public item {
 public:
 	bullet_spray(const std::string& file_name) : item(file_name) {}
+	void hit(player& user, std::vector<bullet>& bullets);
 	void hit(player& user);
 	void reset_player(player& user);
+	void got_collected(player& user, std::vector<bullet>& bullets);
 };
 class speed_drop : public item {
 public:
@@ -92,11 +94,10 @@ public:
 	bomb(const std::string& file_name) : item(file_name) {}
 	void hit(player& user);
 	void reset_player(player& user);
-	void got_collected(player& user);
 	void move();
 };
 
 void new_item(std::vector<item*>& items);
 item* random_item();
 void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window);
-void item_triggered(std::vector<item*>& items, player& user);
+void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets);
