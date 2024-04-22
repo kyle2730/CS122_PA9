@@ -2,6 +2,7 @@
 
 #include "player_header.hpp"
 #include "item_header.hpp"
+#include "andy_header.hpp";
 
 //VECTOR FUNCTIONS
 void normalize_vector(sf::Vector2f& unnormalized_vec);
@@ -20,7 +21,6 @@ void center_origin(sf::Sprite& shape);
 void key_move(player& user, const sf::FloatRect& boundary = sf::FloatRect(0, 0, WINDOW_W, WINDOW_H));
 void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed);
 void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, const sf::RenderWindow& window);
-bool andys_coming(struct andy_man& andy, player& user, std::vector<bullet>& bullets);
 
 int menu();
 bool player_death(player& user);
