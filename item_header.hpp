@@ -20,6 +20,7 @@ public:
 	void float_timer();
 	void random_direction();
 
+	virtual void set_sound() = 0;
 	virtual void move();
 	virtual void hit(player& user) = 0; //function when player hits item, different for each item
 	virtual void reset_player(player& user) = 0;
@@ -45,24 +46,28 @@ public:
 
 	void hit(player& user);
 	void reset_player(player& user);
+	void set_sound();
 };
 class speed_boost : public item {
 public:
 	speed_boost(const std::string& file_name) : item(file_name) {}
 	void hit(player& user);
 	void reset_player(player& user);
+	void set_sound();
 };
 class gun_upgrade : public item {
 public:
 	gun_upgrade(const std::string& file_name) : item(file_name) {}
 	void hit(player& user);
 	void reset_player(player& user);
+	void set_sound();
 };
 class shield : public item {
 public:
 	shield(const std::string& file_name) : item(file_name) {}
 	void hit(player& user);
 	void reset_player(player& user);
+	void set_sound();
 };
 class bullet_spray : public item {
 public:
@@ -71,24 +76,28 @@ public:
 	void hit(player& user);
 	void reset_player(player& user);
 	void got_collected(player& user, std::vector<bullet>& bullets);
+	void set_sound();
 };
 class speed_drop : public item {
 public:
 	speed_drop(const std::string& file_name) : item(file_name) {}
 	void hit(player& user);
 	void reset_player(player& user);
+	void set_sound();
 };
 class gun_downgrade : public item {
 public:
 	gun_downgrade(const std::string& file_name) : item(file_name) {}
 	void hit(player& user);
 	void reset_player(player& user);
+	void set_sound();
 };
 class confusion : public item {
 public:
 	confusion(const std::string& file_name) : item(file_name) {}
 	void hit(player& user);
 	void reset_player(player& user);
+	void set_sound();
 };
 class bomb : public item {
 public:
@@ -96,4 +105,5 @@ public:
 	void hit(player& user);
 	void reset_player(player& user);
 	void move();
+	void set_sound();
 };
