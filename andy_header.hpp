@@ -91,6 +91,7 @@ public:
             if ((position.x != x_pos) || (position.y != y_pos) || !bullets.empty()) {
                 //moves to andy destroys if statement
                 timer = 16000;
+                sound_base("CS122_PA9/andyKillSound.wav");
                 
             }
         }
@@ -105,10 +106,10 @@ public:
         else if (timer == 16500) body.setTexture(evil_face, true);
 
         //andy moves to player from t-17000 to t-18000
-        else if (timer < 18000) {}
+        else if (timer < 21000) {}
 
         //andy DESTROYS at t-18000
-        else if (timer == 18000) user.add_lives(-10000);
+        else if (timer == 21000) user.add_lives(-10000);
 
         return true;
     }
