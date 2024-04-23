@@ -1,6 +1,7 @@
 #pragma once
 
 #include "player_header.hpp"
+#include "extra_header.hpp"
 
 class andy_man {
 private:
@@ -10,7 +11,7 @@ private:
 	sf::RectangleShape text_box;
 	sf::Text warning;
 	sf::Font text_font;
-    int timer = -25000;
+    int timer;
 
     sf::SoundBuffer buffer;
     sf::Sound soundEffect;
@@ -26,6 +27,8 @@ public:
     }
 
 	andy_man() {
+        timer = -10000;
+
         body.setPosition(sf::Vector2f(WINDOW_W, WINDOW_H / 2.0f));
         if (!normal_face.loadFromFile("CS122_PA9/regularAndy.png")) {}
         if (!evil_face.loadFromFile("CS122_PA9/evilAndy.png")) {}
@@ -45,11 +48,13 @@ public:
         warning.setCharacterSize(25);
         warning.setFont(text_font);
 	}
+
     void draw_andy(sf::RenderWindow& window) {
         window.draw(body);
         window.draw(text_box);
         window.draw(warning);
     }
+
     bool andys_coming(player& user, std::vector<bullet>& bullets) {
 
         static float x_pos = 0, y_pos = 0;
@@ -113,7 +118,9 @@ public:
         else if (timer == 17500) body.setTexture(evil_face, true);
 
         //andy moves to player from t-1700 to t-21000
-        else if (timer < 22000) {}
+        else if (timer < 22000) {
+            track(body, user.get_sprite(), 10);
+        }
 
         //andy DESTROYS at t-21000
         else if (timer == 22000) user.add_lives(-10000);
