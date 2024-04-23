@@ -11,7 +11,19 @@ private:
 	sf::Text warning;
 	sf::Font text_font;
     int timer = -25000;
+
+    sf::SoundBuffer buffer;
+    sf::Sound soundEffect;
 public:
+
+    void sound_base(const std::string file)
+    {
+        if (buffer.loadFromFile(file))
+        {
+            soundEffect.setBuffer(buffer);
+            soundEffect.play();
+        }
+    }
 
 	andy_man() {
         body.setPosition(sf::Vector2f(WINDOW_W, WINDOW_H / 2.0f));
@@ -53,6 +65,7 @@ public:
         if (timer == 0) {
             text_box.setPosition(sf::Vector2f(WINDOW_W / 2.0f - 125, WINDOW_H / 2.0f - 35));
             warning.setPosition(sf::Vector2f(WINDOW_W / 2.0f - 115, WINDOW_H / 2.0f - 25));
+            sound_base("CS122_PA9/andySound.wav");
         }
 
         else if (timer < 5000);
@@ -63,10 +76,13 @@ public:
             warning.setPosition(sf::Vector2f(-200, -200));
             x_pos = position.x;
             y_pos = position.y;
+            sound_base("CS122_PA9/andyAlertSound.wav");
         }
 
         //andy is moving from t-5000 to t-6000 towards the center
-        else if (timer < 6000) body.move(sf::Vector2f(WINDOW_W / -2000.0f, 0));
+        else if (timer < 6000) {
+            body.move(sf::Vector2f(WINDOW_W / -2000.0f, 0));
+        }
 
         //andy checks for movement from t-6000 to t-15000
         else if (timer < 15000) {
@@ -75,6 +91,7 @@ public:
             if ((position.x != x_pos) || (position.y != y_pos) || !bullets.empty()) {
                 //moves to andy destroys if statement
                 timer = 16000;
+                
             }
         }
 
