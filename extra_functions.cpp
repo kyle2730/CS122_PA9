@@ -126,7 +126,7 @@ void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed) {
         sf::Vector2f unit_direction = normal_direction(hunter, prey);
 
         //moves tracker in the direction of prey at 0.01 times 1
-        hunter.move(unit_direction * 0.01f * speed);
+        hunter.move(unit_direction * speed);
 
     }
 }
