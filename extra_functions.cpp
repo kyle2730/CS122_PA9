@@ -141,7 +141,7 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
     sf::Sprite mouse_pos;
     mouse_pos.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && reload_time == 0) {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && reload_time == 0) {
         
         sf::SoundBuffer *bulletBuffer = new sf::SoundBuffer; 
         sf::Sound* bulletSound = new sf::Sound;
