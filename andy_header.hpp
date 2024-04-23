@@ -96,20 +96,27 @@ public:
             }
         }
 
+        else if (timer == 15000)
+        {
+            sound_base("CS122_PA9/andyRetreat2.wav");
+        }
         //andy retreats from t-15000 to t-16000
-        else if (timer < 16000) body.move(sf::Vector2f(WINDOW_W / -1000.0f, 0));
+        else if (timer < 17000)
+        {
+            body.move(sf::Vector2f(WINDOW_W / -2000.0f, 0));
+        }
 
         //resets andy at t-16000
-        else if (timer == 16000) timer = -25000;
+        else if (timer == 17000) timer = -25000;
 
         //andy turns evil if t is set to 17000
-        else if (timer == 16500) body.setTexture(evil_face, true);
+        else if (timer == 17500) body.setTexture(evil_face, true);
 
-        //andy moves to player from t-17000 to t-18000
-        else if (timer < 21000) {}
+        //andy moves to player from t-1700 to t-21000
+        else if (timer < 22000) {}
 
-        //andy DESTROYS at t-18000
-        else if (timer == 21000) user.add_lives(-10000);
+        //andy DESTROYS at t-21000
+        else if (timer == 22000) user.add_lives(-10000);
 
         return true;
     }
