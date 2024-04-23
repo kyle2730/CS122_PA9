@@ -51,7 +51,6 @@ stat_bar::stat_bar() {
     }
 
     text_box.setPosition(sf::Vector2f(5, 5));
-    text_box.setSize(sf::Vector2f(150, 100));
     text_box.setFillColor(sf::Color::White);
     text_box.setOutlineColor(sf::Color::Red);
     text_box.setOutlineThickness(2);
@@ -68,9 +67,11 @@ void stat_bar::draw_bar(sf::RenderWindow& window) {
 }
 void stat_bar::update_stats(int lives, int speed, int fire_rate) {
     std::string update = "Hearts: ";
+    text_box.setSize(sf::Vector2f(150, 100));
     if (lives / 1000) {
         update.append(int_to_str(lives % 1000));
         update.append("\n  SHIELD");
+        text_box.setSize(sf::Vector2f(150, 130));
     }
     else update.append(int_to_str(lives));
     update.append("\nSpeed: ");
