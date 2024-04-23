@@ -10,6 +10,7 @@ private:
 	sf::RectangleShape text_box;
 	sf::Text warning;
 	sf::Font text_font;
+    int timer = -25000;
 public:
 
 	andy_man() {
@@ -41,7 +42,6 @@ public:
     bool andys_coming(player& user, std::vector<bullet>& bullets) {
 
         static float x_pos = 0, y_pos = 0;
-        static int timer = -25000;
         timer++;
 
         //andy sequence doesn't start until after 50,000 iterations
