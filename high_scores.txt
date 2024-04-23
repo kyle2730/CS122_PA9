@@ -1,0 +1,12 @@
+   
+   HIGH SCORES
+   -----------
+   Name  Score
+
+1. ELI   18203
+
+2. KYLE  02381
+
+3. OMAR  02290
+
+4. JON   00022
