@@ -24,6 +24,11 @@ int run_app(void)
     if (!music.openFromFile("CS122_PA9/themeSong.wav")){
         //error checking
     }
+    sf::Texture bgd_img;
+    if (!bgd_img.loadFromFile("CS122_PA9/background.png"));
+    sf::Sprite background;
+    background.setTexture(bgd_img, true);
+    background.setPosition(sf::Vector2f(0, 0));
 
     player user; //creates player
     player bad_guy; //creates opponent
@@ -72,7 +77,7 @@ int run_app(void)
         //------------------------------------------DRAW---------------------------------------------
 
         //clears screen with black pixels
-        window.clear(sf::Color::White);
+        window.draw(background);
 
         for (size_t index = 0; index < items.size(); index++) {
             window.draw(items[index]->get_sprite());
