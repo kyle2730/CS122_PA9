@@ -347,7 +347,7 @@ void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>
 
             if (items[index]->get_float_time() == 0) {
                 delete items[index];
-                //erases bullet
+                items[index] = NULL;
                 items.erase(items.begin() + index);
             }
         }
@@ -356,9 +356,17 @@ void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>
             if (items[index]->get_float_time() == 0) {
                 items[index]->reset_player(user);
                 delete items[index];
+                items[index] = NULL;
                 items.erase(items.begin() + index);
             }
         }
     }
 
+}
+void delete_items(std::vector<item*>& items) {
+    while (!items.empty()) {
+        delete items[0];
+        items[0] = NULL;
+        items.erase(items.begin());
+    }
 }

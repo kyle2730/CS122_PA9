@@ -47,6 +47,7 @@ int run_app(void)
         {
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
+                delete_items(items);
                 return 1;
             }
         }
@@ -54,6 +55,7 @@ int run_app(void)
         if (player_death(user)) {
             ///////////RUN DEATH ANIMATION + ETC.
             window.close();
+            delete_items(items);
             return 1;
         }
 

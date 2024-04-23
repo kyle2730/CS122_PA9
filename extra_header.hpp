@@ -31,3 +31,4 @@ void new_item(std::vector<item*>& items, bool andy);
 item* random_item();
 void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window, bool andy);
 void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets, bool andy);
+void delete_items(std::vector<item*>& items);
