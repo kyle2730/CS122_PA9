@@ -94,7 +94,7 @@ player::player() {
     accuracy = 1;
 
     image = new sf::Texture;
-    image->loadFromFile("CS122_PA9/player.png");
+    image->loadFromFile("CS122_PA9/woody.png");
     sprite.setTexture(*image);
     center_origin(sprite);
     sprite.setPosition(sf::Vector2f(WINDOW_W / 2.0f, WINDOW_H / 2.0f));
