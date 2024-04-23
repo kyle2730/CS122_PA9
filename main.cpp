@@ -57,6 +57,7 @@ int run_app(void)
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
                 delete_items(items);
+                cout << "YOU DON'T WANNA PLAY WITH ANDY? >:(" << endl << endl;
                 return 1;
             }
         }
@@ -65,6 +66,7 @@ int run_app(void)
             ///////////RUN DEATH ANIMATION + ETC.
             window.close();
             delete_items(items);
+            cout << "YOU DIED" << endl << endl;
             return 1;
         }
 
@@ -72,6 +74,7 @@ int run_app(void)
             ///////////RUN DEATH ANIMATION + ETC.
             window.close();
             delete_items(items);
+            cout << "YOUR OPPONENT DIED" << endl << endl;
             return 1;
         }
 

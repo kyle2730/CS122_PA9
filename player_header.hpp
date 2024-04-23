@@ -83,7 +83,6 @@ public:
     void raise_accuracy();
 
     void sound_base(const std::string file);
-    void set_sound();
 
     //getters
     int get_accuracy();

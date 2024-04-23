@@ -226,24 +226,7 @@ int menu()
         case '4':
             system("cls");
             cout << "Credits:\n" << endl;
-            cout << "Creators: Eli Lawrence (lab section 1), Jon Beil (lab section 2), Kyle Ortega-Gammill (lab section 2), Omar Herrera-Rea (lab section 2)\n\n" << endl;
-            cout << "Sprite credits:\n" << endl;
-            cout << "Background- https://www.reddit.com/r/PixelArt/comments/ttszul/i_made_a_simple_pixel_art_version_of_andys/\n" << endl;
-            cout << "Buzz sprite- https://www.artstation.com/artwork/J9Ry2d\n" << endl;
-            cout << "Water gun- https://www.pngkey.com/maxpic/u2t4y3i1i1r5r5r5/\n" << endl;
-            cout << "Real gun- https://www.pngkey.com/maxpic/u2t4y3i1i1r5r5r5/\n" << endl;
-            cout << "Shield- https://havran.itch.io/wooden-shield\n" << endl;
-            cout << "Sun sprite- https://pngtree.com/so/sun\n" << endl;
-            cout << "Bomb sprite- https://opengameart.org/content/bomb-sprite-vector-image\n" << endl;
-            cout << "Beer sprite- https://gallery.yopriceville.com/Free-Clipart-Pictures/Drinks-PNG/Beer_Bottle_PNG_Clip_Art\n\n" << endl;
-            cout << "Sound credits:\n" << endl;
-            cout << "Any sound not listed was by us!\n" << endl;
-            cout << "Andy's arrival- https://www.youtube.com/watch?v=dinyOvO2EEo&ab_channel=GamingSoundFX\n" << endl;
-            cout << "Andy's coming- https://www.youtube.com/watch?v=l7ttIbfXTYU&ab_channel=ixiTimmyixi\n" << endl;
-            cout << "Andy's retreat- https://www.youtube.com/watch?v=oAmDyjtuzjo&ab_channel=YTSFX\n" << endl;
-            cout << "Andy kill- https://www.youtube.com/watch?v=mQZDonQ1PVk&ab_channel=AdOks\n" << endl;
-
-
+            cout << "Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl;
             system("PAUSE");
             break;
 
@@ -257,17 +240,7 @@ int menu()
     }
 }
 bool player_death(player& user) {
-    std::string person;
-    if (user.get_name() == "Woody") {
-        person = "YOU";
-    }
-    else person = "YOUR OPPONENT";
-
-    if (user.get_lives() <= 0) {
-        cout << person << " DIED" << endl << endl;
-        return true;
-    }
-    return false;
+    return (user.get_lives() <= 0);
 }
 
 //converts integer to string
