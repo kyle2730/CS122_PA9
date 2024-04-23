@@ -6,7 +6,9 @@
 int run_app(void);
 
 int main(void) {
-    while (run_app());
+    while (run_app()) {
+        system("pause");
+    }
     return 0;
 }
 
@@ -32,8 +34,8 @@ int run_app(void)
     background.setTexture(bgd_img, true);
     background.setPosition(sf::Vector2f(0, 0));
 
-    player user; //creates player
-    player bad_guy; //creates opponent
+    player user("Woody"); //creates player
+    player bad_guy("Buzz"); //creates opponent
     bad_guy.get_sprite().setPosition(sf::Vector2f(-200, -200));
     andy_man andy;
 
@@ -60,6 +62,13 @@ int run_app(void)
         }
 
         if (player_death(user)) {
+            ///////////RUN DEATH ANIMATION + ETC.
+            window.close();
+            delete_items(items);
+            return 1;
+        }
+
+        if (player_death(bad_guy)) {
             ///////////RUN DEATH ANIMATION + ETC.
             window.close();
             delete_items(items);
@@ -104,7 +113,6 @@ int run_app(void)
 2. Make win/loss menu
 3. Andy's kill / player death animation
 4. Recording scores
-5. Updating andy's position
 
 
 */

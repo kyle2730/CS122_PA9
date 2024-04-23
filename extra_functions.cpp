@@ -240,7 +240,17 @@ int menu()
     }
 }
 bool player_death(player& user) {
-    return (user.get_lives() <= 0);
+    std::string person;
+    if (user.get_name() == "Woody") {
+        person = "YOU";
+    }
+    else person = "YOUR OPPONENT";
+
+    if (user.get_lives() <= 0) {
+        cout << person << " DIED" << endl << endl;
+        return true;
+    }
+    return false;
 }
 
 //converts integer to string

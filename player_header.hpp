@@ -59,6 +59,7 @@ private:
     sf::Sprite sprite;
     sf::Texture* image;
     stat_bar data;
+    std::string name;
 
     int lives;
     int speed;
@@ -70,7 +71,7 @@ private:
 
 public:
     //constructor
-    player();
+    player(const std::string& new_name);
 
     //setters
     void add_lives(int extra);
@@ -90,6 +91,7 @@ public:
     int get_speed();
     int get_lives();
     sf::Sprite& get_sprite();
+    std::string get_name();
 
     void draw_player(sf::RenderWindow& window);
     void spray(std::vector<bullet>& bullets);

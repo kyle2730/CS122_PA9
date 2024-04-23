@@ -88,12 +88,13 @@ stat_bar::~stat_bar() {
 
 //----------------------PLAYER----------------------------------
 
-player::player() {
+player::player(const std::string& new_name) {
     lives = 3;
     speed = 3;
     fire_rate = 3;
     accuracy = 1;
 
+    name = new_name;
     image = new sf::Texture;
     image->loadFromFile("CS122_PA9/woody.png");
     sprite.setTexture(*image);
@@ -154,6 +155,9 @@ int player::get_lives() {
 }
 sf::Sprite& player::get_sprite() {
     return sprite;
+}
+std::string player::get_name() {
+    return name;
 }
 
 void player::draw_player(sf::RenderWindow& window) {
