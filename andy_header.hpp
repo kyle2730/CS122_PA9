@@ -29,10 +29,11 @@ public:
 	andy_man() {
         timer = -10000;
 
-        body.setPosition(sf::Vector2f(WINDOW_W, WINDOW_H / 2.0f));
+        body.setPosition(sf::Vector2f(WINDOW_W + 300, WINDOW_H / 2.0f + 300));
         if (!normal_face.loadFromFile("CS122_PA9/regularAndy.png")) {}
         if (!evil_face.loadFromFile("CS122_PA9/evilAndy.png")) {}
         body.setTexture(normal_face, true);
+        center_origin(body);
 
         if (!text_font.loadFromFile("CS122_PA9/Pixellari.ttf")) {}
 
