@@ -90,7 +90,7 @@ public:
             //if player moved or fired a bullet
             if ((position.x != x_pos) || (position.y != y_pos) || !bullets.empty()) {
                 //moves to andy destroys if statement
-                timer = 16000;
+                timer = 17000;
                 sound_base("CS122_PA9/andyKillSound.wav");
                 
             }
