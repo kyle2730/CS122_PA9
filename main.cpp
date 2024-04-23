@@ -23,13 +23,11 @@ int run_app(void)
     srand(time(NULL));
     sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Toy Story Rivalry");
     sf::Music music;
-    if (!music.openFromFile("CS122_PA9/themeSong.wav")){
-        //error checking
-    }
+    if (!music.openFromFile("CS122_PA9/themeSong.wav")) return 1;
 
     //creates backgound image
     sf::Texture bgd_img;
-    if (!bgd_img.loadFromFile("CS122_PA9/background.png"));
+    if (!bgd_img.loadFromFile("CS122_PA9/background.png")) return 1;
     sf::Sprite background;
     background.setTexture(bgd_img, true);
     background.setPosition(sf::Vector2f(0, 0));

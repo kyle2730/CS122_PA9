@@ -1,7 +1,6 @@
 #include "player_header.hpp"
 #include "extra_header.hpp"
 #include "item_header.hpp";
-//#include "andy_header.hpp";
 
 //vector math functions
 void normalize_vector(sf::Vector2f& unnormalized_vec) {

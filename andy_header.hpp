@@ -1,10 +1,13 @@
 #pragma once
 
 #include "player_header.hpp"
+#include "item_header.hpp"
 #include "extra_header.hpp"
 
 class andy_man {
+
 private:
+
 	sf::Sprite body;
 	sf::Texture normal_face;
 	sf::Texture evil_face;
@@ -15,6 +18,7 @@ private:
 
     sf::SoundBuffer buffer;
     sf::Sound soundEffect;
+
 public:
 
     void sound_base(const std::string file)

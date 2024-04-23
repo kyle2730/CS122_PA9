@@ -2,7 +2,7 @@
 #include "extra_header.hpp"
 #include "item_header.hpp";
 
-//ITEM FUNCTIONS
+//BASE CLASS ITEM FUNCTIONS
 
 //constructors
 item::item() {
@@ -78,7 +78,7 @@ void item::got_collected(player& user, std::vector<bullet>& bullets) {
     float_time = 15000;
     hit(user);
 }
-
+//sets sound of item to specified file
 void item::sound_base(const std::string file)
 {
 
@@ -91,6 +91,8 @@ void item::sound_base(const std::string file)
 
 //destructor
 item::~item() {}
+
+//DERIVED CLASS FUNCTIONS
 
 //hit functions
 void heart::hit(player& user) {
@@ -128,9 +130,7 @@ void confusion::hit(player& user) {
 }
 void bomb::hit(player& user) {}
 
-//reset functions
-void heart::reset_player(player& user) { }
-
+//set sound functions
 void heart::set_sound()
 {
     sound_base("CS122_PA9/upgradeSound.wav");
@@ -169,6 +169,8 @@ void bomb::set_sound()
 
 }
 
+//reset functions
+void heart::reset_player(player& user) {}
 void speed_boost::reset_player(player& user) {
     user.speed_down();
 }
@@ -194,7 +196,6 @@ void bomb::reset_player(player& user) {
         user.add_lives((int)distance / 100 - 3);
     }
 }
-
 
 //overridden functions for special items
 void shield::got_collected(player& user, std::vector<bullet>& bullets) {
