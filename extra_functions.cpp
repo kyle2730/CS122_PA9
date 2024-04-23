@@ -187,13 +187,14 @@ int menu()
     while (selection != '1' && selection != '5')
     {
         system("cls");
-        cout << "WELCOME TO [INSERT NAME OF GAME]!!" << endl;
-        cout << "Please choose from the following options:\n" << endl;
-        cout << "1. Play game" << endl;
-        cout << "2. How to play" << endl;
-        cout << "3. Items" << endl;
-        cout << "4. Credits" << endl;
-        cout << "5. Exit" << endl;
+        cout << endl << " Welcome to Toy Story Rivalry!!" << endl << endl
+            << " Please choose from the following options:" << endl
+            << "  1. Play game" << endl
+            << "  2. How to play" << endl
+            << "  3. Items" << endl
+            << "  4. Credits" << endl
+            << "  5. Exit" << endl;
+
         selection = _getch();
 
         switch (selection)
@@ -204,35 +205,51 @@ int menu()
             break;
         case '2':
             system("cls");
-            cout << "How to play:\n" << endl;
-            cout << "Movement: Use WASD to move!" << endl;
-            cout << "Shooting: Use your mouse or trackpad to aim and press the spacebar to shoot!" << endl;
-            cout << "Items: there are items in the game that will affect your gameplay, see the items section for a description of all the items! \n" << endl;
-            system("PAUSE");
+            cout << " HOW TO PLAY" << endl
+                << " ----------------------------------------------------------------------------------------------------" << endl
+                << " Movement: Use WASD to move!" << endl
+                << " Shooting: Use your mouse or trackpad to aim and press the spacebar to shoot!" << endl
+                << " Items: there are items in the game that will affect your gameplay" << endl
+                << " see the items section for a description of all the items!" << endl << endl
+                << " ";
+
+            system("pause");
             break;
         case '3':
             system("cls");
-            cout << "Items:\n" << endl;
-            cout << "Items are icon sprites that float across the screen and are collected by a player. Each item has a different effect on the player and/or the game.\n\n" << endl;
-            cout << "Power-Ups:\n" << endl;
-            cout << "Speed Boost - Increases player's speed\nGun Upgrade - Increasees player's fire rate\nShield - Protects player\nBullet Spray - Launches bullets in every direction\n\n" << endl;
-            cout << "Power-Downs:\n" << endl;
-            cout << "Speed Drop - Decreases player's speed\nGun Downgrade - Decreases player's fire rate\nConfusion - Decreases player's fire accuracy\n\n" << endl;
-            cout << "Miscellaneous:\n\n" << endl;
-            cout << "Bomb - Bomb appears randomly on map and explodes\nMystery - Random item" << endl;
-            system("PAUSE");
+            cout << " ITEMS" << endl
+                << " ----------------------------------------------------------------------------------------------------" << endl
+                << " Items are icon sprites that float across the screen and are collected by a player." << endl
+                << " Each item has a different effect on the player and/or the game." << endl << endl << endl
+                << " Power-Ups:" << endl << endl
+                << " Speed Boost - Increases player's speed" << endl
+                << " Gun Upgrade - Increasees player's fire rate" << endl
+                << " Shield - Protects player" << endl
+                << " Bullet Spray - Launches bullets in every direction" << endl << endl << endl
+                << " Power-Downs:" << endl << endl
+                << " Speed Drop - Decreases player's speed" << endl
+                << " Gun Downgrade - Decreases player's fire rate" << endl
+                << " Confusion - Decreases player's fire accuracy" << endl << endl << endl
+                << " Miscellaneous:" << endl << endl
+                << " Bomb - Bomb appears randomly on map and explodes" << endl
+                << " Mystery - Random item" << endl << endl
+                << " ";
+
+            system("pause");
             break;
 
         case '4':
             system("cls");
-            cout << "Credits:\n" << endl;
-            cout << "Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl;
-            system("PAUSE");
+            cout << " CREDITS" << endl
+                << " ----------------------------------------------------------------------------------------------------" << endl
+                << " Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl << endl
+                << " ";
+            system("pause");
             break;
 
         case '5':
             system("cls");
-            cout << "Thanks for playing!" << endl;
+            cout << " Thanks for playing!" << endl;
             return false;
             break;
         }

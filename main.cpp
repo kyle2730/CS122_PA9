@@ -21,7 +21,7 @@ int run_app(void)
     float circ_radius = 10;
     bool andy_is_here = false;
     srand(time(NULL));
-    sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Game Name");
+    sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Toy Story Rivalry");
     sf::Music music;
     if (!music.openFromFile("CS122_PA9/themeSong.wav")){
         //error checking
@@ -113,8 +113,6 @@ int run_app(void)
 /*
 
 1. Progam AI opponent
-2. Make win/loss menu
-3. Andy's kill / player death animation
 4. Recording scores
 
 
