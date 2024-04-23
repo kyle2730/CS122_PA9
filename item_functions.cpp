@@ -197,6 +197,11 @@ void bomb::reset_player(player& user) {
 
 
 //overridden functions for special items
+void shield::got_collected(player& user, std::vector<bullet>& bullets) {
+    collected = true;
+    float_time = 10000;
+    hit(user);
+}
 void bullet_spray::got_collected(player& user, std::vector<bullet>& bullets) {
     collected = true;
     float_time = 15000;

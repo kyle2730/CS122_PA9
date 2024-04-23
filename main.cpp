@@ -24,6 +24,8 @@ int run_app(void)
     if (!music.openFromFile("CS122_PA9/themeSong.wav")){
         //error checking
     }
+
+    //creates backgound image
     sf::Texture bgd_img;
     if (!bgd_img.loadFromFile("CS122_PA9/background.png"));
     sf::Sprite background;

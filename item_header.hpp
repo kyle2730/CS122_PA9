@@ -71,8 +71,7 @@ public:
 	void hit(player& user);
 	void reset_player(player& user);
 	void set_sound();
-
-
+	void got_collected(player& user, std::vector<bullet>& bullets);
 };
 class bullet_spray : public item {
 public:
