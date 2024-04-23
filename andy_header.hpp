@@ -27,7 +27,6 @@ public:
 
 	andy_man() {
         body.setPosition(sf::Vector2f(WINDOW_W, WINDOW_H / 2.0f));
-
         if (!normal_face.loadFromFile("CS122_PA9/regularAndy.png")) {}
         if (!evil_face.loadFromFile("CS122_PA9/evilAndy.png")) {}
         body.setTexture(normal_face, true);
@@ -72,6 +71,7 @@ public:
 
         //removes warning display at t-5000
         else if (timer == 5000) {
+            body.setPosition(sf::Vector2f(WINDOW_W, WINDOW_H / 2));
             text_box.setPosition(sf::Vector2f(-200, -200));
             warning.setPosition(sf::Vector2f(-200, -200));
             x_pos = position.x;

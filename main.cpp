@@ -90,3 +90,14 @@ int run_app(void)
     
 }
 
+
+/*
+
+1. Progam AI opponent
+2. Make win/loss menu
+3. Andy's kill / player death animation
+4. Recording scores
+5. Updating andy's position
+
+
+*/
