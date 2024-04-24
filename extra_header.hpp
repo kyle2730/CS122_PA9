@@ -22,6 +22,7 @@ void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed);
 void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, const sf::RenderWindow& window);
 
 int menu();
+int testCases();
 bool player_death(player& user);
 
 std::string int_to_str(int num);
