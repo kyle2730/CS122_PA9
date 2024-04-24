@@ -15,17 +15,13 @@ int main(void) {
         case 1: break;
         }
         run_app();
-        system("pause");
     }
 
     return 0;
 }
 
-int run_app(void)
+int run_app(void) 
 {
-
-    //--------------------------INITIALIZATION-----------------------------------
-
 
     float circ_radius = 10;
     bool andy_is_here = false;
@@ -43,11 +39,8 @@ int run_app(void)
 
     player user("Woody"); //creates player
     player bad_guy("Buzz"); //creates opponent
-    bad_guy.get_sprite().setPosition(sf::Vector2f(-200, -200));
-    andy_man andy;
+    andy_man Andy; //creates Andy
 
-
-    std::vector<bullet> bullets; //creates ammo
     std::vector<item*> items; //creates items
 
     music.play();
@@ -55,227 +48,63 @@ int run_app(void)
     //program loop
     while (window.isOpen()) {
 
-        //-----------------------------------------UPDATE--------------------------------
-
-        //event loop
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (player_death(user)) {
-                ///////////RUN DEATH ANIMATION + ETC.
+            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
-                delete_items(items);
-                cout << "YOU DIED" << endl << endl;
-                send_message("I died (sent from server)");
+                delete_vector(items);
+                cout << "YOU DON'T WANNA PLAY WITH ANDY? >:(" << endl << endl;
+                system("pause");
                 return 1;
             }
-
-            if (player_death(bad_guy)) {
-                ///////////RUN DEATH ANIMATION + ETC.
-                window.close();
-                delete_items(items);
-                cout << "YOUR OPPONENT DIED" << endl << endl;
-                send_message("I killed Buzz! (sent from server)");
-                return 1;
-            }
-
-            //movement
-            //key_move(stop_sign, speed, "aswd");
-            if (!andy.andys_coming(user, bullets)) {
-                item_float(items, user, window);
-                new_item(items);
-                item_triggered(items, user, bullets);
-            }
-
-            key_move(user);
-
-            fire_bullet(user, bad_guy, bullets, window);
-
-
-
-            //------------------------------------------DRAW---------------------------------------------
-
-            //clears screen with black pixels
-            window.draw(background);
-
-            for (size_t index = 0; index < items.size(); index++) {
-                window.draw(items[index]->get_sprite());
-            }
-            for (size_t index = 0; index < bullets.size(); index++) {
-                window.draw(bullets[index].get_sprite());
-            }
-
-            window.draw(bad_guy.get_sprite());
-            user.draw_player(window);
-            andy.draw_andy(window);
-            window.display();
-
         }
+
+        //if user dies
+        if (player_death(user) && !andy_is_here) {
+            window.close();
+            delete_vector(items);
+            cout << "YOU DIED" << endl << endl;
+            send_message("I died (sent from server)");
+            return 1;
+        }
+
+        //if opponent dies
+        if (player_death(bad_guy)) {
+            window.close();
+            delete_vector(items);
+            cout << "YOUR OPPONENT DIED" << endl << endl;
+            send_message("I killed Buzz! (sent from server)");
+            return 1;
+        }
+        
+        andy_is_here = !Andy.andys_coming(user);
+        //if andy mechanic is running
+        if (andy_is_here) {
+            item_float(items, user, window);
+            new_item(items);
+            item_triggered(items, user);
+            auto_move(bad_guy, user);
+            fire_bullet(bad_guy, user, window, "auto");
+        }
+        
+        //moves user with ASWD
+        key_move(user);
+        //fires bullet with mouse
+        fire_bullet(user, bad_guy, window);
+
+        //draws background
+        window.draw(background);
+
+        //draw items
+        for (size_t index = 0; index < items.size(); index++) {
+            window.draw(items[index]->get_sprite());
+        }
+
+        bad_guy.draw_player(window);
+        user.draw_player(window);
+        Andy.draw_andy(window);
+        window.display();
+
     }
 }
-
-
-/*
-
-4. Recording scores
-
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-//#include "player_header.hpp"
-//#include "extra_header.hpp"
-//#include "item_header.hpp";
-//#include "andy_header.hpp";
-//
-//
-//int run_app(void);
-//
-//int main(void) {
-//    while (run_app()) {
-//        system("pause");
-//    }
-//
-//    return 0;
-//}
-//
-//int run_app(void)
-//{
-//
-//    if (!menu()) return 0;
-//
-//    //--------------------------INITIALIZATION-----------------------------------
-//
-//    //Sockets setup:
-//    sf::IpAddress ip = sf::IpAddress::getLocalAddress();
-//    sf::TcpSocket socket;
-//    char connectionType, mode;
-//
-//    cout << "Enter (s) for Server or (c) for Client: " << endl;
-//    cin >> connectionType;
-//
-//    if (connectionType == 's') {
-//        sf::TcpListener listener;
-//        listener.listen(2000);
-//        listener.accept(socket);
-//
-//
-//        float circ_radius = 10;
-//        bool andy_is_here = false;
-//        srand(time(NULL));
-//        sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Toy Story Rivalry");
-//        sf::Music music;
-//        if (!music.openFromFile("CS122_PA9/themeSong.wav")) return 1;
-//
-//        //creates backgound image
-//        sf::Texture bgd_img;
-//        if (!bgd_img.loadFromFile("CS122_PA9/background.png")) return 1;
-//        sf::Sprite background;
-//        background.setTexture(bgd_img, true);
-//        background.setPosition(sf::Vector2f(0, 0));
-//
-//        player user("Woody"); //creates player
-//        player bad_guy("Buzz"); //creates opponent
-//        bad_guy.get_sprite().setPosition(sf::Vector2f(-200, -200));
-//        andy_man andy;
-//
-//
-//        std::vector<bullet> bullets; //creates ammo
-//        std::vector<item*> items; //creates items
-//
-//        music.play();
-//
-//        //program loop
-//        while (window.isOpen()) {
-//
-//            //-----------------------------------------UPDATE--------------------------------
-//
-//            //event loop
-//            sf::Event event;
-//            while (window.pollEvent(event))
-//            {
-//                if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-//                    window.close();
-//                    delete_items(items);
-//                    cout << "YOU DON'T WANNA PLAY WITH ANDY? >:(" << endl << endl;
-//                    return 1;
-//                }
-//            }
-//
-//            if (player_death(user)) {
-//                ///////////RUN DEATH ANIMATION + ETC.
-//                window.close();
-//                delete_items(items);
-//                cout << "YOU DIED" << endl << endl;
-//                socket.send("You died Faggot", 16);
-//                return 1;
-//            }
-//
-//            if (player_death(bad_guy)) {
-//                ///////////RUN DEATH ANIMATION + ETC.
-//                window.close();
-//                delete_items(items);
-//                cout << "YOUR OPPONENT DIED" << endl << endl;
-//                socket.send("You killed him!", 16);
-//                return 1;
-//            }
-//
-//            //movement
-//            //key_move(stop_sign, speed, "aswd");
-//            andy_is_here = andy.andys_coming(user, bullets);
-//            item_float(items, user, window, andy_is_here);
-//            key_move(user);
-//            new_item(items, andy_is_here);
-//            fire_bullet(user, bad_guy, bullets, window);
-//            item_triggered(items, user, bullets, andy_is_here);
-//
-//
-//            //------------------------------------------DRAW---------------------------------------------
-//
-//            //clears screen with black pixels
-//            window.draw(background);
-//
-//            for (size_t index = 0; index < items.size(); index++) {
-//                window.draw(items[index]->get_sprite());
-//            }
-//            for (size_t index = 0; index < bullets.size(); index++) {
-//                window.draw(bullets[index].get_sprite());
-//            }
-//
-//            window.draw(bad_guy.get_sprite());
-//            user.draw_player(window);
-//            andy.draw_andy(window);
-//            window.display();
-//
-//        }
-//    }
-//    else {
-//        std::size_t recieved;
-//        char buffer[1000] = "";
-//        socket.connect(ip, 2000);
-//        std::string tempMessage;
-//        while (1) {
-//            socket.receive(buffer, sizeof(buffer), recieved);
-//            cout << buffer << endl;
-//        }
-//    }
-//}
-//
-//
-//
-//
-//1. Progam AI opponent
-//4. Recording scores
-//
-//
-//*/

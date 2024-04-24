@@ -60,7 +60,7 @@ public:
         window.draw(warning);
     }
 
-    bool andys_coming(player& user, std::vector<bullet>& bullets) {
+    bool andys_coming(player& user) {
 
         static float x_pos = 0, y_pos = 0;
 
@@ -98,7 +98,7 @@ public:
         else if (time(NULL) < start_time + 15) {
 
             //if player moved or fired a bullet
-            if ((position.x != x_pos) || (position.y != y_pos) || !bullets.empty()) {
+            if ((position.x != x_pos) || (position.y != y_pos) || user.isGunLoaded()) {
                 //moves to andy destroys if statement
                 sound_base("CS122_PA9/andyKillSound.wav");
                 start_time = time(NULL) - 16;

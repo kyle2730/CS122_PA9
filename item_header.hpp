@@ -10,7 +10,7 @@ public:
 
 	//setters
 	void set_speed(const float new_speed);
-	virtual void got_collected(player& user, std::vector<bullet>& bullets);
+	virtual void got_collected(player& user);
 
 	//getters
 	int get_float_time();
@@ -35,7 +35,7 @@ protected:
 
 	sf::Sprite sprite;
 	sf::Vector2f direction;
-	sf::Texture* image;
+	sf::Texture image;
 	float speed;
 	int float_time;
 	bool collected;
@@ -71,15 +71,14 @@ public:
 	void hit(player& user);
 	void reset_player(player& user);
 	void set_sound();
-	void got_collected(player& user, std::vector<bullet>& bullets);
+	void got_collected(player& user);
 };
 class bullet_spray : public item {
 public:
 	bullet_spray(const std::string& file_name) : item(file_name) {}
-	void hit(player& user, std::vector<bullet>& bullets);
 	void hit(player& user);
 	void reset_player(player& user);
-	void got_collected(player& user, std::vector<bullet>& bullets);
+	void got_collected(player& user);
 	void set_sound();
 
 };

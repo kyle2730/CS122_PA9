@@ -9,15 +9,13 @@ item::item() {
     collected = 0;
     float_time = 0;
     speed = 0;
-    image = NULL;
 }
 item::item(const std::string& file_name) {
-    image = new sf::Texture;
 
-	if (!image->loadFromFile(file_name)) {
+	if (!image.loadFromFile(file_name)) {
 		//error checking
 	}
-	sprite.setTexture(*image, true);
+	sprite.setTexture(image, true);
     if (rand() % 2) {
         sprite.setPosition(sf::Vector2f(rand() % WINDOW_W, (rand() % 2) * WINDOW_H));
     }
@@ -73,7 +71,7 @@ void item::draw_item(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
 //runs hit function and adjusts variables
-void item::got_collected(player& user, std::vector<bullet>& bullets) {
+void item::got_collected(player& user) {
     collected = true;
     float_time = 15000;
     hit(user);
@@ -111,11 +109,10 @@ void shield::hit(player& user) {
     set_sound();
     user.add_lives(1000);
 }
-void bullet_spray::hit(player& user, std::vector<bullet>& bullets) {
+void bullet_spray::hit(player& user) {
     set_sound();
-    user.spray(bullets);
+    user.spray();
 }
-void bullet_spray::hit(player& user){}
 void speed_drop::hit(player& user) {
     set_sound();
     user.speed_down();
@@ -198,15 +195,15 @@ void bomb::reset_player(player& user) {
 }
 
 //overridden functions for special items
-void shield::got_collected(player& user, std::vector<bullet>& bullets) {
+void shield::got_collected(player& user) {
     collected = true;
     float_time = 10000;
     hit(user);
 }
-void bullet_spray::got_collected(player& user, std::vector<bullet>& bullets) {
+void bullet_spray::got_collected(player& user) {
     collected = true;
     float_time = 15000;
-    hit(user, bullets);
+    hit(user);
 }
 void bomb::move() {
 
@@ -220,10 +217,10 @@ void bomb::move() {
 
         if (float_time == 1500) {
 
-            if (!image->loadFromFile("CS122_PA9/explosion.png")) {
+            if (!image.loadFromFile("CS122_PA9/explosion.png")) {
                 //error checking
             }
-            sprite.setTexture(*image, true);
+            sprite.setTexture(image, true);
             center_origin(sprite);
             set_sound();
         }

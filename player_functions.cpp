@@ -1,24 +1,20 @@
 #include "player_header.hpp"
 #include "extra_header.hpp"
-#include "item_header.hpp";
+#include "item_header.hpp"
 
 //-----------------BULLETS--------------------------
 
 //constructor
 bullet::bullet() {
-    image = new sf::Texture;
-    image->loadFromFile("CS122_PA9/bullet.png");
-    sprite.setTexture(*image);
     direction = sf::Vector2f(0, 0);
     center_origin(sprite);
-
-    sound = NULL;
-    soundFile = NULL;
+    fire_time = time(NULL);
+    active = true;
 }
 //points bullet at target
 void bullet::lock_on(const sf::Sprite& origin, const sf::Sprite& target, int accuracy) {
     sf::Sprite temp(origin);
-    if (accuracy < 1) temp.setPosition(sf::Vector2f(rand() % WINDOW_W, rand() % WINDOW_H));
+    if (accuracy < 1) temp.setPosition(sf::Vector2f((float)(rand() % WINDOW_W), (float)(rand() % WINDOW_H)));
     direction = normal_direction(temp, target);
     sprite.setRotation(vector_to_degrees(direction) + 180);
 }
@@ -30,10 +26,42 @@ void bullet::set_position(const sf::Vector2f& position) {
 sf::Sprite& bullet::get_sprite() {
     return sprite;
 }
+time_t bullet::get_fire_time() {
+    return fire_time;
+}
+bool bullet::is_active() {
+    return active;
+}
+
 //moves bullet in direction of target
 void bullet::move(const float speed) {
     sprite.move(direction * speed);
 }
+
+void bullet::hit() {
+    sprite.scale(sf::Vector2f(0, 0));
+    active = false;
+}
+
+bool bullet::past_sound_time() {
+    if (time(NULL) > fire_time + 2)
+        return true;
+    else return false;
+}
+
+void bullet::set_sound() {
+    if (soundFile.loadFromFile("CS122_PA9/bulletSound.wav"))
+    {
+        sound.setBuffer(soundFile);
+        sound.play();
+    }
+}
+
+void bullet::set_image() {
+    image.loadFromFile("CS122_PA9/bullet.png");
+    sprite.setTexture(image);
+}
+
 //destructor
 bullet::~bullet() {
 
@@ -45,8 +73,7 @@ bullet::~bullet() {
 //constructor
 stat_bar::stat_bar() {
 
-    text_font = new sf::Font();
-    if (!text_font->loadFromFile("CS122_PA9/Pixellari.ttf")) {
+    if (!text_font.loadFromFile("CS122_PA9/Pixellari.ttf")) {
         //error
     }
 
@@ -59,7 +86,7 @@ stat_bar::stat_bar() {
     stats.setFillColor(sf::Color::Black);
     stats.setPosition(sf::Vector2f(10, 10));
     stats.setCharacterSize(25);
-    stats.setFont(*text_font);
+    stats.setFont(text_font);
 }
 void stat_bar::draw_bar(sf::RenderWindow& window) {
     window.draw(text_box);
@@ -81,30 +108,36 @@ void stat_bar::update_stats(int lives, int speed, int fire_rate) {
     update.append(int_to_str(fire_rate));
     stats.setString(update);
 }
-stat_bar::~stat_bar() {
-    delete text_font;
-}
+stat_bar::~stat_bar() {}
 
 
 //----------------------PLAYER----------------------------------
 
 player::player(const std::string& new_name) {
-    lives = 3;
+    
     speed = 3;
-    fire_rate = 3;
     accuracy = 1;
+    fire_timer = 0;
 
     name = new_name;
-    image = new sf::Texture;
     if (new_name == "Woody") {
-        image->loadFromFile("CS122_PA9/woody.png");
+        image.loadFromFile("CS122_PA9/woody.png");
+        sprite.setPosition(sf::Vector2f(2 * WINDOW_W / 3.0f, WINDOW_H / 2.0f));
+        fire_rate = 3;
+        lives = 3;
     }
     else if (new_name == "Buzz") {
-        image->loadFromFile("CS122_PA9/buzz.png");
+        image.loadFromFile("CS122_PA9/buzz.png");
+        sprite.setPosition(sf::Vector2f(WINDOW_W / 3.0f, WINDOW_H / 2.0f));
+        fire_rate = 1;
+        lives = 10;
     }
-    sprite.setTexture(*image);
+    else {
+        fire_rate = 0;
+        lives = 0;
+    }
+    sprite.setTexture(image);
     center_origin(sprite);
-    sprite.setPosition(sf::Vector2f(WINDOW_W / 2.0f, WINDOW_H / 2.0f));
 }
 
 void player::sound_base(const std::string file)
@@ -144,6 +177,9 @@ void player::drop_accuracy() {
 void player::raise_accuracy() {
     accuracy++;
 }
+void player::set_fire_timer(int new_timer) {
+    fire_timer = new_timer;
+}
 
 //getters
 int player::get_accuracy() {
@@ -151,6 +187,9 @@ int player::get_accuracy() {
 }
 int player::get_fire_rate() {
     return fire_rate;
+}
+int player::get_fire_timer() {
+    return fire_timer;
 }
 int player::get_speed() {
     return speed;
@@ -164,15 +203,63 @@ sf::Sprite& player::get_sprite() {
 std::string player::get_name() {
     return name;
 }
+std::vector<bullet*>& player::get_bullets() {
+    return bullets;
+}
+
+void player::load_gun(sf::Sprite& target) {
+
+    bullets.push_back(new bullet);
+    //points bullet towards mouse position
+    bullets[bullets.size() - 1]->lock_on(sprite, target, accuracy);
+    //sets bullet slightly in front of gunman
+    bullets[bullets.size() - 1]->set_position(sprite.getPosition());
+
+    bullets[bullets.size() - 1]->set_sound();
+
+    bullets[bullets.size() - 1]->set_image();
+}
+void player::fire_gun(player& target) {
+
+    for (size_t index = 0; index < bullets.size(); index++) {
+
+        //moves bullet 0.3 pixel lengths
+        bullets[index]->move(0.3f);
+
+        //if bullet touches window or target
+        if (touching_hitbox(bullets[index]->get_sprite(), target.get_sprite()) && bullets[index]->is_active()) {
+            bullets[index]->hit();
+            target.add_lives(-1);
+        }
+
+        if (bullets[index]->past_sound_time() && !bullets[index]->is_active()) {
+            //erases bullet
+            delete bullets[index];
+            bullets[index] = NULL;
+            bullets.erase(bullets.begin() + index);
+            index--;
+        }
+
+    }
+}
+bool player::isGunLoaded() {
+    if (bullets.empty()) return false;
+    else if (touching_hitbox(bullets[bullets.size() - 1]->get_sprite(), sprite)) return true;
+    else return false;
+}
 
 void player::draw_player(sf::RenderWindow& window) {
     window.draw(sprite);
     data.update_stats(lives, speed, fire_rate);
     data.draw_bar(window); //stats = speed, hearts, fire_rate
+
+    for (size_t index = 0; index < bullets.size(); index++) {
+        window.draw(bullets[index]->get_sprite());
+    }
+
 }
-void player::spray(std::vector<bullet>& bullets) {
+void player::spray() {
     //shape set position to mouse
-    int degrees;
     sf::Sprite position;
     sf::Vector2f direction;
 
@@ -188,15 +275,10 @@ void player::spray(std::vector<bullet>& bullets) {
         direction = degrees_to_vector(i * 20);
         position.setPosition(sprite.getPosition());
         position.move(direction);
-        //creates new bullet
-        bullets.push_back(bullet());
-        //points bullet towards mouse position
-        bullets[bullets.size() - 1].lock_on(sprite, position, 1);
-        //sets bullet slightly in front of gunman
-        bullets[bullets.size() - 1].set_position(sprite.getPosition());
+        load_gun(position);
     }
 }
 
 player::~player() {
-    delete image;
+    delete_vector(bullets);
 }
