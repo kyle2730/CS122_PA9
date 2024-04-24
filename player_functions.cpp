@@ -57,6 +57,16 @@ void bullet::set_sound() {
     }
 }
 
+void bullet::set_woody_sound()
+{
+    if (soundFile.loadFromFile("CS122_PA9/woodyShot.wav"))
+    {
+        sound.setBuffer(soundFile);
+        sound.play();
+    }
+}
+
+
 void bullet::set_image() {
     image.loadFromFile("CS122_PA9/bullet.png");
     sprite.setTexture(image);
@@ -156,7 +166,14 @@ void player::add_lives(int extra) {
 
     if (extra < 0)
     {
-        sound_base("CS122_PA9/owSound.wav");
+        if (name == "Woody")
+        {
+            sound_base("CS122_PA9/owSound.wav");
+        }
+        else if (name == "Buzz")
+        {
+            sound_base("CS122_PA9/buzzPain.wav");
+        }
     }
 }
 void player::speed_up() {
@@ -263,12 +280,22 @@ void player::spray() {
     sf::Sprite position;
     sf::Vector2f direction;
 
-    sf::SoundBuffer* bulletBuffer = new sf::SoundBuffer;
+   /* sf::SoundBuffer* bulletBuffer = new sf::SoundBuffer;
     sf::Sound* bulletSound = new sf::Sound;
-    if (bulletBuffer->loadFromFile("CS122_PA9/bulletSound.wav"))
+    sf::SoundBuffer* woodyBuffer = new sf::SoundBuffer;
+    sf::Sound* woodySound = new sf::Sound;*/
+    if (name == "Buzz")
     {
-        bulletSound->setBuffer(*bulletBuffer);
-        bulletSound->play();
+       /* if (bulletBuffer->loadFromFile("CS122_PA9/bulletSound.wav"))
+        {
+            bulletSound->setBuffer(*bulletBuffer);
+            bulletSound->play();
+        }*/
+        //sound_base("CS122_PA9/bulletSound.wav");
+    }
+    else if (name == "Woody")
+    {
+        //sound_base("CS122_PA9/woodyShot.wav");
     }
     
     for (int i = 0; i < 18; i++) {

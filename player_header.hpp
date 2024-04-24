@@ -61,6 +61,7 @@ public:
     void hit();
     bool past_sound_time();
     void set_sound();
+    void set_woody_sound();
     void set_image();
     //destructor
     ~bullet();
