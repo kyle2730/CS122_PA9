@@ -21,7 +21,7 @@ int main(void) {
     return 0;
 }
 
-int run_app(void) 
+int run_app(void)
 {
 
     //--------------------------INITIALIZATION-----------------------------------
@@ -61,12 +61,12 @@ int run_app(void)
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            if (player_death(user)) {
+                ///////////RUN DEATH ANIMATION + ETC.
                 window.close();
                 delete_items(items);
-<<<<<<< Updated upstream
-                cout << "YOU DIED (Displayed on Server's screen)" << endl << endl;
-                socket.send("You died LMAO (sent from server to client)", 50);
+                cout << "YOU DIED" << endl << endl;
+                send_message("I died (sent from server)");
                 return 1;
             }
 
@@ -75,18 +75,22 @@ int run_app(void)
                 window.close();
                 delete_items(items);
                 cout << "YOUR OPPONENT DIED" << endl << endl;
-                socket.send("You killed him!)", 16);
+                send_message("I killed Buzz! (sent from server)");
                 return 1;
             }
 
             //movement
             //key_move(stop_sign, speed, "aswd");
-            andy_is_here = andy.andys_coming(user, bullets);
-            item_float(items, user, window, andy_is_here);
+            if (!andy.andys_coming(user, bullets)) {
+                item_float(items, user, window);
+                new_item(items);
+                item_triggered(items, user, bullets);
+            }
+
             key_move(user);
-            new_item(items, andy_is_here);
+
             fire_bullet(user, bad_guy, bullets, window);
-            item_triggered(items, user, bullets, andy_is_here);
+
 
 
             //------------------------------------------DRAW---------------------------------------------
@@ -106,62 +110,7 @@ int run_app(void)
             andy.draw_andy(window);
             window.display();
 
-=======
-                cout << "YOU DON'T WANNA PLAY WITH ANDY? >:(" << endl << endl;
-                return 1;
-            }
->>>>>>> Stashed changes
         }
-
-        if (player_death(user)) {
-            ///////////RUN DEATH ANIMATION + ETC.
-            window.close();
-            delete_items(items);
-            cout << "YOU DIED" << endl << endl;
-            send_message("I died (sent from server)");
-            return 1;
-        }
-
-        if (player_death(bad_guy)) {
-            ///////////RUN DEATH ANIMATION + ETC.
-            window.close();
-            delete_items(items);
-            cout << "YOUR OPPONENT DIED" << endl << endl;
-            send_message("I killed Buzz! (sent from server)");
-            return 1;
-        }
-
-        //movement
-        //key_move(stop_sign, speed, "aswd");
-        if (!andy.andys_coming(user, bullets)) {
-            item_float(items, user, window);
-            new_item(items);
-            item_triggered(items, user, bullets);
-        }
-        
-        key_move(user);
-        
-        fire_bullet(user, bad_guy, bullets, window);
-        
-
-
-        //------------------------------------------DRAW---------------------------------------------
-
-        //clears screen with black pixels
-        window.draw(background);
-
-        for (size_t index = 0; index < items.size(); index++) {
-            window.draw(items[index]->get_sprite());
-        }
-        for (size_t index = 0; index < bullets.size(); index++) {
-            window.draw(bullets[index].get_sprite());
-        }
-
-        window.draw(bad_guy.get_sprite());
-        user.draw_player(window);
-        andy.draw_andy(window);
-        window.display();
-
     }
 }
 
