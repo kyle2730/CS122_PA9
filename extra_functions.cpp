@@ -192,7 +192,8 @@ int menu()
             << " 2. How to play" << endl
             << " 3. Items" << endl
             << " 4. Credits" << endl
-            << " 5. Exit" << endl;
+            << " 5. Exit" << endl
+            << " 6. Test cases" << endl;
 
         selection = _getch();
 
@@ -271,6 +272,13 @@ int menu()
             cout << "Thanks for playing!" << endl;
             return false;
             break;
+        case '6':
+            system("cls");
+            cout << "Welcome to test cases. Press any button to run the tests" << endl;
+            system("pause");
+            int successes = testCases();
+            return false;
+            break;
         }
 
     }
@@ -312,6 +320,7 @@ void new_item(std::vector<item*>& items, bool andy) {
     }
     else random_timer--;
 }
+
 item* random_item() {
     int rand_int = rand() % 10;
     switch (rand_int) {
