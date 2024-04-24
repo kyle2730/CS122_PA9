@@ -342,9 +342,8 @@ bool recieve_message() {
     }
     return 1;
 }
-bool send_message(const char string[]) {
+bool send_message(const char string[], sf::TcpSocket& socket) {
     sf::IpAddress ip = sf::IpAddress::getLocalAddress();
-    sf::TcpSocket socket;
     char connectionType = ' ';
     int length = 0, status = 0;
 

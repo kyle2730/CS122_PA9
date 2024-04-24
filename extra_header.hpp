@@ -27,7 +27,7 @@ int menu();
 int testCases();
 bool player_death(player& user);
 bool recieve_message();
-bool send_message(const char string[]);
+bool send_message(const char string[], sf::TcpSocket& socket);
 
 std::string int_to_str(int num);
 bool isPressed(char alpha);

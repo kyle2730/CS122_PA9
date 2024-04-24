@@ -4,9 +4,10 @@
 #include "andy_header.hpp";
 
 
-int run_app(void);
+int run_app(sf::TcpSocket& socket);
 
 int main(void) {
+    sf::TcpSocket socket;
 
     while (1) {
         
@@ -14,13 +15,13 @@ int main(void) {
         case 0: return 0;
         case 1: break;
         }
-        run_app();
+        run_app(socket);
     }
 
     return 0;
 }
 
-int run_app(void) 
+int run_app(sf::TcpSocket& socket)
 {
 
     float circ_radius = 10;
@@ -65,7 +66,7 @@ int run_app(void)
             window.close();
             delete_vector(items);
             cout << "YOU DIED" << endl << endl;
-            send_message("I died (sent from server)");
+            send_message("I died (sent from server)", socket);
             return 1;
         }
 
@@ -74,7 +75,7 @@ int run_app(void)
             window.close();
             delete_vector(items);
             cout << "YOUR OPPONENT DIED" << endl << endl;
-            send_message("I killed Buzz! (sent from server)");
+            send_message("I killed Buzz! (sent from server)", socket);
             return 1;
         }
         
