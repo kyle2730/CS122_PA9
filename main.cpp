@@ -82,7 +82,7 @@ int run_app(void)
                 ///////////RUN DEATH ANIMATION + ETC.
                 window.close();
                 delete_items(items);
-                cout << "YOU DIED (Displayed on Server's screen" << endl << endl;
+                cout << "YOU DIED (Displayed on Server's screen)" << endl << endl;
                 socket.send("You died LMAO (sent from server to client)", 50);
                 return 1;
             }
@@ -92,7 +92,7 @@ int run_app(void)
                 window.close();
                 delete_items(items);
                 cout << "YOUR OPPONENT DIED" << endl << endl;
-                socket.send("You killed him!", 16);
+                socket.send("You killed him!)", 16);
                 return 1;
             }
 
