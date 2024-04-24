@@ -83,7 +83,7 @@ int run_app(void)
                 window.close();
                 delete_items(items);
                 cout << "YOU DIED (Displayed on Server's screen" << endl << endl;
-                socket.send("You died Faggot (sent from server to client)", 50);
+                socket.send("You died LMAO (sent from server to client)", 50);
                 return 1;
             }
 

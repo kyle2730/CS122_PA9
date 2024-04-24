@@ -53,12 +53,18 @@ int testCases()
 			cout << "Error testing function: touching_hitbox()\n" << endl;
 		}
 
+		player lives("TestLives");
+		cout << "Function being tested: add_lives()" << endl;
+		//player::add_lives(lives);
+
+		
+
+
 	}
 
 	
 
-	int lives = 0;
-	cout << "Function being tested: add_lives()" << endl;
+	
 	
 
 
