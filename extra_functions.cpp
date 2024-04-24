@@ -186,13 +186,13 @@ int menu()
     while (selection != '1' && selection != '5')
     {
         system("cls");
-        cout << endl << "Welcome to Toy Story Rivalry!!" << endl << endl
-            << " Please choose from the following options:" << endl
-            << "  1. Play game" << endl
-            << "  2. How to play" << endl
-            << "  3. Items" << endl
-            << "  4. Credits" << endl
-            << "  5. Exit" << endl;
+        cout << "Welcome to Toy Story Rivalry!!" << endl << endl
+            << "Please choose from the following options:" << endl
+            << " 1. Play game" << endl
+            << " 2. How to play" << endl
+            << " 3. Items" << endl
+            << " 4. Credits" << endl
+            << " 5. Exit" << endl;
 
         selection = _getch();
 
@@ -204,12 +204,12 @@ int menu()
             break;
         case '2':
             system("cls");
-            cout << " HOW TO PLAY" << endl
-                << " ----------------------------------------------------------------------------------------------------" << endl
-                << " Movement: Use WASD to move!" << endl
-                << " Shooting: Use your mouse or trackpad to aim and press the spacebar to shoot!" << endl
-                << " Items: there are items in the game that will affect your gameplay" << endl
-                << " see the items section for a description of all the items!" << endl << endl
+            cout << "HOW TO PLAY" << endl
+                << "----------------------------------------------------------------------------------------------------" << endl
+                << "Movement: Use WASD to move!" << endl
+                << "Shooting: Use your mouse or trackpad to aim and press the spacebar to shoot!" << endl
+                << "Items: there are items in the game that will affect your gameplay" << endl
+                << "see the items section for a description of all the items!" << endl << endl
                 << " ";
 
             system("pause");
@@ -268,7 +268,7 @@ int menu()
 
         case '5':
             system("cls");
-            cout << " Thanks for playing!" << endl;
+            cout << "Thanks for playing!" << endl;
             return false;
             break;
         }
