@@ -1,7 +1,8 @@
 #include "player_header.hpp"
 #include "extra_header.hpp"
-#include "item_header.hpp";
-#include "andy_header.hpp";
+#include "item_header.hpp"
+#include "andy_header.hpp"
+
 
 // things to test:
 // playerDeath
@@ -39,7 +40,7 @@ int testCases()
 		bool touchesFreaky = touching_hitbox(sprite1, sprite2);
 		if (touchesFreaky == true)
 		{
-			cout << "Player has been toouched, function successfully tested\n" << endl;
+			cout << "Player has been touched, function successfully tested\n" << endl;
 			i++;
 		}
 		else if (touchesFreaky == false)
@@ -53,6 +54,14 @@ int testCases()
 		}
 
 	}
+
+	
+
+	int lives = 0;
+	cout << "Function being tested: add_lives()" << endl;
+	
+
+
 
 	
 
