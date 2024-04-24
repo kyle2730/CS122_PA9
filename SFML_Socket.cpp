@@ -1,5 +1,8 @@
 #include "SFML_Socket.hpp"
 
+// the following is not working properly, dont use:
+
+/*
 bool connection()
 {
     bool success = false;
@@ -35,23 +38,55 @@ bool connection()
 
     return success;
 }
+*/
 
-// code to test:
+// the following is an updated version using server/client connection, need to fix bugs and finalize a connection:
 
-//TcpSocket csocket;
-//if (socket.connect("10.109.142.239", 50000) != socket.Done)
-//{
-//	cout << "Error connecting to IP" << endl;
-//	return false;
-//}
-//
-//char buffer[500];
-//size_t recieved;
-//if (socket.receive(buffer, sizeof(buffer), recieved) != socket.Done)
-//{
-//	cout << "Error recieving message" << endl;
-//	return false;
-//}
-//
-//cout << "Message from server: " << buffer << endl;
-//cout << "inside the Connection() function" << endl;
+bool connection()
+{
+	bool success = false;
+	TcpSocket socket;
+	TcpListener listener;
+	listener.listen(50000);
+
+	// server
+	if (listener.listen(50000) != socket.Done)
+	{
+		cout << "Error connecting to port" << endl;
+		return false;
+	}
+
+	if (listener.accept(socket) != socket.Done)
+	{
+		cout << "Error accepting to socket" << endl;
+		return false;
+	}
+
+	string message = "Server says Hello!";
+	if (socket.send(message.c_str(), message.size() + 1) != socket.Done)
+	{
+		cout << "Error sending message from Server" << endl;
+		return false;
+	}
+
+	//client
+	TcpSocket csocket;
+	if (socket.connect("10.109.142.239", 50000) != socket.Done)
+	{
+		cout << "Error connecting to IP" << endl;
+		return false;
+	}
+
+	char buffer[500];
+	size_t recieved;
+	if (socket.receive(buffer, sizeof(buffer), recieved) != socket.Done)
+	{
+		cout << "Error recieving message" << endl;
+		return false;
+	}
+
+	cout << "Message from server: " << buffer << endl;
+	cout << "inside the Connection() function" << endl;
+
+	return success;
+}
