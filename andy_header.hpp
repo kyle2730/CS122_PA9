@@ -14,7 +14,7 @@ private:
     sf::RectangleShape text_box;
     sf::Text warning;
     sf::Font text_font;
-    int timer;
+    time_t start_time;
 
     sf::SoundBuffer buffer;
     sf::Sound soundEffect;
@@ -31,7 +31,7 @@ public:
     }
 
     andy_man() {
-        timer = -10000;
+        start_time = time(NULL) + 5;
 
         body.setPosition(sf::Vector2f(WINDOW_W + 300, WINDOW_H / 2.0f + 300));
         if (!normal_face.loadFromFile("CS122_PA9/regularAndy.png")) {}
@@ -63,72 +63,80 @@ public:
     bool andys_coming(player& user, std::vector<bullet>& bullets) {
 
         static float x_pos = 0, y_pos = 0;
-        timer++;
 
-        //andy sequence doesn't start until after 50,000 iterations
-        if (timer < 0) return false;
+        //Andy sequence doesn't start until time passes start_time
+        if (time(NULL) < start_time) return false;
 
         sf::Vector2f position = user.get_sprite().getPosition();
 
-        //displays warning about andy, items stop moving at t-0
-        if (timer == 0) {
+        //items stop moving and displays warning about Andy for two seconds
+        if (time(NULL) == start_time) {
             text_box.setPosition(sf::Vector2f(WINDOW_W / 2.0f - 125, WINDOW_H / 2.0f - 35));
             warning.setPosition(sf::Vector2f(WINDOW_W / 2.0f - 115, WINDOW_H / 2.0f - 25));
             sound_base("CS122_PA9/andySound.wav");
+            start_time--;
         }
+        else if (time(NULL) < start_time + 3);
 
-        else if (timer < 5000);
-
-        //removes warning display at t-5000
-        else if (timer == 5000) {
+        //removes warning display after 2 seconds
+        else if (time(NULL) == start_time + 3) {
             body.setPosition(sf::Vector2f(WINDOW_W, WINDOW_H / 2));
             text_box.setPosition(sf::Vector2f(-200, -200));
             warning.setPosition(sf::Vector2f(-200, -200));
             x_pos = position.x;
             y_pos = position.y;
             sound_base("CS122_PA9/andyAlertSound.wav");
+            start_time--;
         }
 
-        //andy is moving from t-5000 to t-6000 towards the center
-        else if (timer < 6000) {
-            body.move(sf::Vector2f(WINDOW_W / -2000.0f, 0));
+        //Andy moves to the center of the screen (2 second buffer)
+        else if ((time(NULL) < start_time + 6) && (body.getPosition().x > WINDOW_W / 2)) {
+            body.move(sf::Vector2f(-1, 0));
         }
 
-        //andy checks for movement from t-6000 to t-15000
-        else if (timer < 15000) {
+        //Andy checks for movement for 9 seconds
+        else if (time(NULL) < start_time + 15) {
 
             //if player moved or fired a bullet
             if ((position.x != x_pos) || (position.y != y_pos) || !bullets.empty()) {
                 //moves to andy destroys if statement
-                timer = 17000;
                 sound_base("CS122_PA9/andyKillSound.wav");
+                start_time = time(NULL) - 16;
 
+            }
+
+             //andy plays retreat sound after 5 seconds
+            if (time(NULL) == start_time + 11)
+            {
+                sound_base("CS122_PA9/andyRetreat2.wav");
+                start_time--;
+            }
+
+            //andy retreats for 3 seconds
+            else if ((time(NULL) > start_time + 11) && (body.getPosition().x > -100))
+            {
+                body.move(sf::Vector2f(-0.15, 0));
             }
         }
 
-        else if (timer == 15000)
-        {
-            sound_base("CS122_PA9/andyRetreat2.wav");
-        }
-        //andy retreats from t-15000 to t-16000
-        else if (timer < 17000)
-        {
-            body.move(sf::Vector2f(WINDOW_W / -2000.0f, 0));
-        }
+        
 
-        //resets andy at t-16000
-        else if (timer == 17000) timer = -25000;
+        //resets andy mechanic after andy moves off screen
+        else if ((time(NULL) == start_time + 15) && (body.getPosition().x < -100)) start_time = time(NULL) + 15;
 
-        //andy turns evil if t is set to 17000
-        else if (timer == 17001) body.setTexture(evil_face, true);
-
-        //andy moves to player from t-1700 to t-21000
-        else if (timer < 20000) {
-            track(body, user.get_sprite(), (timer - 16000) / (float)10000);
+        //andy turns evil
+        else if (time(NULL) == start_time + 16) {
+            body.setTexture(evil_face, true);
+            start_time--;
         }
 
-        //andy DESTROYS at t-21000
-        else if (timer == 20000) user.add_lives(-10000);
+        //andy moves to player for two seconds
+        else if (time(NULL) < start_time + 20) {
+            track(body, user.get_sprite(), (time(NULL) - (start_time + 16)) / 10.0f);
+        }
+
+        //andy DESTROYS
+        else if (time(NULL) == start_time + 20) user.add_lives(-10000);
 
         return true;
     }
