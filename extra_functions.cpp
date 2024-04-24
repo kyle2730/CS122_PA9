@@ -243,6 +243,7 @@ int menu()
             cout << "CREDITS" << endl
                 << "----------------------------------------------------------------------------------------------------" << endl
                 << "Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl
+                << "Sockets help: CodingMadeEasy on Youtube" << endl
                 << "----------------------------------------------------------------------------------------------------" << endl;
             cout << "SOUND EFFECTS\n" << endl;
             cout << "Andys arrival- https://www.youtube.com/watch?v=dinyOvO2EEo&ab_channel=GamingSoundFX\n" << endl;
@@ -264,6 +265,7 @@ int menu()
             cout << "Bomb sprite- https://opengameart.org/content/bomb-sprite-vector-image\n" << endl;
             cout << "Beer sprite- https://gallery.yopriceville.com/Free-Clipart-Pictures/Drinks-PNG/Beer_Bottle_PNG_Clip_Art" << endl;
             cout << "----------------------------------------------------------------------------------------------------\n" << endl;
+            
             system("pause");
             break;
 
