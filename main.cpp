@@ -1,7 +1,7 @@
 #include "player_header.hpp"
 #include "extra_header.hpp"
-#include "item_header.hpp";
-#include "andy_header.hpp";
+#include "item_header.hpp"
+#include "andy_header.hpp"
 
 
 int run_app(sf::TcpSocket& socket);
@@ -79,9 +79,9 @@ int run_app(sf::TcpSocket& socket)
             return 1;
         }
         
-        andy_is_here = !Andy.andys_coming(user);
+        andy_is_here = Andy.andys_coming(user);
         //if andy mechanic is running
-        if (andy_is_here) {
+        if (!andy_is_here) {
             item_float(items, user, window);
             new_item(items);
             item_triggered(items, user);
