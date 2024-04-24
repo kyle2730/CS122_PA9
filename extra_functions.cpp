@@ -186,7 +186,7 @@ int menu()
     while (selection != '1' && selection != '5')
     {
         system("cls");
-        cout << endl << " Welcome to Toy Story Rivalry!!" << endl << endl
+        cout << endl << "Welcome to Toy Story Rivalry!!" << endl << endl
             << " Please choose from the following options:" << endl
             << "  1. Play game" << endl
             << "  2. How to play" << endl
@@ -239,10 +239,30 @@ int menu()
 
         case '4':
             system("cls");
-            cout << " CREDITS" << endl
-                << " ----------------------------------------------------------------------------------------------------" << endl
-                << " Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl << endl
-                << " ";
+            cout << "CREDITS" << endl
+                << "----------------------------------------------------------------------------------------------------" << endl
+                << "Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl
+                << "----------------------------------------------------------------------------------------------------" << endl;
+            cout << "SOUND EFFECTS\n" << endl;
+            cout << "Andys arrival- https://www.youtube.com/watch?v=dinyOvO2EEo&ab_channel=GamingSoundFX\n" << endl;
+            cout << "Andy's coming- https://www.youtube.com/watch?v=l7ttIbfXTYU&ab_channel=ixiTimmyixi\n" << endl;
+            cout << "Andy kill- https://www.youtube.com/watch?v=mQZDonQ1PVk&ab_channel=AdOks\n" << endl;
+            cout << "Andy retreat- https://www.youtube.com/watch?v=oAmDyjtuzjo&ab_channel=YTSFX\n" << endl;
+            cout << "Clair De Lune- https://www.youtube.com/watch?v=WNcsUNKlAKw&ab_channel=Rousseau\n" << endl;
+            cout << "ANY SOUND EFFECT NOT LISTED WAS BY US!!!!!" << endl;
+            cout << "----------------------------------------------------------------------------------------------------" << endl;
+            cout << "GRAPHICS\n" << endl;
+            cout << "Background- https://www.reddit.com/r/PixelArt/comments/ttszul/i_made_a_simple_pixel_art_version_of_andys/\n" << endl;
+            cout << "Woody sprite- https://www.pixilart.com/art/sheriff-woody-15e2f9a743250aa\n" << endl;
+            cout << "Buzz sprite- https://www.artstation.com/artwork/J9Ry2d\n" << endl;
+            cout << "Water gun- https://www.pngkey.com/maxpic/u2t4y3i1i1r5r5r5/\n" << endl;
+            cout << "Real gun- https://www.pngkey.com/maxpic/u2t4y3i1i1r5r5r5/\n" << endl;
+            cout << "Andy pic- https://school.eecs.wsu.edu/faculty/profile/?nid=aofallon\n" << endl;
+            cout << "Shield- https://havran.itch.io/wooden-shield\n" << endl;
+            cout << "Sun sprite- https://pngtree.com/so/sun\n" << endl;
+            cout << "Bomb sprite- https://opengameart.org/content/bomb-sprite-vector-image\n" << endl;
+            cout << "Beer sprite- https://gallery.yopriceville.com/Free-Clipart-Pictures/Drinks-PNG/Beer_Bottle_PNG_Clip_Art" << endl;
+            cout << "----------------------------------------------------------------------------------------------------\n" << endl;
             system("pause");
             break;
 
