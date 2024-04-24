@@ -283,6 +283,7 @@ int menu()
             system("pause");
             cout << endl;
             testCases();
+            system("pause");
             //return false;
             break;
 
