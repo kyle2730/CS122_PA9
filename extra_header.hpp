@@ -22,6 +22,7 @@ void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed);
 void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, const sf::RenderWindow& window);
 
 int menu();
+int testCases();
 bool player_death(player& user);
 
 std::string int_to_str(int num);
@@ -31,3 +32,5 @@ item* random_item();
 void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window, bool andy);
 void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets, bool andy);
 void delete_items(std::vector<item*>& items);
+
+int testCases();

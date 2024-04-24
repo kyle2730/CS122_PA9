@@ -192,7 +192,8 @@ int menu()
             << " 2. How to play" << endl
             << " 3. Items" << endl
             << " 4. Credits" << endl
-            << " 5. Exit" << endl;
+            << " 5. Exit" << endl
+            << " 6. Test cases" << endl;
 
         selection = _getch();
 
@@ -242,6 +243,7 @@ int menu()
             cout << "CREDITS" << endl
                 << "----------------------------------------------------------------------------------------------------" << endl
                 << "Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl
+                << "Sockets help: CodingMadeEasy on Youtube" << endl
                 << "----------------------------------------------------------------------------------------------------" << endl;
             cout << "SOUND EFFECTS\n" << endl;
             cout << "Andys arrival- https://www.youtube.com/watch?v=dinyOvO2EEo&ab_channel=GamingSoundFX\n" << endl;
@@ -263,6 +265,7 @@ int menu()
             cout << "Bomb sprite- https://opengameart.org/content/bomb-sprite-vector-image\n" << endl;
             cout << "Beer sprite- https://gallery.yopriceville.com/Free-Clipart-Pictures/Drinks-PNG/Beer_Bottle_PNG_Clip_Art" << endl;
             cout << "----------------------------------------------------------------------------------------------------\n" << endl;
+            
             system("pause");
             break;
 
@@ -270,6 +273,15 @@ int menu()
             system("cls");
             cout << "Thanks for playing!" << endl;
             return false;
+            break;
+        case '6':
+            system("cls");
+            cout << "Welcome to test cases. Press any button to run the tests" << endl;
+            system("pause");
+            cout << endl;
+            int successes = testCases();
+            return false;
+            system("pause");
             break;
         }
 
@@ -312,6 +324,7 @@ void new_item(std::vector<item*>& items, bool andy) {
     }
     else random_timer--;
 }
+
 item* random_item() {
     int rand_int = rand() % 10;
     switch (rand_int) {
