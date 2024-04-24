@@ -13,8 +13,8 @@
 
 int testCases()
 {
-
-	for (int i = 0; i < 5;)
+	int i;
+	for (i = 0; i < 5;)
 	{
 		player user("TestUser");
 		cout << "Function being tested: player_death()" << endl;
@@ -61,18 +61,8 @@ int testCases()
 
 
 	}
-
-	
-
-	
 	
 
 
-
-	
-
-	
-
-
-	return 1;
+	return i;
 }

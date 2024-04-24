@@ -183,7 +183,7 @@ int menu()
 {
     bool option;
     char selection = ' ';
-    while (selection != '1' && selection != '5')
+    while (selection != '1' && selection != '5' && selection != '6')
     {
         system("cls");
         cout << "Welcome to Toy Story Rivalry!!" << endl << endl
@@ -203,18 +203,21 @@ int menu()
             system("cls");
             return true;
             break;
+
         case '2':
             system("cls");
             cout << "HOW TO PLAY" << endl
                 << "----------------------------------------------------------------------------------------------------" << endl
                 << "Movement: Use WASD to move!" << endl
-                << "Shooting: Use your mouse or trackpad to aim and press the spacebar to shoot!" << endl
-                << "Items: there are items in the game that will affect your gameplay" << endl
+                << "Shooting: Use your mouse or trackpad to aim and left click to shoot!" << endl
+                << "Items: there are items in the game that will affect your gameplay," << endl
                 << "see the items section for a description of all the items!" << endl << endl
                 << " ";
+            cout << "Watch our for Andy!" << endl;
 
             system("pause");
             break;
+
         case '3':
             system("cls");
             cout << " ITEMS" << endl
@@ -274,14 +277,14 @@ int menu()
             cout << "Thanks for playing!" << endl;
             return false;
             break;
+
         case '6':
             system("cls");
             cout << "Welcome to test cases. Press any button to run the tests" << endl;
             system("pause");
             cout << endl;
             int successes = testCases();
-            return false;
-            system("pause");
+            //return false;
             break;
         }
 
