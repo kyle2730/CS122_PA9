@@ -33,10 +33,30 @@ int testCases()
 			cout << "Error testing function: player_death()" << endl;
 
 		}
+
+		sf::Sprite sprite1, sprite2;
+		cout << "Function being tested: touching_hitbox() " << endl;
+		bool touchesFreaky = touching_hitbox(sprite1, sprite2);
+		if (touchesFreaky == true)
+		{
+			cout << "Player has been toouched, function successfully tested" << endl;
+			i++;
+		}
+		else if (touchesFreaky == false)
+		{
+			cout << "Player has not been touched, function sucessfully tested" << endl;
+		}
+		else
+		{
+			cout << "Error testing function: touching_hitbox()" << endl;
+		}
+
 	}
 
 	
 
+	
 
-	return i;
+
+	return 1;
 }

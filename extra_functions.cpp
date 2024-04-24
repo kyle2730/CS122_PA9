@@ -280,6 +280,7 @@ int menu()
             system("pause");
             int successes = testCases();
             return false;
+            system("pause");
             break;
         }
 
