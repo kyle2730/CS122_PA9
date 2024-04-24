@@ -346,21 +346,28 @@ bool recieve_message() {
 bool send_message(const char string[], sf::TcpSocket& socket) {
     sf::IpAddress ip = sf::IpAddress::getLocalAddress();
     char connectionType = ' ';
-    int length = 0, status = 0;
+    static bool first_connection = true;
+    socket.send("\nwoah", 6);
 
     cout << "Do you want to share your result? Y for yes, N for no: ";
     while (connectionType != 'Y' && connectionType != 'N') {
         cin >> connectionType;
     }
-
+    sizeof(string);
     if (connectionType == 'Y') {
-        for (length = 0; string[length] != '\0'; length++) {}
-        if (socket.connect(ip, 2000)) {
-            cout << endl << "Could not establish a connection." << endl;
-            return false;
+        if (first_connection) {
+            if (socket.connect(ip, 2000)) {
+                cout << endl << "Could not establish a connection." << endl;
+                system("pause");
+                return false;
+            }
+            first_connection = false;
         }
-        socket.send(string, length + 1);
+        socket.send(string, strlen(string));
         return true;
+    }
+    else {
+        first_connection = true;
     }
     return false;
 }

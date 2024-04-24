@@ -1,6 +1,6 @@
 #include "player_header.hpp"
 #include "extra_header.hpp"
-#include "item_header.hpp";
+#include "item_header.hpp"
 
 //BASE CLASS ITEM FUNCTIONS
 
