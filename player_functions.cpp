@@ -151,6 +151,7 @@ void player::sound_base(const std::string file)
 
 //setters
 void player::add_lives(int extra) {
+    //if shield is off (lives below 1000), if andy caught player (extra below -1000), if player gained lives, extra > 0
     if (lives < 1000 || extra <= -1000 || extra > 0)
         lives += extra;
 

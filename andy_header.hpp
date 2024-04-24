@@ -122,7 +122,10 @@ public:
         
 
         //resets andy mechanic after andy moves off screen
-        else if ((time(NULL) == start_time + 15) && (body.getPosition().x < -100)) start_time = time(NULL) + 15;
+        else if ((time(NULL) == start_time + 15) && (body.getPosition().x < -100)) {
+            start_time = time(NULL) + 15;
+            return false;
+        }
 
         //andy turns evil
         else if (time(NULL) == start_time + 16) {
