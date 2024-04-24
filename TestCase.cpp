@@ -12,25 +12,25 @@
 
 int testCases()
 {
-	int i;
-	for (i = -1; i < 5;)
+
+	for (int i = 0; i < 5;)
 	{
 		player user("TestUser");
 		cout << "Function being tested: player_death()" << endl;
 		bool death = player_death(user);
 		if (death == false)
 		{
-			cout << "Player is not currently dead, function successfully tested" << endl;
+			cout << "Player is not currently dead, function successfully tested\n" << endl;
 			i++;
 		}
 		else if (death == true)
 		{
-			cout << "Player has died, function successfully tested" << endl;
+			cout << "Player has died, function successfully tested\n" << endl;
 			i++;
 		}
 		else
 		{
-			cout << "Error testing function: player_death()" << endl;
+			cout << "Error testing function: player_death()\n" << endl;
 
 		}
 
@@ -39,16 +39,17 @@ int testCases()
 		bool touchesFreaky = touching_hitbox(sprite1, sprite2);
 		if (touchesFreaky == true)
 		{
-			cout << "Player has been toouched, function successfully tested" << endl;
+			cout << "Player has been toouched, function successfully tested\n" << endl;
 			i++;
 		}
 		else if (touchesFreaky == false)
 		{
-			cout << "Player has not been touched, function sucessfully tested" << endl;
+			cout << "Player has not been touched, function sucessfully tested\n" << endl;
+			i++;
 		}
 		else
 		{
-			cout << "Error testing function: touching_hitbox()" << endl;
+			cout << "Error testing function: touching_hitbox()\n" << endl;
 		}
 
 	}

@@ -278,6 +278,7 @@ int menu()
             system("cls");
             cout << "Welcome to test cases. Press any button to run the tests" << endl;
             system("pause");
+            cout << endl;
             int successes = testCases();
             return false;
             system("pause");
