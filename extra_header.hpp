@@ -24,13 +24,17 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
 int menu();
 int testCases();
 bool player_death(player& user);
+bool recieve_message();
+bool send_message(const char string[]);
 
 std::string int_to_str(int num);
+bool isPressed(char alpha);
 
-void new_item(std::vector<item*>& items, bool andy);
+
+void new_item(std::vector<item*>& items);
 item* random_item();
-void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window, bool andy);
-void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets, bool andy);
+void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window);
+void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets);
 void delete_items(std::vector<item*>& items);
 
 int testCases();

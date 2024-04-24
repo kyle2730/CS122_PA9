@@ -96,7 +96,12 @@ player::player(const std::string& new_name) {
 
     name = new_name;
     image = new sf::Texture;
-    image->loadFromFile("CS122_PA9/woody.png");
+    if (new_name == "Woody") {
+        image->loadFromFile("CS122_PA9/woody.png");
+    }
+    else if (new_name == "Buzz") {
+        image->loadFromFile("CS122_PA9/buzz.png");
+    }
     sprite.setTexture(*image);
     center_origin(sprite);
     sprite.setPosition(sf::Vector2f(WINDOW_W / 2.0f, WINDOW_H / 2.0f));

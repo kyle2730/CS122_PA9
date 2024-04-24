@@ -3,11 +3,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
+#include <Windows.h>
 #include <conio.h>
 #include <iostream>
 #include <thread>
 #include <math.h>
 #include <string>
+#include <string.h>
 
 #define WINDOW_W 1000
 #define WINDOW_H 800

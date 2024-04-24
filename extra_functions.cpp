@@ -181,7 +181,6 @@ void fire_bullet(player& gunman, player& target, std::vector<bullet>& bullets, c
 //user interface functions
 int menu()
 {
-    bool option;
     char selection = ' ';
     while (selection != '1' && selection != '5' && selection != '6')
     {
@@ -193,19 +192,19 @@ int menu()
             << " 3. Items" << endl
             << " 4. Credits" << endl
             << " 5. Exit" << endl
-            << " 6. Test cases" << endl;
+            << " 6. Test cases" << endl
+            << " 7. Open messages" << endl;
 
         selection = _getch();
+        system("cls");
 
         switch (selection)
         {
         case '1':
-            system("cls");
-            return true;
+            return 1;
             break;
 
         case '2':
-            system("cls");
             cout << "HOW TO PLAY" << endl
                 << "----------------------------------------------------------------------------------------------------" << endl
                 << "Movement: Use WASD to move!" << endl
@@ -219,7 +218,6 @@ int menu()
             break;
 
         case '3':
-            system("cls");
             cout << " ITEMS" << endl
                 << " ----------------------------------------------------------------------------------------------------" << endl
                 << " Items are icon sprites that float across the screen and are collected by a player." << endl
@@ -242,56 +240,122 @@ int menu()
             break;
 
         case '4':
-            system("cls");
             cout << "CREDITS" << endl
                 << "----------------------------------------------------------------------------------------------------" << endl
                 << "Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl
                 << "Sockets help: CodingMadeEasy on Youtube" << endl
-                << "----------------------------------------------------------------------------------------------------" << endl;
-            cout << "SOUND EFFECTS\n" << endl;
-            cout << "Andys arrival- https://www.youtube.com/watch?v=dinyOvO2EEo&ab_channel=GamingSoundFX\n" << endl;
-            cout << "Andy's coming- https://www.youtube.com/watch?v=l7ttIbfXTYU&ab_channel=ixiTimmyixi\n" << endl;
-            cout << "Andy kill- https://www.youtube.com/watch?v=mQZDonQ1PVk&ab_channel=AdOks\n" << endl;
-            cout << "Andy retreat- https://www.youtube.com/watch?v=oAmDyjtuzjo&ab_channel=YTSFX\n" << endl;
-            cout << "Clair De Lune- https://www.youtube.com/watch?v=WNcsUNKlAKw&ab_channel=Rousseau\n" << endl;
-            cout << "ANY SOUND EFFECT NOT LISTED WAS BY US!!!!!" << endl;
-            cout << "----------------------------------------------------------------------------------------------------" << endl;
-            cout << "GRAPHICS\n" << endl;
-            cout << "Background- https://www.reddit.com/r/PixelArt/comments/ttszul/i_made_a_simple_pixel_art_version_of_andys/\n" << endl;
-            cout << "Woody sprite- https://www.pixilart.com/art/sheriff-woody-15e2f9a743250aa\n" << endl;
-            cout << "Buzz sprite- https://www.artstation.com/artwork/J9Ry2d\n" << endl;
-            cout << "Water gun- https://www.pngkey.com/maxpic/u2t4y3i1i1r5r5r5/\n" << endl;
-            cout << "Real gun- https://www.pngkey.com/maxpic/u2t4y3i1i1r5r5r5/\n" << endl;
-            cout << "Andy pic- https://school.eecs.wsu.edu/faculty/profile/?nid=aofallon\n" << endl;
-            cout << "Shield- https://havran.itch.io/wooden-shield\n" << endl;
-            cout << "Sun sprite- https://pngtree.com/so/sun\n" << endl;
-            cout << "Bomb sprite- https://opengameart.org/content/bomb-sprite-vector-image\n" << endl;
-            cout << "Beer sprite- https://gallery.yopriceville.com/Free-Clipart-Pictures/Drinks-PNG/Beer_Bottle_PNG_Clip_Art" << endl;
-            cout << "----------------------------------------------------------------------------------------------------\n" << endl;
+                << "----------------------------------------------------------------------------------------------------" << endl
+                << "SOUND EFFECTS" << endl << endl
+                << "Andys arrival- https://www.youtube.com/watch?v=dinyOvO2EEo&ab_channel=GamingSoundFX" << endl << endl
+                << "Andy's coming- https://www.youtube.com/watch?v=l7ttIbfXTYU&ab_channel=ixiTimmyixi" << endl << endl
+                << "Andy kill- https://www.youtube.com/watch?v=mQZDonQ1PVk&ab_channel=AdOks" << endl << endl
+                << "Andy retreat- https://www.youtube.com/watch?v=oAmDyjtuzjo&ab_channel=YTSFX" << endl << endl
+                << "Clair De Lune- https://www.youtube.com/watch?v=WNcsUNKlAKw&ab_channel=Rousseau" << endl << endl
+                << "ANY SOUND EFFECT NOT LISTED WAS BY US!!!!!" << endl
+                << "----------------------------------------------------------------------------------------------------" << endl
+                << "GRAPHICS" << endl << endl
+                << "Background- https://www.reddit.com/r/PixelArt/comments/ttszul/i_made_a_simple_pixel_art_version_of_andys/" << endl << endl
+                << "Woody sprite- https://www.pixilart.com/art/sheriff-woody-15e2f9a743250aa" << endl << endl
+                << "Buzz sprite- https://www.artstation.com/artwork/J9Ry2d" << endl << endl
+                << "Water gun- https://www.pngkey.com/maxpic/u2t4y3i1i1r5r5r5/" << endl << endl
+                << "Real gun- https://www.pngkey.com/maxpic/u2t4y3i1i1r5r5r5/" << endl << endl
+                << "Andy pic- https://school.eecs.wsu.edu/faculty/profile/?nid=aofallon" << endl << endl
+                << "Shield- https://havran.itch.io/wooden-shield" << endl << endl
+                << "Sun sprite- https://pngtree.com/so/sun" << endl << endl
+                << "Bomb sprite- https://opengameart.org/content/bomb-sprite-vector-image" << endl << endl
+                << "Beer sprite- https://gallery.yopriceville.com/Free-Clipart-Pictures/Drinks-PNG/Beer_Bottle_PNG_Clip_Art" << endl
+                << "----------------------------------------------------------------------------------------------------" << endl << endl;
             
             system("pause");
             break;
 
         case '5':
-            system("cls");
             cout << "Thanks for playing!" << endl;
-            return false;
+            return 0;
             break;
 
         case '6':
-            system("cls");
             cout << "Welcome to test cases. Press any button to run the tests" << endl;
             system("pause");
             cout << endl;
-            int successes = testCases();
+            testCases();
             //return false;
             break;
+
+        case '7':
+            recieve_message();
         }
 
     }
 }
 bool player_death(player& user) {
     return (user.get_lives() <= 0);
+}
+bool recieve_message() {
+
+    int exit_code = 1;
+    sf::IpAddress ip = sf::IpAddress::getLocalAddress();
+    sf::TcpSocket socket;
+    socket.setBlocking(false);
+
+    std::size_t recieved;
+    char buffer[1000] = "";
+    sf::TcpListener listener;
+    int index = 0;
+
+    while (exit_code != 0) {
+
+        //waits for connection to server, user can end the connection
+        cout << "Waiting for connection..." << endl
+            << "Press 'e' on your keyboard to exit.";
+
+        exit_code = 1;
+        listener.listen(2000);
+        listener.setBlocking(false);
+        while (exit_code) {
+            exit_code = listener.accept(socket);
+            if (isPressed('e')) return 0;
+        }
+        system("cls");
+        exit_code = 1;
+
+        //will receive and output messages until user exits or reloads connection
+        cout << endl << endl << "Currently receiving messages" << endl
+            << "Press e to exit or r to reload connection. " << endl;
+        while (exit_code == 1) {
+            index = 0;
+            socket.receive(buffer, sizeof(buffer), recieved);
+            if (recieved) {
+                cout << buffer << endl;
+            }
+            if (isPressed('e')) exit_code = 0;
+            if (isPressed('r')) exit_code = -1;
+        }
+        system("cls");
+    }
+    return 1;
+}
+bool send_message(const char string[]) {
+    sf::IpAddress ip = sf::IpAddress::getLocalAddress();
+    sf::TcpSocket socket;
+    char connectionType = ' ';
+    int length = 0, status = 0;
+
+    cout << "Do you want to share your result? Y for yes, N for no: ";
+    while (connectionType != 'Y' && connectionType != 'N') {
+        cin >> connectionType;
+    }
+
+    if (connectionType == 'Y') {
+        for (length = 0; string[length] != '\0'; length++) {}
+        if (socket.connect(ip, 2000)) {
+            cout << endl << "Could not establish a connection." << endl;
+            return false;
+        }
+        socket.send(string, length + 1);
+        return true;
+    }
+    return false;
 }
 
 //converts integer to string
@@ -311,10 +375,16 @@ std::string int_to_str(int num) {
     return alpha;
 
 }
+bool isPressed(char alpha) {
+    if (_kbhit()) {
+        if (_getch() == alpha)
+            return 1;
+    }
+    return 0;
+}
 
 //item helper functions
-void new_item(std::vector<item*>& items, bool andy) {
-    if (andy) return;
+void new_item(std::vector<item*>& items) {
     static int random_timer = 5000;
     item* new_item;
 
@@ -327,7 +397,6 @@ void new_item(std::vector<item*>& items, bool andy) {
     }
     else random_timer--;
 }
-
 item* random_item() {
     int rand_int = rand() % 10;
     switch (rand_int) {
@@ -359,8 +428,7 @@ item* random_item() {
 
     return NULL;
 }
-void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window, bool andy) {
-    if (andy) return;
+void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window) {
     //shape set position to mouse
     static int reload_time = 0;
     int wall = 0;
@@ -385,8 +453,7 @@ void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& windo
     if (reload_time != 0) reload_time--;
 
 }
-void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets, bool andy) {
-    if (andy) return;
+void item_triggered(std::vector<item*>& items, player& user, std::vector<bullet>& bullets) {
 
     for (size_t index = 0; index < items.size(); index++) {
 
