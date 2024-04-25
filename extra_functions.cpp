@@ -276,7 +276,7 @@ int menu()
         case '5':
             cout << endl << " CREDITS" << endl
                 << " ----------------------------------------------------------------------------------------------------" << endl
-                << " Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl
+                << " Creators: Eli Lawrence, Jon Beil, Kyle Ortega-Gammill, Omar Herrera-Rea" << endl
                 << " Sockets help: CodingMadeEasy on Youtube" << endl
                 << " ----------------------------------------------------------------------------------------------------" << endl
                 << " SOUND EFFECTS" << endl << endl

@@ -10,15 +10,16 @@ int main(void) {
     sf::TcpSocket socket;
 
     sf::Music music;
-    music.openFromFile("CS122_PA9/themeSong.wav");
-    music.play();
-    music.setPlayingOffset(sf::seconds(4.0f));
+  
 
     while (1) {
         
         switch (menu()) {
         case 0: return 0;
-        case 1: break;
+        case 1: 
+            music.openFromFile("CS122_PA9/themeSong.wav");
+            music.play();
+            music.setPlayingOffset(sf::seconds(4.0f)); break;
         }
         //runs the app through the socket
         run_app(socket);
