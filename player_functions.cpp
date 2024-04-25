@@ -149,7 +149,7 @@ player::player(const std::string& new_name) {
         image.loadFromFile("CS122_PA9/buzz.png");
         sprite.setPosition(sf::Vector2f(WINDOW_W / 3.0f, WINDOW_H / 2.0f));
         fire_rate = 1;
-        lives = 10;
+        lives = 30;
     }
     else {
         fire_rate = 0;
@@ -175,7 +175,7 @@ void player::add_lives(int extra) {
     if (lives < 1000 || extra <= -1000 || extra > 0)
         lives += extra;
 
-    if (extra < 0)
+    if (extra < 0 && extra > -1000)
     {
         if (name == "Woody")
         {

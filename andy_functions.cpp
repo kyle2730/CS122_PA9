@@ -124,6 +124,7 @@ bool andy_man::andys_coming(player& user) {
 
     //andy DESTROYS
     else if (time(NULL) == start_time + 20) {
+        soundEffect.stop();
         user.add_lives(-10000);
         return false;
     }
