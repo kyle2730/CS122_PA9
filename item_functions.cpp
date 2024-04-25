@@ -247,4 +247,5 @@ void bomb::move() {
             set_sound();
         }
     }
+
 }
