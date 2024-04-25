@@ -233,7 +233,15 @@ void player::load_gun(sf::Sprite& target) {
     //sets bullet slightly in front of gunman
     bullets[bullets.size() - 1]->set_position(sprite.getPosition());
 
-    bullets[bullets.size() - 1]->set_sound();
+    if (name == "Woody")
+    {
+        bullets[bullets.size() - 1]->set_woody_sound();
+    }
+
+    if (name == "Buzz")
+    {
+        bullets[bullets.size() - 1]->set_sound();
+    }
 
     bullets[bullets.size() - 1]->set_image();
 }
