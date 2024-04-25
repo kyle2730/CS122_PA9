@@ -4,10 +4,12 @@
 #include "item_header.hpp"
 #include "extra_header.hpp"
 
-//andy class and attributes
+//ANDY CLASS
 class andy_man {
 
 private:
+
+    //data members
 
     sf::Sprite body;
     sf::Texture normal_face;
@@ -22,11 +24,17 @@ private:
 
 public:
 
+    //member functions
+
+    //plays sound effect from file
     void sound_base(const std::string file);
 
+    //constructor
     andy_man();
 
+    //draws andy
     void draw_andy(sf::RenderWindow& window);
 
+    //runs andy mechanic, returns 1 if andy is HERE, 0 if he is not
     bool andys_coming(player& user);
 };

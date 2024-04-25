@@ -30,6 +30,7 @@ bool player_death(player& user);
 bool recieve_message();
 bool send_message(const char string[], sf::TcpSocket& socket);
 
+//TEXT FUNCTIONS
 std::string int_to_str(int num);
 int str_to_int(std::string alpha);
 bool isPressed(char alpha);
@@ -39,7 +40,6 @@ void new_item(std::vector<item*>& items);
 item* random_item();
 void item_float(std::vector<item*>& items, sf::RenderWindow& window);
 void item_triggered(std::vector<item*>& items, player& user, player& bad_guy);
-
 template <class T>
 void delete_vector(std::vector<T*>& items) {
     while (!items.empty()) {
@@ -49,5 +49,5 @@ void delete_vector(std::vector<T*>& items) {
     }
 }
 
-
+//TEST CASE FUNCTIONS
 int testCases();
