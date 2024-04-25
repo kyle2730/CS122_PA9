@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include <iostream>
+#include <fstream>
 #include <thread>
 #include <math.h>
 #include <string>
@@ -18,6 +19,8 @@
 using std::cout;
 using std::cin;
 using std::endl;
+
+
 
 class stat_bar {
 private:

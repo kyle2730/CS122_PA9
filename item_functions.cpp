@@ -226,3 +226,14 @@ void bomb::move() {
         }
     }
 }
+
+/*
+
+sf::SoundBuffer* bulletBuffer = new sf::SoundBuffer;
+    sf::Sound* bulletSound = new sf::Sound;
+    if (bulletBuffer->loadFromFile("CS122_PA9/bulletSound.wav"))
+    {
+        bulletSound->setBuffer(*bulletBuffer);
+        bulletSound->play();
+
+*/

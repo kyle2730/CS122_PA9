@@ -103,7 +103,6 @@ bool andy_man::andys_coming(player& user) {
     //resets andy mechanic after andy moves off screen
     else if ((time(NULL) == start_time + 15) && (body.getPosition().x < -100)) {
         start_time = time(NULL) + 15;
-        return false;
     }
 
     //andy turns evil
@@ -118,7 +117,10 @@ bool andy_man::andys_coming(player& user) {
     }
 
     //andy DESTROYS
-    else if (time(NULL) == start_time + 20) user.add_lives(-10000);
+    else if (time(NULL) == start_time + 20) {
+        user.add_lives(-10000);
+        return false;
+    }
 
     return true;
 }

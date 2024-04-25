@@ -186,7 +186,7 @@ void auto_move(player& robot, player& human) {
 int menu()
 {
     char selection = ' ';
-    while (selection != '1' && selection != '7')
+    while (selection != '1' && selection != '8')
     {
         system("cls");
         cout << endl << " Welcome to Toy Story Rivalry!!" << endl << endl
@@ -195,9 +195,10 @@ int menu()
             << " 2. How to play" << endl
             << " 3. Items" << endl
             << " 4. Open messages" << endl
-            << " 5. Credits" << endl
-            << " 6. Test cases" << endl
-            << " 7. Exit" << endl;
+            << " 5. View high scores" << endl
+            << " 6. Credits" << endl
+            << " 7. Test cases" << endl
+            << " 8. Exit" << endl;
 
         selection = _getch();
         system("cls");
@@ -248,6 +249,12 @@ int menu()
             break;
 
         case '5':
+            print_high_scores();
+            cout << endl << endl << " ";
+            system("pause");
+            break;
+
+        case '6':
             cout << endl << " CREDITS" << endl
                 << " ----------------------------------------------------------------------------------------------------" << endl
                 << " Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl
@@ -277,7 +284,7 @@ int menu()
             system("pause");
             break;
 
-        case '6':
+        case '7':
             cout << " Welcome to test cases. Press any button to run the tests" << endl
                 << " ";
             system("pause");
@@ -287,7 +294,7 @@ int menu()
             //return false;
             break;
 
-        case '7':
+        case '8':
             cout << " Thanks for playing!" << endl;
             return 0;
             break;
@@ -345,19 +352,19 @@ bool recieve_message() {
 }
 bool send_message(const char string[], sf::TcpSocket& socket) {
     sf::IpAddress ip = sf::IpAddress::getLocalAddress();
-    char connectionType = ' ';
+    char choice = ' ';
     static bool first_connection = true;
     socket.send("\nwoah", 6);
 
-    cout << "Do you want to share your result? Y for yes, N for no: ";
-    while (connectionType != 'Y' && connectionType != 'N') {
-        cin >> connectionType;
+    cout << " Do you want to share your result? Y for yes, N for no: ";
+    while (choice != 'Y' && choice != 'N') {
+        cin >> choice;
     }
     sizeof(string);
-    if (connectionType == 'Y') {
+    if (choice == 'Y') {
         if (first_connection) {
             if (socket.connect(ip, 2000)) {
-                cout << endl << "Could not establish a connection." << endl;
+                cout << endl << " Could not establish a connection." << endl << " ";
                 system("pause");
                 return false;
             }
@@ -370,6 +377,21 @@ bool send_message(const char string[], sf::TcpSocket& socket) {
         first_connection = true;
     }
     return false;
+}
+void print_high_scores() {
+    std::fstream score_table("CS122_PA9/high_scores.txt");
+    std::string new_line;
+    while (!score_table.eof()) {
+        std::getline(score_table, new_line);
+        cout << endl << " " << new_line;
+    }
+    score_table.close();
+}
+int line_score(const std::string line) {
+    int index;
+    for (index = 1; (line[index] < '0') || (line[index] > '9'); index++);
+    std::string str_temp = line.substr(index, line.size() - index);
+    return str_to_int(str_temp);
 }
 
 //converts integer to string
@@ -389,6 +411,16 @@ std::string int_to_str(int num) {
     return alpha;
 
 }
+
+//converts string to integer
+int str_to_int(std::string alpha) {
+    int index = 0, num = 0, length = alpha.size();
+    for (int i = 0; i < length; i++) {
+        num += powf(10, i) * (alpha[length - i - 1] - 48);
+    }
+    return num;
+}
+
 bool isPressed(char alpha) {
     if (_kbhit()) {
         if (_getch() == alpha)

@@ -9,6 +9,8 @@ int run_app(sf::TcpSocket& socket);
 int main(void) {
     sf::TcpSocket socket;
 
+    write_score(9000);
+
     while (1) {
         
         switch (menu()) {
@@ -55,7 +57,7 @@ int run_app(sf::TcpSocket& socket)
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
                 delete_vector(items);
-                cout << "YOU DON'T WANNA PLAY WITH ANDY? >:(" << endl << endl;
+                cout << " YOU DON'T WANNA PLAY WITH ANDY? >:(" << endl << endl << " ";
                 system("pause");
                 return 1;
             }
@@ -65,8 +67,8 @@ int run_app(sf::TcpSocket& socket)
         if (player_death(user) && !andy_is_here) {
             window.close();
             delete_vector(items);
-            cout << "YOU DIED" << endl << endl;
-            send_message("I died (sent from server)", socket);
+            cout << " YOU DIED" << endl << endl;
+            send_message(" I died (sent from server)", socket);
             return 1;
         }
 
@@ -74,8 +76,8 @@ int run_app(sf::TcpSocket& socket)
         if (player_death(bad_guy)) {
             window.close();
             delete_vector(items);
-            cout << "YOUR OPPONENT DIED" << endl << endl;
-            send_message("I killed Buzz! (sent from server)", socket);
+            cout << " YOUR OPPONENT DIED" << endl << endl;
+            send_message(" I killed Buzz! (sent from server)", socket);
             return 1;
         }
         
