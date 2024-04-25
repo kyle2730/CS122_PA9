@@ -9,11 +9,11 @@ int run_app(sf::TcpSocket& socket);
 int main(void) {
     sf::TcpSocket socket;
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
     //write_score(9000);
 
-=======
->>>>>>> 5a876c115828d7af784b931a3303a2b4c15d4f3b
+//=======
+//>>>>>>> 5a876c115828d7af784b931a3303a2b4c15d4f3b
     while (1) {
         
         switch (menu()) {
