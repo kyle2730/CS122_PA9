@@ -10,9 +10,7 @@ int main(void) {
     sf::TcpSocket socket;
 
     sf::Music music;
-   /* music.openFromFile("CS122_PA9/themeSong.wav");
-    music.play();
-    music.setPlayingOffset(sf::seconds(4.0f));*/
+  
 
     while (1) {
         
