@@ -29,8 +29,6 @@ int testCases();
 bool player_death(player& user);
 bool recieve_message();
 bool send_message(const char string[], sf::TcpSocket& socket);
-void print_high_scores();
-int line_score(const std::string line);
 
 std::string int_to_str(int num);
 int str_to_int(std::string alpha);

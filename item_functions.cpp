@@ -6,6 +6,7 @@
 
 //constructors
 item::item() {
+    plus_minus = false;
     collected = 0;
     float_time = 0;
     speed = 0;

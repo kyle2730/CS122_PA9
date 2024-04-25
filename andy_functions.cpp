@@ -12,7 +12,7 @@ void andy_man::sound_base(const std::string file)
 
 //constructor
 andy_man::andy_man() {
-    start_time = time(NULL) + 5;
+    start_time = time(NULL) + 15;
 
     //sets stuff up for andy
     body.setPosition(sf::Vector2f(WINDOW_W + 300, WINDOW_H / 2.0f + 300));
@@ -108,7 +108,7 @@ bool andy_man::andys_coming(player& user) {
 
     //resets andy mechanic after andy moves off screen
     else if ((time(NULL) == start_time + 15) && (body.getPosition().x < -100)) {
-        start_time = time(NULL) + 15;
+        start_time = time(NULL) + 20;
     }
 
     //andy turns evil

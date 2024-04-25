@@ -49,7 +49,6 @@ bool bullet::past_sound_time() {
     else return false;
 }
 
-//sets sounds for the bullet class
 void bullet::set_sound() {
     if (soundFile.loadFromFile("CS122_PA9/bulletSound.wav"))
     {
@@ -67,7 +66,7 @@ void bullet::set_woody_sound()
     }
 }
 
-//sets image for bullet
+
 void bullet::set_image() {
     image.loadFromFile("CS122_PA9/bullet.png");
     sprite.setTexture(image);
@@ -88,27 +87,21 @@ stat_bar::stat_bar() {
         //error
     }
 
-    //basic outline stuff
     text_box.setPosition(sf::Vector2f(5, 5));
     text_box.setFillColor(sf::Color::White);
     text_box.setOutlineColor(sf::Color::Red);
     text_box.setOutlineThickness(2);
 
-    //base stats for the stat bar
     stats.setString("Hearts: 3\nSpeed: 1\nFire Rate: 1");
     stats.setFillColor(sf::Color::Black);
     stats.setPosition(sf::Vector2f(10, 10));
     stats.setCharacterSize(25);
     stats.setFont(text_font);
 }
-
-//draws the bar
 void stat_bar::draw_bar(sf::RenderWindow& window) {
     window.draw(text_box);
     window.draw(stats);
 }
-
-//updates the stats based on gameplay
 void stat_bar::update_stats(int lives, int speed, int fire_rate) {
     std::string update = "Hearts: ";
     text_box.setSize(sf::Vector2f(150, 100));
@@ -136,7 +129,6 @@ player::player(const std::string& new_name) {
     accuracy = 1;
     fire_timer = 0;
 
-    //declaration for woody
     name = new_name;
     if (new_name == "Woody") {
         image.loadFromFile("CS122_PA9/woody.png");
@@ -144,7 +136,6 @@ player::player(const std::string& new_name) {
         fire_rate = 3;
         lives = 3;
     }
-    //declaration for buzz
     else if (new_name == "Buzz") {
         image.loadFromFile("CS122_PA9/buzz.png");
         sprite.setPosition(sf::Vector2f(WINDOW_W / 3.0f, WINDOW_H / 2.0f));
@@ -159,7 +150,6 @@ player::player(const std::string& new_name) {
     center_origin(sprite);
 }
 
-//sound effect function for player class
 void player::sound_base(const std::string file)
 {
     if (buffer.loadFromFile(file))
@@ -187,8 +177,6 @@ void player::add_lives(int extra) {
         }
     }
 }
-
-//functions for upgrades/downgrades
 void player::speed_up() {
     speed++;
 }
@@ -237,7 +225,6 @@ std::vector<bullet*>& player::get_bullets() {
     return bullets;
 }
 
-//function to help aim the shot
 void player::load_gun(sf::Sprite& target) {
 
     bullets.push_back(new bullet);
@@ -246,18 +233,8 @@ void player::load_gun(sf::Sprite& target) {
     //sets bullet slightly in front of gunman
     bullets[bullets.size() - 1]->set_position(sprite.getPosition());
 
-    //bullet firing sound
-    //bullets[bullets.size() - 1]->set_sound();
+    bullets[bullets.size() - 1]->set_sound();
 
-    if (name == "Woody")
-    {
-        bullets[bullets.size() - 1]->set_woody_sound();
-    }
-    else if (name == "Buzz")
-    {
-        bullets[bullets.size() - 1]->set_sound();
-    }
-    //bullet firing image
     bullets[bullets.size() - 1]->set_image();
 }
 void player::fire_gun(player& target) {
@@ -330,7 +307,6 @@ void player::spray() {
     }
 }
 
-//destructor
 player::~player() {
     delete_vector(bullets);
 }

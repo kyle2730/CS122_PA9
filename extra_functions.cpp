@@ -176,12 +176,13 @@ void auto_move(player& robot, player& human, std::vector<item*>& items) {
     float bad_item_dist = 0;
     float temp_dist;
     int good_item = -1, bad_item = -1;
+    int speed = robot.get_speed();
 
     if (dist_from_human > 500) {
-        track(robot.get_sprite(), human.get_sprite(), 0.1f);
+        track(robot.get_sprite(), human.get_sprite(), 0.03f * speed);
     }
     else if (dist_from_human < 400) {
-        track(robot.get_sprite(), human.get_sprite(), -0.1f);
+        track(robot.get_sprite(), human.get_sprite(), -0.03f * speed);
     }
 
     if (items.empty()) return;
@@ -199,10 +200,10 @@ void auto_move(player& robot, player& human, std::vector<item*>& items) {
     }
     
     if (good_item != -1) {
-        track(robot.get_sprite(), items[good_item]->get_sprite(), 0.1f);
+        track(robot.get_sprite(), items[good_item]->get_sprite(), 0.05f * speed);
     }
     if (bad_item != -1) {
-        track(robot.get_sprite(), items[bad_item]->get_sprite(), -0.1f);
+        track(robot.get_sprite(), items[bad_item]->get_sprite(), -0.05f * speed);
     }
 
 }
@@ -211,7 +212,7 @@ void auto_move(player& robot, player& human, std::vector<item*>& items) {
 int menu()
 {
     char selection = ' ';
-    while (selection != '1' && selection != '8')
+    while (selection != '1' && selection != '7')
     {
         system("cls");
         cout << endl << " Welcome to Toy Story Rivalry!!" << endl << endl
@@ -220,10 +221,9 @@ int menu()
             << " 2. How to play" << endl
             << " 3. Items" << endl
             << " 4. Open messages" << endl
-            << " 5. View high scores" << endl
-            << " 6. Credits" << endl
-            << " 7. Test cases" << endl
-            << " 8. Exit" << endl;
+            << " 5. Credits" << endl
+            << " 6. Test cases" << endl
+            << " 7. Exit" << endl;
 
         selection = _getch();
         system("cls");
@@ -274,12 +274,6 @@ int menu()
             break;
 
         case '5':
-            print_high_scores();
-            cout << endl << endl << " ";
-            system("pause");
-            break;
-
-        case '6':
             cout << endl << " CREDITS" << endl
                 << " ----------------------------------------------------------------------------------------------------" << endl
                 << " Creators: Eli Lawrence, Jon B., Kyle Ortega-Gammill, Omar Herrera-Rea" << endl
@@ -309,7 +303,7 @@ int menu()
             system("pause");
             break;
 
-        case '7':
+        case '6':
             cout << " Welcome to test cases. Press any button to run the tests" << endl
                 << " ";
             system("pause");
@@ -319,7 +313,7 @@ int menu()
             //return false;
             break;
 
-        case '8':
+        case '7':
             cout << " Thanks for playing!" << endl;
             return 0;
             break;
@@ -403,21 +397,6 @@ bool send_message(const char string[], sf::TcpSocket& socket) {
     }
     return false;
 }
-void print_high_scores() {
-    std::fstream score_table("CS122_PA9/high_scores.txt");
-    std::string new_line;
-    while (!score_table.eof()) {
-        std::getline(score_table, new_line);
-        cout << endl << " " << new_line;
-    }
-    score_table.close();
-}
-int line_score(const std::string line) {
-    int index;
-    for (index = 1; (line[index] < '0') || (line[index] > '9'); index++);
-    std::string str_temp = line.substr(index, line.size() - index);
-    return str_to_int(str_temp);
-}
 
 //converts integer to string
 std::string int_to_str(int num) {
@@ -464,7 +443,7 @@ void new_item(std::vector<item*>& items) {
         new_item->set_speed(0.2f);
         new_item->random_direction();
         items.push_back(new_item);
-        random_timer = (rand() % 1000) + 4000;
+        random_timer = (rand() % 1000) + 3000;
     }
     else random_timer--;
 }
