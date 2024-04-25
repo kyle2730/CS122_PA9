@@ -8,7 +8,6 @@
 int testTrack()
 {
 	srand(unsigned int(time(nullptr)));
-
 	cout << endl;
 	int successes = 0;
 	int finalsuccess = 0;
@@ -35,7 +34,7 @@ int testTrack()
 	}
 	else
 	{
-		cout << "\nTest case 1 Failed: Hunter moved unexpectedly when prey and hunter are at the same position." << endl;
+		cout << "\nTest case 1 Failed: Hunter moved when prey and hunter are at the same position." << endl;
 	}
 
 	cout << "Testing movement according to speed:\n" << endl;
@@ -120,6 +119,7 @@ int testItemTriggered()
 	int finalsuccess = 0;
 	std::vector<item*> items;
 	player user("testUser");
+	player badguy("testBadguy");
 	std::vector<bullet> bullets;
 
 	std::vector<bool> randomValues;
@@ -145,7 +145,7 @@ int testItemTriggered()
 			cout << "Item not triggered." << std::endl;
 			successes++;
 		}
-		item_triggered(items, user, bullets, randomValues[i]);
+		item_triggered(items, user, badguy);
 	}
 	if (successes >= 4)
 	{
@@ -210,6 +210,10 @@ int testCases()
 	cout << "Currently testing: int_to_str(): " << endl;
 	successes += testIntToAlpha();
 	system("pause");
+
+
+	cout << "Current successes: " << successes << endl;
+
 
 	if (successes == 5)
 	{

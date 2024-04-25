@@ -1,6 +1,6 @@
 #include "player_header.hpp"
 #include "extra_header.hpp"
-#include "item_header.hpp";
+#include "item_header.hpp"
 
 //BASE CLASS ITEM FUNCTIONS
 
@@ -9,15 +9,13 @@ item::item() {
     collected = 0;
     float_time = 0;
     speed = 0;
-    image = NULL;
 }
-item::item(const std::string& file_name) {
-    image = new sf::Texture;
+item::item(const std::string& file_name, bool good_or_bad) {
 
-	if (!image->loadFromFile(file_name)) {
+	if (!image.loadFromFile(file_name)) {
 		//error checking
 	}
-	sprite.setTexture(*image, true);
+	sprite.setTexture(image, true);
     if (rand() % 2) {
         sprite.setPosition(sf::Vector2f(rand() % WINDOW_W, (rand() % 2) * WINDOW_H));
     }
@@ -26,9 +24,10 @@ item::item(const std::string& file_name) {
     }
     center_origin(sprite);
 
+    plus_minus = good_or_bad;
 	speed = 0;
     float_time = 15000;
-    collected = false;
+    collected = 0;
 }
 
 //setters
@@ -51,13 +50,16 @@ void item::float_timer() {
 
 //getters
 bool item::is_collected() {
-    return collected;
+    return (collected != 0);
 }
 int item::get_float_time() {
     return float_time;
 }
 sf::Sprite& item::get_sprite() {
 	return sprite;
+}
+bool item::is_good() {
+    return plus_minus;
 }
 
 //moves item or runs collected animation
@@ -68,13 +70,19 @@ void item::move() {
         sprite.scale(sf::Vector2f(0.99, 0.99));
     }
 }
+
+void item::reset_player(player& user, player& bad_guy) {
+    if (collected == 1) reset_player(user);
+    else reset_player(bad_guy);
+}
 //draws item on to window
 void item::draw_item(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
 //runs hit function and adjusts variables
-void item::got_collected(player& user, std::vector<bullet>& bullets) {
-    collected = true;
+void item::got_collected(player& user) {
+    if (user.get_name() == "Woody") collected = 1;
+    else collected = 2;
     float_time = 15000;
     hit(user);
 }
@@ -111,11 +119,10 @@ void shield::hit(player& user) {
     set_sound();
     user.add_lives(1000);
 }
-void bullet_spray::hit(player& user, std::vector<bullet>& bullets) {
+void bullet_spray::hit(player& user) {
     set_sound();
-    user.spray(bullets);
+    user.spray();
 }
-void bullet_spray::hit(player& user){}
 void speed_drop::hit(player& user) {
     set_sound();
     user.speed_down();
@@ -190,6 +197,18 @@ void gun_downgrade::reset_player(player& user) {
 void confusion::reset_player(player& user) {
     user.raise_accuracy();
 }
+
+void bomb::reset_player(player& user, player& bad_guy) {
+    float user_dist = magnitude(user.get_sprite().getPosition() - sprite.getPosition());
+    float bg_dist = magnitude(bad_guy.get_sprite().getPosition() - sprite.getPosition());
+    if (user_dist < 300) {
+        user.add_lives((int)user_dist / 100 - 3);
+    }
+    if (bg_dist < 300) {
+        bad_guy.add_lives((int)bg_dist / 100 - 3);
+    }
+    
+}
 void bomb::reset_player(player& user) {
     float distance = magnitude(user.get_sprite().getPosition() - sprite.getPosition());
     if (distance < 300) {
@@ -198,15 +217,15 @@ void bomb::reset_player(player& user) {
 }
 
 //overridden functions for special items
-void shield::got_collected(player& user, std::vector<bullet>& bullets) {
-    collected = true;
+void shield::got_collected(player& user) {
+    collected = 1;
     float_time = 10000;
     hit(user);
 }
-void bullet_spray::got_collected(player& user, std::vector<bullet>& bullets) {
+void bullet_spray::got_collected(player& user) {
     collected = true;
     float_time = 15000;
-    hit(user, bullets);
+    hit(user);
 }
 void bomb::move() {
 
@@ -220,10 +239,10 @@ void bomb::move() {
 
         if (float_time == 1500) {
 
-            if (!image->loadFromFile("CS122_PA9/explosion.png")) {
+            if (!image.loadFromFile("CS122_PA9/explosion.png")) {
                 //error checking
             }
-            sprite.setTexture(*image, true);
+            sprite.setTexture(image, true);
             center_origin(sprite);
             set_sound();
         }
