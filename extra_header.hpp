@@ -36,7 +36,7 @@ std::string int_to_str(int num);
 int str_to_int(std::string alpha);
 bool isPressed(char alpha);
 
-
+//ITEM FUNCTIONS
 void new_item(std::vector<item*>& items);
 item* random_item();
 void item_float(std::vector<item*>& items, sf::RenderWindow& window);

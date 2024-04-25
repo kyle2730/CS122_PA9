@@ -4,6 +4,7 @@
 #include "item_header.hpp"
 #include "extra_header.hpp"
 
+//andy class and attributes
 class andy_man {
 
 private:

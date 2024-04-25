@@ -330,6 +330,7 @@ void player::spray() {
     }
 }
 
+//destructor
 player::~player() {
     delete_vector(bullets);
 }

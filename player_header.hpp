@@ -21,7 +21,7 @@ using std::cin;
 using std::endl;
 
 
-
+//class for the stat bar
 class stat_bar {
 private:
     sf::RectangleShape text_box;
@@ -70,6 +70,7 @@ public:
     ~bullet();
 };
 
+//class for the player and all attributes
 class player {
 private:
     sf::Sprite sprite;

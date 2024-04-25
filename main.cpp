@@ -20,6 +20,7 @@ int main(void) {
         case 0: return 0;
         case 1: break;
         }
+        //runs the app through the socket
         run_app(socket);
     }
 

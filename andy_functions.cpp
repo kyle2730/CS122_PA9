@@ -1,5 +1,6 @@
 #include "andy_header.hpp"
 
+//sound effect function for andy_man
 void andy_man::sound_base(const std::string file)
 {
     if (buffer.loadFromFile(file))
@@ -9,9 +10,11 @@ void andy_man::sound_base(const std::string file)
     }
 }
 
+//constructor
 andy_man::andy_man() {
     start_time = time(NULL) + 5;
 
+    //sets stuff up for andy
     body.setPosition(sf::Vector2f(WINDOW_W + 300, WINDOW_H / 2.0f + 300));
     if (!normal_face.loadFromFile("CS122_PA9/regularAndy.png")) {}
     if (!evil_face.loadFromFile("CS122_PA9/evilAndy.png")) {}
@@ -20,6 +23,7 @@ andy_man::andy_man() {
 
     if (!text_font.loadFromFile("CS122_PA9/Pixellari.ttf")) {}
 
+    //andy is coming warning
     text_box.setPosition(sf::Vector2f(-200, -200));
     text_box.setSize(sf::Vector2f(250, 75));
     text_box.setFillColor(sf::Color::White);
@@ -33,12 +37,14 @@ andy_man::andy_man() {
     warning.setFont(text_font);
 }
 
+//draws andy
 void andy_man::draw_andy(sf::RenderWindow& window) {
     window.draw(body);
     window.draw(text_box);
     window.draw(warning);
 }
 
+//logic for andy showing up
 bool andy_man::andys_coming(player& user) {
 
     static float x_pos = 0, y_pos = 0;
@@ -64,7 +70,7 @@ bool andy_man::andys_coming(player& user) {
         warning.setPosition(sf::Vector2f(-200, -200));
         x_pos = position.x;
         y_pos = position.y;
-        sound_base("CS122_PA9/andyAlertSound.wav");
+        sound_base("CS122_PA9/andyAlertSound.wav"); //sound for when andy is coming
         start_time--;
     }
 
@@ -79,7 +85,7 @@ bool andy_man::andys_coming(player& user) {
         //if player moved or fired a bullet
         if ((position.x != x_pos) || (position.y != y_pos) || user.isGunLoaded()) {
             //moves to andy destroys if statement
-            sound_base("CS122_PA9/andyKillSound.wav");
+            sound_base("CS122_PA9/andyKillSound.wav"); //sound for when he kills you
             start_time = time(NULL) - 16;
 
         }
@@ -87,7 +93,7 @@ bool andy_man::andys_coming(player& user) {
         //andy plays retreat sound after 5 seconds
         if (time(NULL) == start_time + 11)
         {
-            sound_base("CS122_PA9/andyRetreat2.wav");
+            sound_base("CS122_PA9/andyRetreat2.wav"); //sound for when andy runs away
             start_time--;
         }
 
