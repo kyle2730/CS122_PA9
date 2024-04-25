@@ -21,7 +21,7 @@ void key_move(player& user, const sf::FloatRect& boundary = sf::FloatRect(0, 0, 
 void track(sf::Sprite& hunter, const sf::Sprite& prey, const float speed);
 void fire_bullet(player& gunman, player& target, const sf::RenderWindow& window, const std::string control = "mouse");
 bool control_event(const std::string control);
-void auto_move(player& robot, player& human);
+void auto_move(player& robot, player& human, std::vector<item*>& items);
 
 //INTERFACE FUNCTIONS
 int menu();
@@ -39,8 +39,8 @@ bool isPressed(char alpha);
 
 void new_item(std::vector<item*>& items);
 item* random_item();
-void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window);
-void item_triggered(std::vector<item*>& items, player& user);
+void item_float(std::vector<item*>& items, sf::RenderWindow& window);
+void item_triggered(std::vector<item*>& items, player& user, player& bad_guy);
 
 template <class T>
 void delete_vector(std::vector<T*>& items) {

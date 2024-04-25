@@ -9,8 +9,11 @@ int run_app(sf::TcpSocket& socket);
 int main(void) {
     sf::TcpSocket socket;
 
+<<<<<<< HEAD
     //write_score(9000);
 
+=======
+>>>>>>> 5a876c115828d7af784b931a3303a2b4c15d4f3b
     while (1) {
         
         switch (menu()) {
@@ -34,11 +37,11 @@ int run_app(sf::TcpSocket& socket)
 
     //clair de lune set up
     sf::Music music;
-    if (!music.openFromFile("CS122_PA9/themeSong.wav")) return 1;
+    music.openFromFile("CS122_PA9/themeSong.wav");
 
     //creates backgound image
     sf::Texture bgd_img;
-    if (!bgd_img.loadFromFile("CS122_PA9/background.png")) return 1;
+    bgd_img.loadFromFile("CS122_PA9/background.png");
     sf::Sprite background;
     background.setTexture(bgd_img, true);
     background.setPosition(sf::Vector2f(0, 0));
@@ -89,10 +92,10 @@ int run_app(sf::TcpSocket& socket)
         andy_is_here = Andy.andys_coming(user);
         //if andy mechanic is running
         if (!andy_is_here) {
-            item_float(items, user, window);
+            item_float(items, window);
             new_item(items);
-            item_triggered(items, user);
-            auto_move(bad_guy, user);
+            item_triggered(items, user, bad_guy);
+            auto_move(bad_guy, user, items);
             fire_bullet(bad_guy, user, window, "auto");
         }
         
