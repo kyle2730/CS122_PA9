@@ -9,11 +9,11 @@ int run_app(sf::TcpSocket& socket);
 int main(void) {
     sf::TcpSocket socket;
 
-//<<<<<<< HEAD
-    //write_score(9000);
+    sf::Music music;
+    music.openFromFile("CS122_PA9/themeSong.wav");
+    music.play();
+    music.setPlayingOffset(sf::seconds(4.0f));
 
-//=======
-//>>>>>>> 5a876c115828d7af784b931a3303a2b4c15d4f3b
     while (1) {
         
         switch (menu()) {
@@ -29,16 +29,13 @@ int main(void) {
 
 int run_app(sf::TcpSocket& socket)
 {
-    
-    //some initializing
+
+    int game_init = time(NULL), score = 0;
     float circ_radius = 10;
     bool andy_is_here = false;
     srand(time(NULL));
-    sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Toy Story Rivalry"); //create render window
+    sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Toy Story Rivalry");
 
-    //clair de lune set up
-    sf::Music music;
-    music.openFromFile("CS122_PA9/themeSong.wav");
 
     //creates backgound image
     sf::Texture bgd_img;
@@ -53,8 +50,6 @@ int run_app(sf::TcpSocket& socket)
 
     std::vector<item*> items; //creates items
 
-    music.play(); //play's theme song
-
     //program loop
     while (window.isOpen()) {
 
@@ -65,7 +60,7 @@ int run_app(sf::TcpSocket& socket)
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
                 delete_vector(items);
-                cout << " YOU DON'T WANNA PLAY WITH ANDY? >:(" << endl << endl << " ";
+                cout << " YOU DON'T WANNA PLAY WITH ANDY? >:(" << endl << endl << " " << std::flush;
                 system("pause");
                 return 1;
             }
@@ -75,7 +70,11 @@ int run_app(sf::TcpSocket& socket)
         if (player_death(user) && !andy_is_here) {
             window.close();
             delete_vector(items);
-            cout << " YOU DIED" << endl << endl;
+            int x = time(NULL) - game_init;
+            score = (400 * x + 12000) / (40.0f + x) - 300;
+            cout << " YOU DIED" << endl
+                << "You finished with a score of " << score << endl
+                << "You played for " << x << " seconds" << endl << endl << std::flush;
             send_message(" I died (sent from server)", socket);
             return 1;
         }
@@ -84,7 +83,11 @@ int run_app(sf::TcpSocket& socket)
         if (player_death(bad_guy)) {
             window.close();
             delete_vector(items);
-            cout << " YOUR OPPONENT DIED" << endl << endl;
+            int x = time(NULL) - game_init;
+            score = (400 * x + 4000) / (float)x - 300;
+            cout << " YOUR OPPONENT DIED!" << endl
+                << "You finished with a score of " << score << endl 
+                << "You played for " << x << " seconds" << endl << endl << std::flush;
             send_message(" I killed Buzz! (sent from server)", socket);
             return 1;
         }
