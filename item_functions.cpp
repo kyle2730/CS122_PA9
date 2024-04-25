@@ -10,7 +10,7 @@ item::item() {
     float_time = 0;
     speed = 0;
 }
-item::item(const std::string& file_name) {
+item::item(const std::string& file_name, bool good_or_bad) {
 
 	if (!image.loadFromFile(file_name)) {
 		//error checking
@@ -24,9 +24,10 @@ item::item(const std::string& file_name) {
     }
     center_origin(sprite);
 
+    plus_minus = good_or_bad;
 	speed = 0;
     float_time = 15000;
-    collected = false;
+    collected = 0;
 }
 
 //setters
@@ -49,13 +50,16 @@ void item::float_timer() {
 
 //getters
 bool item::is_collected() {
-    return collected;
+    return (collected != 0);
 }
 int item::get_float_time() {
     return float_time;
 }
 sf::Sprite& item::get_sprite() {
 	return sprite;
+}
+bool item::is_good() {
+    return plus_minus;
 }
 
 //moves item or runs collected animation
@@ -66,13 +70,19 @@ void item::move() {
         sprite.scale(sf::Vector2f(0.99, 0.99));
     }
 }
+
+void item::reset_player(player& user, player& bad_guy) {
+    if (collected == 1) reset_player(user);
+    else reset_player(bad_guy);
+}
 //draws item on to window
 void item::draw_item(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
 //runs hit function and adjusts variables
 void item::got_collected(player& user) {
-    collected = true;
+    if (user.get_name() == "Woody") collected = 1;
+    else collected = 2;
     float_time = 15000;
     hit(user);
 }
@@ -187,6 +197,18 @@ void gun_downgrade::reset_player(player& user) {
 void confusion::reset_player(player& user) {
     user.raise_accuracy();
 }
+
+void bomb::reset_player(player& user, player& bad_guy) {
+    float user_dist = magnitude(user.get_sprite().getPosition() - sprite.getPosition());
+    float bg_dist = magnitude(bad_guy.get_sprite().getPosition() - sprite.getPosition());
+    if (user_dist < 300) {
+        user.add_lives((int)user_dist / 100 - 3);
+    }
+    if (bg_dist < 300) {
+        bad_guy.add_lives((int)bg_dist / 100 - 3);
+    }
+    
+}
 void bomb::reset_player(player& user) {
     float distance = magnitude(user.get_sprite().getPosition() - sprite.getPosition());
     if (distance < 300) {
@@ -196,7 +218,7 @@ void bomb::reset_player(player& user) {
 
 //overridden functions for special items
 void shield::got_collected(player& user) {
-    collected = true;
+    collected = 1;
     float_time = 10000;
     hit(user);
 }

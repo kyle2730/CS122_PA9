@@ -9,8 +9,6 @@ int run_app(sf::TcpSocket& socket);
 int main(void) {
     sf::TcpSocket socket;
 
-    write_score(9000);
-
     while (1) {
         
         switch (menu()) {
@@ -31,11 +29,11 @@ int run_app(sf::TcpSocket& socket)
     srand(time(NULL));
     sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Toy Story Rivalry");
     sf::Music music;
-    if (!music.openFromFile("CS122_PA9/themeSong.wav")) return 1;
+    music.openFromFile("CS122_PA9/themeSong.wav");
 
     //creates backgound image
     sf::Texture bgd_img;
-    if (!bgd_img.loadFromFile("CS122_PA9/background.png")) return 1;
+    bgd_img.loadFromFile("CS122_PA9/background.png");
     sf::Sprite background;
     background.setTexture(bgd_img, true);
     background.setPosition(sf::Vector2f(0, 0));
@@ -84,10 +82,10 @@ int run_app(sf::TcpSocket& socket)
         andy_is_here = Andy.andys_coming(user);
         //if andy mechanic is running
         if (!andy_is_here) {
-            item_float(items, user, window);
+            item_float(items, window);
             new_item(items);
-            item_triggered(items, user);
-            auto_move(bad_guy, user);
+            item_triggered(items, user, bad_guy);
+            auto_move(bad_guy, user, items);
             fire_bullet(bad_guy, user, window, "auto");
         }
         

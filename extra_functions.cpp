@@ -169,15 +169,40 @@ bool control_event(const std::string control) {
     return false;
 
 }
-void auto_move(player& robot, player& human) {
+void auto_move(player& robot, player& human, std::vector<item*>& items) {
     
-    float distance = magnitude(robot.get_sprite().getPosition() - human.get_sprite().getPosition());
+    float dist_from_human = magnitude(robot.get_sprite().getPosition() - human.get_sprite().getPosition());
+    float good_item_dist = WINDOW_W;
+    float bad_item_dist = 0;
+    float temp_dist;
+    int good_item = -1, bad_item = -1;
 
-    if (distance > 500) {
+    if (dist_from_human > 500) {
         track(robot.get_sprite(), human.get_sprite(), 0.1f);
     }
-    else if (distance < 400) {
+    else if (dist_from_human < 400) {
         track(robot.get_sprite(), human.get_sprite(), -0.1f);
+    }
+
+    if (items.empty()) return;
+
+    for (size_t index = 0; index < items.size(); index++) {
+        temp_dist = magnitude(robot.get_sprite().getPosition() - items[index]->get_sprite().getPosition());
+        if ((temp_dist < good_item_dist) && items[index]->is_good() && !items[index]->is_collected()) {
+            good_item_dist = temp_dist;
+            good_item = index;
+        }
+        else if ((temp_dist < bad_item_dist) && !items[index]->is_good() && !items[index]->is_collected()) {
+            bad_item_dist = temp_dist;
+            bad_item = index;
+        }
+    }
+    
+    if (good_item != -1) {
+        track(robot.get_sprite(), items[good_item]->get_sprite(), 0.1f);
+    }
+    if (bad_item != -1) {
+        track(robot.get_sprite(), items[bad_item]->get_sprite(), -0.1f);
     }
 
 }
@@ -447,39 +472,39 @@ item* random_item() {
     int rand_int = rand() % 10;
     switch (rand_int) {
 
-    case 0: return new heart("CS122_PA9/heart.png");
-    case 1: return new speed_boost("CS122_PA9/forwardArrows.png");
-    case 2: return new gun_upgrade("CS122_PA9/ak47.png");
-    case 3: return new shield("CS122_PA9/shield.png");
-    case 4: return new bullet_spray("CS122_PA9/sun.png");
-    case 5: return new speed_drop("CS122_PA9/backwardsArrows.png");
-    case 6: return new gun_downgrade("CS122_PA9/gun.png");
-    case 7: return new confusion("CS122_PA9/beer.png");
-    case 8: return new bomb("CS122_PA9/bomb.png");
+    case 0: return new heart("CS122_PA9/heart.png", true);
+    case 1: return new speed_boost("CS122_PA9/forwardArrows.png", true);
+    case 2: return new gun_upgrade("CS122_PA9/ak47.png", true);
+    case 3: return new shield("CS122_PA9/shield.png", true);
+    case 4: return new bullet_spray("CS122_PA9/sun.png", true);
+    case 5: return new speed_drop("CS122_PA9/backwardsArrows.png", false);
+    case 6: return new gun_downgrade("CS122_PA9/gun.png", false);
+    case 7: return new confusion("CS122_PA9/beer.png", false);
+    case 8: return new bomb("CS122_PA9/bomb.png", false);
     case 9:
         std::string mystery = "CS122_PA9/mystery.png";
         switch (rand() % 9) {
 
-        case 0: return new heart(mystery);
-        case 1: return new speed_boost(mystery);
-        case 2: return new gun_upgrade(mystery);
-        case 3: return new shield(mystery);
-        case 4: return new bullet_spray(mystery);
-        case 5: return new speed_drop(mystery);
-        case 6: return new gun_downgrade(mystery);
-        case 7: return new confusion(mystery);
-        case 8: return new bomb(mystery);
+        case 0: return new heart(mystery, false);
+        case 1: return new speed_boost(mystery, false);
+        case 2: return new gun_upgrade(mystery, false);
+        case 3: return new shield(mystery, false);
+        case 4: return new bullet_spray(mystery, false);
+        case 5: return new speed_drop(mystery, false);
+        case 6: return new gun_downgrade(mystery, false);
+        case 7: return new confusion(mystery, false);
+        case 8: return new bomb(mystery, false);
         }
     }
 
     return NULL;
 }
-void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& window) {
+void item_float(std::vector<item*>& items, sf::RenderWindow& window) {
     //shape set position to mouse
     static int reload_time = 0;
     int wall = 0;
 
-    //loops through each current bullet, moves each tiny amount
+    //loops through each current item
     for (auto i : items) {
 
         i->float_timer();
@@ -499,7 +524,7 @@ void item_float(std::vector<item*>& items, player& user, sf::RenderWindow& windo
     if (reload_time != 0) reload_time--;
 
 }
-void item_triggered(std::vector<item*>& items, player& user) {
+void item_triggered(std::vector<item*>& items, player& user, player& bad_guy) {
 
     for (size_t index = 0; index < items.size(); index++) {
 
@@ -508,6 +533,9 @@ void item_triggered(std::vector<item*>& items, player& user) {
 
             if (touching_hitbox(items[index]->get_sprite(), user.get_sprite())) {
                 items[index]->got_collected(user);
+            }
+            if (touching_hitbox(items[index]->get_sprite(), bad_guy.get_sprite())) {
+                items[index]->got_collected(bad_guy);
             }
 
             if (items[index]->get_float_time() == 0) {
@@ -520,7 +548,7 @@ void item_triggered(std::vector<item*>& items, player& user) {
         else {
 
             if (items[index]->get_float_time() == 0) {
-                items[index]->reset_player(user);
+                items[index]->reset_player(user, bad_guy);
                 delete items[index];
                 items[index] = NULL;
                 items.erase(items.begin() + index);
