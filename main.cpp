@@ -9,7 +9,7 @@ int run_app(sf::TcpSocket& socket);
 int main(void) {
     sf::TcpSocket socket;
 
-    write_score(9000);
+    //write_score(9000);
 
     while (1) {
         
@@ -25,11 +25,14 @@ int main(void) {
 
 int run_app(sf::TcpSocket& socket)
 {
-
+    
+    //some initializing
     float circ_radius = 10;
     bool andy_is_here = false;
     srand(time(NULL));
-    sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Toy Story Rivalry");
+    sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Toy Story Rivalry"); //create render window
+
+    //clair de lune set up
     sf::Music music;
     if (!music.openFromFile("CS122_PA9/themeSong.wav")) return 1;
 
@@ -46,7 +49,7 @@ int run_app(sf::TcpSocket& socket)
 
     std::vector<item*> items; //creates items
 
-    music.play();
+    music.play(); //play's theme song
 
     //program loop
     while (window.isOpen()) {
@@ -54,6 +57,7 @@ int run_app(sf::TcpSocket& socket)
         sf::Event event;
         while (window.pollEvent(event))
         {
+            //if the window is closed, yell at the player!
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
                 delete_vector(items);
@@ -81,6 +85,7 @@ int run_app(sf::TcpSocket& socket)
             return 1;
         }
         
+        //andy stuff
         andy_is_here = Andy.andys_coming(user);
         //if andy mechanic is running
         if (!andy_is_here) {
@@ -104,9 +109,12 @@ int run_app(sf::TcpSocket& socket)
             window.draw(items[index]->get_sprite());
         }
 
+        //draws all the players
         bad_guy.draw_player(window);
         user.draw_player(window);
         Andy.draw_andy(window);
+        
+        //displays everything
         window.display();
 
     }
